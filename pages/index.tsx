@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import Layout from '../components/layout/layout';
+import Button from '@mui/material/Button';
 
 const Home: NextPage = () => {
   return (
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
       <Layout>
         <div>
           home page
+          <Button>hello</Button>
         </div>
       </Layout>
     </div>
