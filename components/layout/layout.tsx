@@ -8,6 +8,7 @@ const Layout = (props) => {
     <div className={layoutStyle.layout}>
       <Header></Header>
       { children }
+      <div style={{ height: 2000 }}></div>
       <Footer></Footer>
     </div>
   );

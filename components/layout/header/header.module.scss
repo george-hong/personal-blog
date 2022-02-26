@@ -1,3 +1,16 @@
 .header {
-    padding: 10px 20px;
+  padding: 20px 20px;
+  position: sticky;
+  left: 0;
+  top: 0;
+  background: $component-bg;
+  border-bottom: $border;
+}
+
+.header *:not(last-child) {
+  margin-right: $item-margin;
+}
+
+.header-link {
+  display: inline-block;
 }
