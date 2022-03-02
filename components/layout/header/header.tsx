@@ -9,16 +9,16 @@ const menuLinkContrast = {
 
 const Header = () => {
   return (
-    <header className={headerStyle.header}>
+    <header className={`${headerStyle.header} ground-glass`}>
       {
         Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
           const [menu, link] = menuAndLink;
           return (
-            <h3 className={headerStyle['header-link']}>
-              <Link
-                href={link}
-                key={menu}
-              >
+            <h3
+              className={headerStyle['header-link']}
+              key={menu}
+            >
+              <Link href={link}>
                 { menu }
               </Link>
             </h3>

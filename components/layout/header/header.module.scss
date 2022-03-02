@@ -3,8 +3,7 @@
   position: sticky;
   left: 0;
   top: 0;
-  background: $component-bg;
-  border-bottom: $border;
+  z-index: 200;
 }
 
 .header *:not(last-child) {
