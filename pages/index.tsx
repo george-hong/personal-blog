@@ -17,6 +17,9 @@ const Home: NextPage = () => {
         <div>
           home page
           <Button>hello</Button>
+          <Link href="/article/edit">
+            <a>edit</a>
+          </Link>
         </div>
       </Layout>
     </div>

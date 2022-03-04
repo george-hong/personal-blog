@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const menuLinkContrast = {
   Home: '/',
-  Article: '/',
+  Article: '/article/detail',
   About: '/',
 }
 
