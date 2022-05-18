@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import Layout from '../components/layout/layout';
+import HomePage from '../components/home-page/home-page';
 import Button from '@mui/material/Button';
 
 const Home: NextPage = () => {
@@ -13,15 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
-        <div>
-          home page
-          <Button>hello</Button>
-          <Link href="/article/edit">
-            <a>edit</a>
-          </Link>
-        </div>
-      </Layout>
+      <HomePage></HomePage>
     </div>
   )
 }

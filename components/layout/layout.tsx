@@ -1,14 +1,22 @@
 import Header from './header/header';
 import Footer from './footer/footer';
-import layoutStyle from './layout.module.scss';
+import style from './layout.module.scss';
 
 const Layout = (props) => {
-  const { children } = props;
+  const {
+    children,
+    sinkIntoHeader,
+  } = props;
   return (
-    <div className={layoutStyle.layout}>
+    <div className={`${style.layout} ${sinkIntoHeader && style.sunk}`}>
       <Header></Header>
-      { children }
-      <div style={{ height: 2000 }}></div>
+      {
+        children ? (
+          <div className={style['layout-content']}>
+            { children }
+          </div>
+        ) : null
+      }
       <Footer></Footer>
     </div>
   );
