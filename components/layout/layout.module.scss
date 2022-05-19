@@ -1,11 +1,12 @@
 .layout {
-  height: 100vh;
+  height: 100%;
   padding-top: 60px;
-  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
   &.sunk {
     padding-top: 0;
   }
-  .layout-content {
-    height: 100%;
+  .main {
+    flex: 1;
   }
 }
