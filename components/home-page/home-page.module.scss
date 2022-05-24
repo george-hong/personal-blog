@@ -3,6 +3,14 @@
   padding-top: $header-height;
 }
 .opacity-area {
-  height: 500px;
+  padding: 100px;
   background: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .main-article {
+    width: 600px;
+    min-height: 300px;
+    background: #FFF;
+  }
 }

@@ -16,7 +16,9 @@ const HomePage = () => {
     >
       <div className={style['home-page']}>
         <div className={style['opacity-area']}>
-
+          <article className={style['main-article']}>
+            文章内容
+          </article>
         </div>
         <div style={{height: 2000}}>
 

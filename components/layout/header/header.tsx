@@ -4,7 +4,7 @@ import Link from 'next/link';
 const menuLinkContrast = {
   Home: '/',
   Article: '/article/detail',
-  About: '/',
+  About: '/article/edit',
 }
 
 const Header = () => {
