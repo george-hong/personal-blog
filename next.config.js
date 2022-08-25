@@ -10,7 +10,7 @@ const nextConfig = {
       path.join(__dirname, 'components'),
     ],
     prependData: `@import '/styles/variable.scss';`
-  }
+  },
 }
 
 module.exports = nextConfig
