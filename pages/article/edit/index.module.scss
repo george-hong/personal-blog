@@ -1,3 +1,15 @@
 .article-edit-page {
-    width: 100%;
+    max-width: $content-max-width;
+    height: 100%;
+}
+
+.article-edit-page > div {
+    height: 100%;
+}
+
+@font-face {
+    font-family: 'Material Icons Outlined';
+    font-style: normal;
+    font-weight: 400;
+    src: url(/fonts/material-icons.woff2) format('woff2');
 }

@@ -6,6 +6,7 @@ interface ILayoutProps {
   children: any;
   sinkIntoHeader?: boolean;
   containerStyle?: object;
+  noFooter?: boolean;
 }
 
 const Layout = (props: ILayoutProps) => {
@@ -13,6 +14,7 @@ const Layout = (props: ILayoutProps) => {
     children,
     sinkIntoHeader,
     containerStyle,
+    noFooter,
   } = props;
   return (
     <div
@@ -27,7 +29,9 @@ const Layout = (props: ILayoutProps) => {
           </div>
         ) : null
       }
-      <Footer></Footer>
+      {
+        noFooter ? null : <Footer></Footer>
+      }
     </div>
   );
 }
