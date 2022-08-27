@@ -32,10 +32,12 @@ const Layout = (props: ILayoutProps) => {
     middle,
   } = props;
   const content = children ? getWrapContent(children, middle) : null;
+  let className = style.layout;
+  if (sinkIntoHeader) className += ` ${style.sunk}`;
 
   return (
     <div
-      className={`${style.layout} ${sinkIntoHeader && style.sunk}`}
+      className={className}
       style={containerStyle}
     >
       <Header />
