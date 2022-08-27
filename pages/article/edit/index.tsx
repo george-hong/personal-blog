@@ -13,7 +13,10 @@ const ArticleEdit: NextPage = () => {
   };
 
   return (
-    <Layout noFooter>
+    <Layout
+      noFooter
+      middle
+    >
       <Head>
         <title>article detail</title>
         <meta name="编辑文章" content="编辑文章"/>

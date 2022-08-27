@@ -10,8 +10,13 @@ html, body, body > div {
   backdrop-filter: blur(20px);
 }
 
-.container {
-  max-width: 1200px;
+.content-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  .content {
+    max-width: $content-max-width;
+  }
 }
 
 .full-vertical {

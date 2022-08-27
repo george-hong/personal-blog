@@ -7,6 +7,20 @@ interface ILayoutProps {
   sinkIntoHeader?: boolean;
   containerStyle?: object;
   noFooter?: boolean;
+  middle?: boolean;
+}
+
+const getWrapContent = (children: any, middle?: boolean) => {
+  if (middle) return (
+    <div className="content-container">
+      <div className="content">{ children }</div>
+    </div>
+  );
+  return (
+    <div className={style.main}>
+      { children }
+    </div>
+  );
 }
 
 const Layout = (props: ILayoutProps) => {
@@ -15,7 +29,10 @@ const Layout = (props: ILayoutProps) => {
     sinkIntoHeader,
     containerStyle,
     noFooter,
+    middle,
   } = props;
+  const content = children ? getWrapContent(children, middle) : null;
+
   return (
     <div
       className={`${style.layout} ${sinkIntoHeader && style.sunk}`}
@@ -23,11 +40,7 @@ const Layout = (props: ILayoutProps) => {
     >
       <Header />
       {
-        children ? (
-          <div className={style.main}>
-            { children }
-          </div>
-        ) : null
+        content
       }
       {
         noFooter ? null : <Footer />
