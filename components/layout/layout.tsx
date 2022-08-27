@@ -21,7 +21,7 @@ const Layout = (props: ILayoutProps) => {
       className={`${style.layout} ${sinkIntoHeader && style.sunk}`}
       style={containerStyle}
     >
-      <Header></Header>
+      <Header />
       {
         children ? (
           <div className={style.main}>
@@ -30,7 +30,7 @@ const Layout = (props: ILayoutProps) => {
         ) : null
       }
       {
-        noFooter ? null : <Footer></Footer>
+        noFooter ? null : <Footer />
       }
     </div>
   );
