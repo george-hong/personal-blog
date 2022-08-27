@@ -12,6 +12,16 @@ const ArticleEdit: NextPage = () => {
     setInputContent(event.target.value);
   };
 
+  const content =
+    `# Main Title # Main Title
+    # Main Title
+    # Main Title
+    # Main Title
+    # Main Title
+    # Main Title
+      initial content.
+    `;
+
   return (
     <Layout
       noFooter
@@ -22,7 +32,11 @@ const ArticleEdit: NextPage = () => {
         <meta name="编辑文章" content="编辑文章"/>
       </Head>
       <div className={Style['article-edit-page']}>
-        <MarkdownEditor />
+        <MarkdownEditor
+          menu
+          content={content}
+          cover
+        />
       </div>
     </Layout>
   )

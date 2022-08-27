@@ -11,10 +11,12 @@ html, body, body > div {
 }
 
 .content-container {
+  width: 100%;
   flex: 1;
   display: flex;
   justify-content: center;
   .content {
+    width: 100%;
     max-width: $content-max-width;
   }
 }
