@@ -1,0 +1,28 @@
+.markdown-container :global {
+  height: 100%;
+
+  .milkdown-menu-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .milkdown {
+      min-width: 100%;
+    }
+  }
+}
+
+.markdown-container.cover :global {
+  .milkdown {
+    flex: 1;
+    max-height: 100%;
+    overflow: auto;
+  }
+}
+
+.markdown-container {
+  > div {
+    height: 100%;
+    display: flex;
+  }
+}

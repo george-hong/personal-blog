@@ -8,16 +8,22 @@ interface ILayoutProps {
   containerStyle?: object;
   noFooter?: boolean;
   middle?: boolean;
+  noShrink?: boolean;
 }
 
-const getWrapContent = (children: any, middle?: boolean) => {
-  if (middle) return (
-    <div className="content-container">
-      <div className="content">{ children }</div>
-    </div>
-  );
+const getWrapContent = (children: any, middle?: boolean, noShrink?: boolean) => {
+  if (middle) {
+    const className = noShrink ? 'content no-shrink' : 'content';
+    return (
+      <div className="content-container">
+        <div className={className}>{ children }</div>
+      </div>
+    )
+  }
+  let className = style.main;
+  if (noShrink) className += ` ${style['no-shrink']}`
   return (
-    <div className={style.main}>
+    <div className={className}>
       { children }
     </div>
   );
@@ -30,6 +36,7 @@ const Layout = (props: ILayoutProps) => {
     containerStyle,
     noFooter,
     middle,
+    noShrink,
   } = props;
   const content = children ? getWrapContent(children, middle) : null;
   let className = style.layout;

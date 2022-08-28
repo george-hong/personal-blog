@@ -1,12 +1,13 @@
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/layout/layout';
+import MarkdownBase from '../../../components/markdown-editor/markdown-base';
 
 const ArticleDetail: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const content = 'It\'s content ' + id;
 
   return (
     <>
@@ -15,11 +16,8 @@ const ArticleDetail: NextPage = () => {
         <meta name="personal-blog" content="文章详情"/>
       </Head>
 
-      <Layout>
-        article detail id: { id }
-        <Link href="/">
-          <a>back home</a>
-        </Link>
+      <Layout middle>
+        <MarkdownBase content={content}/>
       </Layout>
     </>
   )

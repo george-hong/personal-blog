@@ -8,7 +8,9 @@
   }
   .main {
     flex: 1;
-    flex-shrink: 0;
-    height: 0;
+    &.no-shrink {
+      flex-shrink: 0;
+      height: 0;
+    }
   }
 }

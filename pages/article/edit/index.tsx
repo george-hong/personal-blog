@@ -68,7 +68,6 @@ const ArticleEdit: NextPage = () => {
         <MarkdownEditor
           menu
           content={content}
-          cover
         />
       </div>
     </Layout>

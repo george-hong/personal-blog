@@ -14,9 +14,11 @@ html, body, body > div {
   width: 100%;
   flex: 1;
   height: 0;
-  flex-shrink: 0;
-  display: flex;
   justify-content: center;
+  &.no-shrink {
+    flex-shrink: 0;
+    display: flex;
+  }
   .content {
     width: 100%;
     max-width: $content-max-width;
