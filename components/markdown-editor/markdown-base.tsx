@@ -1,4 +1,4 @@
-import { Editor, rootCtx, defaultValueCtx } from '@milkdown/core';
+import { Editor, rootCtx, defaultValueCtx, editorViewOptionsCtx } from '@milkdown/core';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -6,33 +6,35 @@ import style from './markdown-base.module.scss';
 import type { NextPage } from 'next';
 
 interface IMarkdownBaseOptions {
-  menu?: boolean;
   content?: string;
-  cover?: boolean;
+  className?: string;
+  editable?: boolean;
 }
 
 /**
  *
  * @param {Object} [props] component options
  * @param {string} [props.content] Initial content when editor created.
- * @param {boolean} [props.cover = false] Is editor cover container.
- * @param {boolean} [props.editable = false] Is editor cover container.
+ * @param {string} [props.className] Extend class for editor.
+ * @param {boolean} [props.editable = false] Is editor editable.
  * @constructor
  */
 const MarkdownBase: NextPage<IMarkdownBaseOptions> = (props) => {
   const nodes = commonmark;
   const {
     content,
-    cover,
+    className: extendClass,
+    editable = false,
   } = props;
   let className = style[`markdown-container`];
-  if (cover) className += ` ${style.cover}`;
+  if (extendClass) className += ` ${extendClass}`;
 
   const { editor } = useEditor(root => {
     const markdownEditor = Editor
       .make()
       .config(context => {
         context.set(rootCtx, root)
+        context.set(editorViewOptionsCtx, { editable: () => editable });
         if (content) context.set(defaultValueCtx, content);
       })
       .use(nord)

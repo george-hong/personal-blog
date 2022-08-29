@@ -2,12 +2,33 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/layout/layout';
-import MarkdownBase from '../../../components/markdown-editor/markdown-base';
-
+import MarkdownReader from '../../../components/markdown-editor/markdown-reader';
 const ArticleDetail: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const content = 'It\'s content ' + id;
+  const content = `
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+  # markdown
+
+  `
 
   return (
     <>
@@ -17,7 +38,7 @@ const ArticleDetail: NextPage = () => {
       </Head>
 
       <Layout middle>
-        <MarkdownBase content={content}/>
+        <MarkdownReader cover content={content}/>
       </Layout>
     </>
   )

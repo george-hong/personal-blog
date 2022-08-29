@@ -13,11 +13,10 @@ html, body, body > div {
 .content-container {
   width: 100%;
   flex: 1;
-  height: 0;
+  display: flex;
   justify-content: center;
-  &.no-shrink {
-    flex-shrink: 0;
-    display: flex;
+  &.empty-height {
+    height: 0;
   }
   .content {
     width: 100%;

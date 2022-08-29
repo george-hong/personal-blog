@@ -1,0 +1,21 @@
+.markdown-reader.cover :global {
+  .milkdown {
+    flex: 1;
+    max-height: 100%;
+    overflow: auto;
+  }
+}
+
+.markdown-reader :global {
+  .milkdown {
+    width: 100%;
+  }
+}
+
+
+.markdown-reader {
+  & > div {
+    height: 100%;
+    display: flex;
+  }
+}
