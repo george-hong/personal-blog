@@ -1,4 +1,5 @@
 import { Editor, rootCtx, defaultValueCtx, editorViewOptionsCtx } from '@milkdown/core';
+import { Ctx, MilkdownPlugin } from '@milkdown/ctx';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -9,6 +10,8 @@ interface IMarkdownBaseOptions {
   content?: string;
   className?: string;
   editable?: boolean;
+  config?: (context: Ctx) => void;
+  plugins?: Array<MilkdownPlugin>;
 }
 
 /**
@@ -25,6 +28,8 @@ const MarkdownBase: NextPage<IMarkdownBaseOptions> = (props) => {
     content,
     className: extendClass,
     editable = false,
+    config,
+    plugins,
   } = props;
   let className = style[`markdown-container`];
   if (extendClass) className += ` ${extendClass}`;
@@ -36,9 +41,11 @@ const MarkdownBase: NextPage<IMarkdownBaseOptions> = (props) => {
         context.set(rootCtx, root)
         context.set(editorViewOptionsCtx, { editable: () => editable });
         if (content) context.set(defaultValueCtx, content);
+        config && config(context);
       })
       .use(nord)
       .use(nodes);
+    plugins && plugins.forEach(plugin => markdownEditor.use(plugin));
     return markdownEditor;
   });
 

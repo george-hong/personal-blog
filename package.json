@@ -12,6 +12,7 @@
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@milkdown/core": "^6.3.2",
+    "@milkdown/plugin-history": "^6.3.2",
     "@milkdown/plugin-menu": "^6.3.2",
     "@milkdown/preset-commonmark": "^6.3.2",
     "@milkdown/react": "^6.3.2",

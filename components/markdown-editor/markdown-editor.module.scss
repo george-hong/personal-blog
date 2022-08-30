@@ -1,5 +1,9 @@
-.markdown-container :global {
-  height: 100%;
+.markdown-editor.cover :global {
+  .milkdown {
+    flex: 1;
+    max-height: 100%;
+    overflow: auto;
+  }
 
   .milkdown-menu-wrapper {
     height: 100%;
@@ -12,16 +16,21 @@
   }
 }
 
-.markdown-container.cover :global {
+.markdown-editor :global {
   .milkdown {
-    flex: 1;
-    max-height: 100%;
-    overflow: auto;
+    width: 100%;
   }
 }
 
-.markdown-container {
-  > div {
+.markdown-editor {
+  & > div {
     height: 100%;
+    display: flex;
+  }
+}
+
+.markdown-editor :global {
+  .milkdown-menu-wrapper {
+    width: 100%;
   }
 }

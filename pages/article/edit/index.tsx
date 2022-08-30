@@ -11,6 +11,7 @@ const ArticleEdit: NextPage = () => {
   const onChangeContent = (event: any) => {
     setInputContent(event.target.value);
   };
+  const isUseCover = true;
 
   const content =
     `# Main Title # Main Title
@@ -59,6 +60,7 @@ const ArticleEdit: NextPage = () => {
     <Layout
       noFooter
       middle
+      emptyHeight={isUseCover}
     >
       <Head>
         <title>article detail</title>
@@ -66,7 +68,7 @@ const ArticleEdit: NextPage = () => {
       </Head>
       <div className={Style['article-edit-page']}>
         <MarkdownEditor
-          menu
+          cover={isUseCover}
           content={content}
         />
       </div>
