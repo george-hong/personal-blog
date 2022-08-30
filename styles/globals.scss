@@ -17,6 +17,7 @@ html, body, body > div {
   justify-content: center;
   &.empty-height {
     height: 0;
+    flex-shrink: 0;
   }
   .content {
     width: 100%;

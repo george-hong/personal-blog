@@ -1,6 +1,7 @@
 import Header from './header/header';
 import Footer from './footer/footer';
 import style from './layout.module.scss';
+import type { NextPage } from 'next';
 
 interface ILayoutProps {
   children: any;
@@ -13,15 +14,15 @@ interface ILayoutProps {
 
 const getWrapContent = (children: any, middle?: boolean, emptyHeight?: boolean) => {
   if (middle) {
-    let className = emptyHeight ? 'content empty-height' : 'content';
+    let className = emptyHeight ? 'content-container empty-height' : 'content-container';
     return (
-      <div className="content-container">
-        <div className={className}>{ children }</div>
+      <div className={className}>
+        <div className="content">{ children }</div>
       </div>
     )
   }
   let className = style.main;
-  // if (noShrink) className += ` ${style['no-shrink']}`
+  if (emptyHeight) className += ` ${style['empty-height']}`
   return (
     <div className={className}>
       { children }
@@ -29,7 +30,17 @@ const getWrapContent = (children: any, middle?: boolean, emptyHeight?: boolean) 
   );
 }
 
-const Layout = (props: ILayoutProps) => {
+/**
+ * layout component
+ * @param {Object} props
+ * @param {boolean} [props.sinkIntoHeader] Is content sink into header.
+ * @param {string} [props.containerStyle] The custom style of outer container.
+ * @param {boolean} [props.noFooter] Don't add footer component.
+ * @param {boolean} [props.middle] Make the content at the center of container.
+ * @param {boolean} [props.emptyHeight] Content container set flex-shrink and height to zero.
+ * @constructor
+ */
+const Layout: NextPage<ILayoutProps> = (props) => {
   const {
     children,
     sinkIntoHeader,

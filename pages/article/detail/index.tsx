@@ -6,7 +6,9 @@ import MarkdownReader from '../../../components/markdown-editor/markdown-reader'
 const ArticleDetail: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const isUseCover = false;
   const content = `
+  ${id}
   # markdown
   # markdown
   # markdown
@@ -37,8 +39,14 @@ const ArticleDetail: NextPage = () => {
         <meta name="personal-blog" content="文章详情"/>
       </Head>
 
-      <Layout middle>
-        <MarkdownReader cover content={content}/>
+      <Layout
+        middle
+        emptyHeight={isUseCover}
+      >
+        <MarkdownReader
+          cover={isUseCover}
+          content={content}
+        />
       </Layout>
     </>
   )

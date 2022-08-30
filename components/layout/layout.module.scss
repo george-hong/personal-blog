@@ -8,7 +8,7 @@
   }
   .main {
     flex: 1;
-    &.no-shrink {
+    &.empty-height {
       flex-shrink: 0;
       height: 0;
     }
