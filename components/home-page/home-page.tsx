@@ -1,5 +1,8 @@
 import style from './home-page.module.scss';
 import Layout from '../layout/layout';
+import { marked } from 'marked';
+
+console.log('marked', marked);
 
 const containerStyle = {
   backgroundImage: 'url(./images/bg.jpg)',
@@ -9,6 +12,8 @@ const containerStyle = {
 };
 
 const HomePage = () => {
+  const content = '# markdown   it\'s content';
+
   return (
     <Layout
       sinkIntoHeader
@@ -17,7 +22,7 @@ const HomePage = () => {
       <div className={style['home-page']}>
         <div className={style['opacity-area']}>
           <article className={style['main-article']}>
-            文章内容
+            <div dangerouslySetInnerHTML={{ __html: marked.parse(content) }}></div>
           </article>
         </div>
         <div style={{height: 2000}}>
