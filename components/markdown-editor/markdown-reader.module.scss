@@ -1,3 +1,11 @@
+.reader-container {
+  width: 100%;
+  flex: 1;
+  &.cover {
+    height: 100%;
+  }
+}
+
 .markdown-reader.cover :global {
   .milkdown {
     flex: 1;

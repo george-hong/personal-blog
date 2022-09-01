@@ -1,8 +1,5 @@
 import style from './home-page.module.scss';
 import Layout from '../layout/layout';
-import { marked } from 'marked';
-
-console.log('marked', marked);
 
 const containerStyle = {
   backgroundImage: 'url(./images/bg.jpg)',
@@ -22,7 +19,7 @@ const HomePage = () => {
       <div className={style['home-page']}>
         <div className={style['opacity-area']}>
           <article className={style['main-article']}>
-            <div dangerouslySetInnerHTML={{ __html: marked.parse(content) }}></div>
+            content
           </article>
         </div>
         <div style={{height: 2000}}>

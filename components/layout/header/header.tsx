@@ -5,6 +5,7 @@ const menuLinkContrast = {
   Home: '/',
   Article: '/article/detail',
   About: '/article/edit',
+  List: '/article/list',
 }
 
 const Header = () => {

@@ -1,9 +1,10 @@
 import MarkdownBase from './markdown-base';
+import { marked } from 'marked';
 import style from './markdown-reader.module.scss';
 import type { NextPage } from 'next';
 
 interface IMarkdownReaderOptions {
-  content?: string;
+  content: string;
   cover?: boolean;
 }
 
@@ -19,15 +20,25 @@ const MarkdownReader: NextPage<IMarkdownReaderOptions> = (props) => {
     content,
     cover,
   } = props;
-  let className = style[`markdown-reader`];
+  let classNameOfContainer = style['reader-container'];
+  let classNameOfMarkdown = style[`markdown-reader`];
 
-  if (cover) className += ` ${style.cover}`;
+  if (cover) {
+    classNameOfContainer += ` ${style.cover}`;
+    classNameOfMarkdown += ` ${style.cover}`;
+  }
 
   return (
-    <MarkdownBase
-      content={content}
-      className={className}
-    />
+    <div className={classNameOfContainer}>
+      <div
+        className="hidden"
+        dangerouslySetInnerHTML={{ __html: marked.parse(content) }}
+      />
+      <MarkdownBase
+        content={content}
+        className={classNameOfMarkdown}
+      />
+    </div>
   )
 };
 

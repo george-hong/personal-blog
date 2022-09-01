@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/layout/layout';
 import MarkdownReader from '../../../components/markdown-editor/markdown-reader';
+
 const ArticleDetail: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -29,8 +30,7 @@ const ArticleDetail: NextPage = () => {
   # markdown
   # markdown
   # markdown
-
-  `
+  `;
 
   return (
     <>
