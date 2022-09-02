@@ -1,5 +1,5 @@
 import { Editor, rootCtx, defaultValueCtx, editorViewOptionsCtx } from '@milkdown/core';
-import { Ctx, MilkdownPlugin } from '@milkdown/ctx';
+import { Ctx } from '@milkdown/ctx';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -11,7 +11,7 @@ interface IMarkdownBaseOptions {
   className?: string;
   editable?: boolean;
   config?: (context: Ctx) => void;
-  plugins?: Array<MilkdownPlugin>;
+  plugins?: Array<any>;
 }
 
 /**

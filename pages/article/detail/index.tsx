@@ -40,7 +40,7 @@ const ArticleDetail: NextPage = () => {
       </Head>
 
       <Layout
-        middle
+        contentLayout="middle"
         emptyHeight={isUseCover}
       >
         <MarkdownReader

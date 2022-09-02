@@ -59,7 +59,7 @@ const ArticleEdit: NextPage = () => {
   return (
     <Layout
       noFooter
-      middle
+      contentLayout="middle"
       emptyHeight={isUseCover}
     >
       <Head>

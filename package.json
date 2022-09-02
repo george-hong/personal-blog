@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "personal-blog",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
+    "@fontsource/roboto": "^4.5.8",
     "@milkdown/core": "^6.3.2",
     "@milkdown/plugin-history": "^6.3.2",
     "@milkdown/plugin-menu": "^6.3.2",

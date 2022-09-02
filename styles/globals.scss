@@ -22,6 +22,9 @@ html, body, body > div {
   .content {
     width: 100%;
     max-width: $content-max-width;
+    &.thin {
+      max-width: $thin-content-max-width;
+    }
   }
 }
 

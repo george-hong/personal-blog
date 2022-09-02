@@ -3,21 +3,28 @@ import Footer from './footer/footer';
 import style from './layout.module.scss';
 import type { NextPage } from 'next';
 
+type contentLayoutType = 'middle' | 'thin-middle';
+
 interface ILayoutProps {
   children: any;
   sinkIntoHeader?: boolean;
   containerStyle?: object;
   noFooter?: boolean;
-  middle?: boolean;
+  contentLayout?: contentLayoutType;
   emptyHeight?: boolean;
 }
 
-const getWrapContent = (children: any, middle?: boolean, emptyHeight?: boolean) => {
-  if (middle) {
+const contentLayoutAndClassMapping = {
+  middle: 'content',
+  'thin-middle': 'content thin',
+};
+
+const getWrapContent = (children: any, contentLayout?: contentLayoutType, emptyHeight?: boolean) => {
+  if (contentLayout) {
     let className = emptyHeight ? 'content-container empty-height' : 'content-container';
     return (
       <div className={className}>
-        <div className="content">{ children }</div>
+        <div className={contentLayoutAndClassMapping[contentLayout]}>{ children }</div>
       </div>
     )
   }
@@ -46,10 +53,10 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     sinkIntoHeader,
     containerStyle,
     noFooter,
-    middle,
+    contentLayout,
     emptyHeight,
   } = props;
-  const content = children ? getWrapContent(children, middle, emptyHeight) : null;
+  const content = children ? getWrapContent(children, contentLayout, emptyHeight) : null;
   let className = style.layout;
   if (sinkIntoHeader) className += ` ${style.sunk}`;
 
