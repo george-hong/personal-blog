@@ -1,14 +1,31 @@
 .header {
   width: 100%;
-  padding: 20px 20px;
   line-height: 20px;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 200;
+  height: 60px;
+  overflow: hidden;
+
+  &.submenu :global {
+    .content-container {
+      margin-top: -60px;
+    }
+  }
 }
 
-.header *:not(last-child) {
+.header :global {
+  .content-container {
+    transition: margin-top .6s;
+    margin-top: 0;
+    .content {
+      padding: 20px 20px;
+    }
+  }
+}
+
+.header h3:not(last-child) {
   margin-right: $item-margin;
 }
 

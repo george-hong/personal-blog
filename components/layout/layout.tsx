@@ -1,3 +1,4 @@
+import React from 'react';
 import Header from './header/header';
 import Footer from './footer/footer';
 import style from './layout.module.scss';
@@ -12,6 +13,7 @@ interface ILayoutProps {
   noFooter?: boolean;
   contentLayout?: contentLayoutType;
   emptyHeight?: boolean;
+  submenu?: React.Component;
 }
 
 const contentLayoutAndClassMapping = {
@@ -45,6 +47,7 @@ const getWrapContent = (children: any, contentLayout?: contentLayoutType, emptyH
  * @param {boolean} [props.noFooter] Don't add footer component.
  * @param {boolean} [props.middle] Make the content at the center of container.
  * @param {boolean} [props.emptyHeight] Content container set flex-shrink and height to zero.
+ * @param {React.Component} [props.submenu] Submenu list for show.
  * @constructor
  */
 const Layout: NextPage<ILayoutProps> = (props) => {
@@ -55,6 +58,7 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     noFooter,
     contentLayout,
     emptyHeight,
+    submenu,
   } = props;
   const content = children ? getWrapContent(children, contentLayout, emptyHeight) : null;
   let className = style.layout;
@@ -65,7 +69,7 @@ const Layout: NextPage<ILayoutProps> = (props) => {
       className={className}
       style={containerStyle}
     >
-      <Header />
+      <Header submenu={submenu} />
       {
         content
       }

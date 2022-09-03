@@ -48,7 +48,10 @@ const ArticleList: NextPage = () => {
         <meta name="personal-blog" content="文章列表"/>
       </Head>
 
-      <Layout contentLayout="thin-middle">
+      <Layout
+        contentLayout="thin-middle"
+        submenu={(<div>123  </div>)}
+      >
         <Box sx={{ pt: 2, pb: 2 }}>
           {
             Array.apply(undefined, { length: 20 }).map((i, index) => generateCardItem({ key: index }))
