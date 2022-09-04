@@ -5,12 +5,12 @@
   left: 0;
   top: 0;
   z-index: 200;
-  height: 60px;
+  height: $header-height;
   overflow: hidden;
 
   &.submenu :global {
     .content-container {
-      margin-top: -60px;
+      margin-top: -$header-height;
     }
   }
 }

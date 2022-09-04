@@ -53,21 +53,30 @@ const DomContent: NextPage<IHeaderProps> = React.forwardRef((props, ref) => {
 
 const Header: NextPage<IHeaderProps> = (props) => {
   const { submenu } = props;
-  let isSetEvent = false;
   const [isSubmenu, setIsSubmenu] = useState<boolean>(false);
+  const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const ref = React.createRef();
+  let isSetEvent = false;
+  let timer: number;
 
   useEffect(() => {
     const scrollHandler = () => {
-      const height = ref?.current?.getBoundingClientRect()?.height;
-      const scrollTop = document.documentElement.scrollTop;
-      setIsSubmenu(scrollTop > height);
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        const height = ref?.current?.getBoundingClientRect()?.height;
+        const scrollTop = document.documentElement.scrollTop;
+        console.log(scrollTop, lastScrollTop, height);
+        setIsSubmenu(scrollTop > height && scrollTop > lastScrollTop);
+        setLastScrollTop(scrollTop);
+      }, 100);
     };
     if (!isSetEvent && ref.current) {
       isSetEvent = true;
       window.addEventListener('scroll', scrollHandler);
     }
     return () => {
+      isSetEvent = false;
+      clearTimeout(timer);
       window.removeEventListener('scroll', scrollHandler);
     }
   });

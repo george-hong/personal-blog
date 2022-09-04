@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import Header from './header/header';
 import Footer from './footer/footer';
 import style from './layout.module.scss';
@@ -13,7 +13,7 @@ interface ILayoutProps {
   noFooter?: boolean;
   contentLayout?: contentLayoutType;
   emptyHeight?: boolean;
-  submenu?: React.Component;
+  submenu?: ReactElement;
 }
 
 const contentLayoutAndClassMapping = {

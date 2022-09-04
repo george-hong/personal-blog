@@ -1,0 +1,12 @@
+.middle-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .middle-content {
+    width: 100%;
+    max-width: $content-max-width;
+    &.thin {
+      max-width: $thin-content-max-width;
+    }
+  }
+}

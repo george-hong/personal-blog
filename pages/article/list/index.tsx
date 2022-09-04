@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import ListMenu from './list-menu';
 import type { NextPage } from 'next';
 
 const generateCardItem = (info: any) => {
@@ -50,7 +51,7 @@ const ArticleList: NextPage = () => {
 
       <Layout
         contentLayout="thin-middle"
-        submenu={(<div>123  </div>)}
+        submenu={<ListMenu />}
       >
         <Box sx={{ pt: 2, pb: 2 }}>
           {
