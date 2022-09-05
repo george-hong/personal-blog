@@ -65,10 +65,9 @@ const Header: NextPage<IHeaderProps> = (props) => {
       timer = setTimeout(() => {
         const height = ref?.current?.getBoundingClientRect()?.height;
         const scrollTop = document.documentElement.scrollTop;
-        console.log(scrollTop, lastScrollTop, height);
         setIsSubmenu(scrollTop > height && scrollTop > lastScrollTop);
         setLastScrollTop(scrollTop);
-      }, 100);
+      }, 50);
     };
     if (!isSetEvent && ref.current) {
       isSetEvent = true;
