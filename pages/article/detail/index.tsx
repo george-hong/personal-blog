@@ -4,33 +4,22 @@ import { useRouter } from 'next/router';
 import Layout from '../../../components/layout/layout';
 import MarkdownReader from '../../../components/markdown-editor/markdown-reader';
 
-const ArticleDetail: NextPage = () => {
+export async function getServerSideProps() {
+  let result;
+  try {
+    result = await fetch('http://localhost:8080/api/hello');
+    result = await result.json();
+  } catch (error) {
+    result = error;
+  }
+  return { props: { pageData: result[0] } };
+}
+
+const ArticleDetail: NextPage = (props) => {
   const router = useRouter();
   const { id } = router.query;
   const isUseCover = false;
-  const content = `
-  ${id}
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  # markdown
-  `;
+  const content = props.pageData.content;
 
   return (
     <>

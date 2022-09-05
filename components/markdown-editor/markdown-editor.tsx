@@ -1,8 +1,10 @@
-import MarkdownBase from './markdown-base';
 import { menu } from '@milkdown/plugin-menu'
 import { history } from '@milkdown/plugin-history';
 import style from './markdown-editor.module.scss';
+import dynamic from 'next/dynamic';
 import type { NextPage } from 'next';
+
+const MarkdownBase = dynamic(() => import('./markdown-base'), { ssr: false })
 
 interface IMarkdownEditorOptions {
   menu?: boolean;

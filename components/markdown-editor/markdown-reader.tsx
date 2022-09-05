@@ -1,7 +1,9 @@
-import MarkdownBase from './markdown-base';
 import { marked } from 'marked';
 import style from './markdown-reader.module.scss';
+import dynamic from 'next/dynamic';
 import type { NextPage } from 'next';
+
+const MarkdownBase = dynamic(() => import('./markdown-base'), { ssr: false })
 
 interface IMarkdownReaderOptions {
   content: string;
