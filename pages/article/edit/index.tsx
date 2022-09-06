@@ -23,9 +23,6 @@ const saveArticle = (content: string) => {
 
 const ArticleEdit: NextPage = () => {
   const [inputContent, setInputContent] = useState('');
-  const onChangeContent = (event: any) => {
-    setInputContent(event.target.value);
-  };
   const isUseCover = true;
 
   return (
@@ -53,6 +50,7 @@ const ArticleEdit: NextPage = () => {
         <MarkdownEditor
           cover={isUseCover}
           content={inputContent}
+          onUpdate={setInputContent}
         />
       </div>
     </Layout>
