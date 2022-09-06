@@ -10,7 +10,7 @@ interface ILayoutProps {
   children: any;
   sinkIntoHeader?: boolean;
   containerStyle?: object;
-  noFooter?: boolean;
+  footer?: ReactElement | null | true;
   contentLayout?: contentLayoutType;
   emptyHeight?: boolean;
   submenu?: ReactElement;
@@ -44,7 +44,7 @@ const getWrapContent = (children: any, contentLayout?: contentLayoutType, emptyH
  * @param {Object} props
  * @param {boolean} [props.sinkIntoHeader] Is content sink into header.
  * @param {string} [props.containerStyle] The custom style of outer container.
- * @param {boolean} [props.noFooter] Don't add footer component.
+ * @param {ReactElement | null | true} [props.footer = true] footer content.
  * @param {boolean} [props.middle] Make the content at the center of container.
  * @param {boolean} [props.emptyHeight] Content container set flex-shrink and height to zero.
  * @param {React.Component} [props.submenu] Submenu list for show.
@@ -55,7 +55,7 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     children,
     sinkIntoHeader,
     containerStyle,
-    noFooter,
+    footer = true,
     contentLayout,
     emptyHeight,
     submenu,
@@ -74,7 +74,7 @@ const Layout: NextPage<ILayoutProps> = (props) => {
         content
       }
       {
-        noFooter ? null : <Footer />
+        footer !== true ?  footer : <Footer />
       }
     </div>
   );
