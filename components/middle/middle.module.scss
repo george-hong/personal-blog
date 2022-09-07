@@ -8,5 +8,9 @@
     &.thin {
       max-width: $thin-content-max-width;
     }
+    &.right {
+      display: flex;
+      justify-content: right;
+    }
   }
 }

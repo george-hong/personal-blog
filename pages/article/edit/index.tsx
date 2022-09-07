@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { Component } from 'react';
 import Head from 'next/head'
 import Style from './index.module.scss';
 import Layout from '../../../components/layout/layout';
@@ -8,11 +9,15 @@ import ClientRequest from '../../../tools/clientRequest';
 import Middle from '../../../components/middle/middle';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { encodeQuotationMarks } from '../../../tools/methods';
 
 const request = new ClientRequest();
 
 const saveArticle = (content: string) => {
-  request.post('http://localhost:8080/article', { content })
+  request.post('http://localhost:8080/api/article/add', {
+    content: encodeQuotationMarks(content),
+    title: 'test',
+  })
     .then(result => {
       console.log('result', result);
     })
@@ -21,7 +26,9 @@ const saveArticle = (content: string) => {
     });
 }
 
-const ArticleEdit: NextPage = () => {
+
+
+const ArticleEdit: NextPage<void, Component> = () => {
   const [inputContent, setInputContent] = useState('');
   const isUseCover = true;
 
@@ -30,14 +37,14 @@ const ArticleEdit: NextPage = () => {
       contentLayout="middle"
       emptyHeight={isUseCover}
       footer={(
-        <Middle>
+        <Middle type="right">
           <ButtonGroup
             sx={{ pt: 2, pb: 2 }}
             variant="contained"
             disableElevation
           >
-            <Button onClick={() => saveArticle(inputContent)}>Publish</Button>
             <Button variant="outlined">Save draft</Button>
+            <Button onClick={() => saveArticle(inputContent)}>Publish</Button>
           </ButtonGroup>
         </Middle>
       )}

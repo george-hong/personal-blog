@@ -15,9 +15,9 @@ class DataBase {
     this.connection.connect();
   }
 
-  public query() {
+  public query(sqlSentence: string) {
     return new Promise((resolve, reject) => {
-      this.connection.query('SELECT * FROM article', function (error, result, fields) {
+      this.connection.query(sqlSentence, function (error, result, fields) {
         if (error) return reject(error);
         resolve(result);
       })
