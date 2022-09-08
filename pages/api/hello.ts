@@ -20,7 +20,7 @@ export default function handler(
   res: NextApiResponse
 ) {
   new DataBase()
-    .query()
+    .query('SELECT * FROM article')
     .then(result => {
       res.status(200).json(result)
     })

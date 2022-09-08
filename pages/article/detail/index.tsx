@@ -16,8 +16,6 @@ export async function getServerSideProps() {
 }
 
 const ArticleDetail: NextPage = (props) => {
-  const router = useRouter();
-  const { id } = router.query;
   const isUseCover = false;
   const content = props.pageData.content;
 

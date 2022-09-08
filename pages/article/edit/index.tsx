@@ -9,14 +9,16 @@ import ClientRequest from '../../../tools/clientRequest';
 import Middle from '../../../components/middle/middle';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 import { encodeQuotationMarks } from '../../../tools/methods';
 
 const request = new ClientRequest();
 
-const saveArticle = (content: string) => {
+const saveArticle = (title: string, content: string) => {
   request.post('http://localhost:8080/api/article/add', {
     content: encodeQuotationMarks(content),
-    title: 'test',
+    title,
   })
     .then(result => {
       console.log('result', result);
@@ -30,36 +32,41 @@ const saveArticle = (content: string) => {
 
 const ArticleEdit: NextPage<void, Component> = () => {
   const [inputContent, setInputContent] = useState('');
+  const [title, setTitle] = useState('');
   const isUseCover = true;
 
   return (
     <Layout
       contentLayout="middle"
       emptyHeight={isUseCover}
-      footer={(
-        <Middle type="right">
-          <ButtonGroup
-            sx={{ pt: 2, pb: 2 }}
-            variant="contained"
-            disableElevation
-          >
-            <Button variant="outlined">Save draft</Button>
-            <Button onClick={() => saveArticle(inputContent)}>Publish</Button>
-          </ButtonGroup>
-        </Middle>
-      )}
+      footer={null}
     >
       <Head>
         <title>article detail</title>
         <meta name="编辑文章" content="编辑文章"/>
       </Head>
-      <div className={Style['article-edit-page']}>
+      <Box className={Style['article-edit-page']} sx={{ pb: 2 }}>
+        <Middle>
+          <TextField
+            label="Outlined"
+            variant="outlined"
+            size="small"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <ButtonGroup
+            variant="contained"
+            disableElevation
+          >
+            <Button variant="outlined">Save draft</Button>
+            <Button onClick={() => saveArticle(title, inputContent)}>Publish</Button>
+          </ButtonGroup>
+        </Middle>
         <MarkdownEditor
           cover={isUseCover}
           content={inputContent}
           onUpdate={setInputContent}
         />
-      </div>
+      </Box>
     </Layout>
   )
 };
