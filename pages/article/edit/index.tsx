@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { Component } from 'react';
 import Head from 'next/head'
-import Style from './index.module.scss';
+import style from './index.module.scss';
 import Layout from '../../../components/layout/layout';
 import MarkdownEditor from '../../../components/markdown-editor/markdown-editor';
 import { useState, useEffect } from 'react';
@@ -45,15 +45,17 @@ const ArticleEdit: NextPage<void, Component> = () => {
         <title>article detail</title>
         <meta name="编辑文章" content="编辑文章"/>
       </Head>
-      <Box className={Style['article-edit-page']} sx={{ pb: 2 }}>
-        <Middle>
+      <Box className={style['article-edit-page']} sx={{ pb: 2 }}>
+        <Middle className={style['article-layout']}>
           <TextField
-            label="Outlined"
+            sx={{ flex: 1, margin: 2, ml: 0 }}
+            label="title"
             variant="outlined"
             size="small"
             onChange={(e) => setTitle(e.target.value)}
           />
           <ButtonGroup
+            sx={{ mt: 2, mb: 2 }}
             variant="contained"
             disableElevation
           >
