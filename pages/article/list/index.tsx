@@ -10,38 +10,47 @@ import Box from '@mui/material/Box';
 import ListMenu from './list-menu';
 import type { NextPage } from 'next';
 
-const generateCardItem = (info: any) => {
+export async function getServerSideProps(props) {
+  const { pageNo, pageSize } = props.query;
+  let result;
+  try {
+    result = await fetch(`http://localhost:8080/api/article/list`);
+    result = await result.json();
+  } catch (error) {
+    result = error;
+  }
+  return { props: { pageData: result } };
+}
+
+const generateCardItem = (articleInfo: any) => {
   return (
     <Card
-      key={info.key}
+      key={articleInfo.id}
       sx={[{ '&:not(:last-child)': { mb: 2 }, borderColor: 'info.main' }]}
       variant="outlined"
     >
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
+        <Typography variant="h3" component="div">
+          { articleInfo.title }
         </Typography>
-        <Typography variant="h5" component="div">
-          Good Job
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+        <Typography
+          sx={{ mb: 1.5 }}
+          color="text.secondary"
+          className="single-line"
+        >
+          { articleInfo.content }
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small">Like</Button>
       </CardActions>
     </Card>
   )
 };
 
 
-const ArticleList: NextPage = () => {
+const ArticleList: NextPage = (props) => {
+  const { pageData } = props;
   return (
     <React.Fragment>
       <Head>
@@ -55,7 +64,7 @@ const ArticleList: NextPage = () => {
       >
         <Box sx={{ pt: 2, pb: 2 }}>
           {
-            Array.apply(undefined, { length: 20 }).map((i, index) => generateCardItem({ key: index }))
+            pageData.map((articleInfo) => generateCardItem(articleInfo))
           }
         </Box>
       </Layout>

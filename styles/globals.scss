@@ -35,3 +35,10 @@ html, body, body > div {
 .hidden {
   display: none;
 }
+
+.single-line {
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
