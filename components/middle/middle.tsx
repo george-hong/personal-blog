@@ -3,7 +3,7 @@ import style from './middle.module.scss';
 import type { NextPage } from 'next';
 
 interface MiddleProps {
-  children?: Array<ReactElement | Component>;
+  children?: Array<ReactElement | Component> | ReactElement | Component;
   type?: 'thin' | 'thin-right';
   className?: string;
 }

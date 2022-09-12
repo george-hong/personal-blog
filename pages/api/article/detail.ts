@@ -5,7 +5,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const id = req.query.id;
+  const { id } = req.query;
   new DataBase()
     .query(`SELECT * FROM article WHERE id = ${id}`)
     .then(result => {
