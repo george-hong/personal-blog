@@ -3,9 +3,12 @@ import style from './header.module.scss';
 import Link from 'next/link';
 import type { NextPage } from 'next';
 
+interface IHeaderRefProps {
+  visibility?: boolean;
+}
 interface IHeaderProps {
-  isSubmenu?: boolean;
-  submenu?: React.Component,
+  autoHide?: boolean;
+  onVisibilityChange?: (visibility: boolean) => void;
 }
 
 const menuLinkContrast = {
@@ -15,11 +18,10 @@ const menuLinkContrast = {
   List: '/article/list',
 }
 
-const DomContent: NextPage<IHeaderProps> = React.forwardRef((props, ref) => {
-  const { isSubmenu, submenu } = props;
-  const submenuContent = submenu || null;
+const HeaderRef: NextPage<IHeaderRefProps> = React.forwardRef((props, ref) => {
+  const { visibility } = props;
   let className = `${style.header} ground-glass`;
-  if (isSubmenu && submenu) className += ` ${style.submenu}`;
+  if (!visibility) className += ` ${style['hide-menu']}`;
 
   return (
     <header
@@ -45,28 +47,35 @@ const DomContent: NextPage<IHeaderProps> = React.forwardRef((props, ref) => {
           }
         </div>
       </div>
-      { submenuContent }
     </header>
   )
 })
 
-
+/**
+ * The header component of layout component.
+ * @param props {Object} component props
+ * @param [props.autoHide] {boolean} Auto hide the header.
+ * @param [props.onVisibilityChange] {Function} The callback of visibility changes.
+ */
 const Header: NextPage<IHeaderProps> = (props) => {
-  const { submenu } = props;
-  const [isSubmenu, setIsSubmenu] = useState<boolean>(false);
+  const { autoHide = false, onVisibilityChange } = props;
+  const [visibility, setVisibility] = useState<boolean>(true);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const ref = React.createRef();
   let isSetEvent = false;
   let timer: number;
 
   useEffect(() => {
+    if (!autoHide) return;
     const scrollHandler = () => {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         const height = ref?.current?.getBoundingClientRect()?.height;
         const scrollTop = document.documentElement.scrollTop;
-        setIsSubmenu(scrollTop > height && scrollTop > lastScrollTop);
+        const isHide = scrollTop > height && scrollTop > lastScrollTop;
+        setVisibility(!isHide);
         setLastScrollTop(scrollTop);
+        onVisibilityChange && onVisibilityChange(!isHide);
       }, 50);
     };
     if (!isSetEvent && ref.current) {
@@ -81,10 +90,9 @@ const Header: NextPage<IHeaderProps> = (props) => {
   });
 
   return (
-    <DomContent
+    <HeaderRef
       ref={ref}
-      isSubmenu={isSubmenu}
-      submenu={submenu}
+      visibility={visibility}
     />
   )
 }

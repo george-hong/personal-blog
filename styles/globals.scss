@@ -6,10 +6,12 @@ html, body, body > div {
   height: 100%;
 }
 
+// background
 .ground-glass {
   backdrop-filter: blur(20px);
 }
 
+// layout
 .content-container {
   width: 100%;
   flex: 1;
@@ -32,10 +34,13 @@ html, body, body > div {
   height: 100%;
 }
 
+
+// display
 .hidden {
   display: none;
 }
 
+// text
 .single-line {
   word-break: break-all;
   overflow: hidden;

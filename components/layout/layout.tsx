@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import Header from './header/header';
 import Footer from './footer/footer';
 import style from './layout.module.scss';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import type { NextPage } from 'next';
 
 type contentLayoutType = 'middle' | 'thin-middle';
@@ -13,13 +14,24 @@ interface ILayoutProps {
   footer?: ReactElement | null | true;
   contentLayout?: contentLayoutType;
   emptyHeight?: boolean;
-  submenu?: ReactElement;
+  autoHideHeader?: boolean;
+  onHeaderVisibilityChange?: (visibility: boolean) => void;
 }
 
 const contentLayoutAndClassMapping = {
   middle: 'content',
   'thin-middle': 'content thin',
 };
+const theme = createTheme({
+  palette: {
+    background: {
+      main: '#FFF',
+    },
+    font: {
+      main: '#333',
+    }
+  }
+});
 
 const getWrapContent = (children: any, contentLayout?: contentLayoutType, emptyHeight?: boolean) => {
   if (contentLayout) {
@@ -47,7 +59,8 @@ const getWrapContent = (children: any, contentLayout?: contentLayoutType, emptyH
  * @param {ReactElement | null | true} [props.footer = true] footer content.
  * @param {boolean} [props.middle] Make the content at the center of container.
  * @param {boolean} [props.emptyHeight] Content container set flex-shrink and height to zero.
- * @param {React.Component} [props.submenu] Submenu list for show.
+ * @param {boolean} [props.autoHideHeader] Auto hide header.
+ * @param {boolean} [props.onHeaderVisibilityChange] The callback of header's visibility change.
  * @constructor
  */
 const Layout: NextPage<ILayoutProps> = (props) => {
@@ -58,25 +71,31 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     footer = true,
     contentLayout,
     emptyHeight,
-    submenu,
+    autoHideHeader,
+    onHeaderVisibilityChange,
   } = props;
   const content = children ? getWrapContent(children, contentLayout, emptyHeight) : null;
   let className = style.layout;
   if (sinkIntoHeader) className += ` ${style.sunk}`;
 
   return (
-    <div
-      className={className}
-      style={containerStyle}
-    >
-      <Header submenu={submenu} />
-      {
-        content
-      }
-      {
-        footer !== true ?  footer : <Footer />
-      }
-    </div>
+    <ThemeProvider theme={theme}>
+      <div
+        className={className}
+        style={containerStyle}
+      >
+        <Header
+          autoHide={autoHideHeader}
+          onVisibilityChange={onHeaderVisibilityChange}
+        />
+        {
+          content
+        }
+        {
+          footer !== true ?  footer : <Footer />
+        }
+      </div>
+    </ThemeProvider>
   );
 }
 

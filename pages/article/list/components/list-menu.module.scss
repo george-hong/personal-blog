@@ -1,0 +1,10 @@
+.list-menu {
+  position: sticky;
+  top: $header-height;
+  transition: top $transform-time;
+  z-index: $header-z-index;
+
+  &.top {
+    top: 0;
+  }
+}

@@ -6,7 +6,13 @@ $border: $border-width $border-type $border-color;
 $item-margin: 15px;
 $margin-to-bound: 20px;
 
-$header-height: 60px;
+//layout
+$header-z-index: 9;
 
+// layout size
+$header-height: 60px;
 $content-max-width: 1200px;
 $thin-content-max-width: 650px;
+
+// animation
+$transform-time: .6s;

@@ -25,12 +25,13 @@ const typeAndClassMapping = {
  */
 const Middle: NextPage<MiddleProps, Component> = (props) => {
   const { children, type, className: userClassName } = props;
+  let outerClassName = style['middle-container'];
   let className = style['middle-content'];
   const extraClassName = type && typeAndClassMapping[type];
+  if (userClassName) outerClassName += ` ${userClassName}`;
   if (extraClassName) className += ` ${style[extraClassName]}`;
-  if (userClassName) className += ` ${userClassName}`;
   return (
-    <div className={style['middle-container']}>
+    <div className={outerClassName}>
       <div className={className}>{ children || null }</div>
     </div>
   );
