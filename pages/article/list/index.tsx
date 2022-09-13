@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import Link from 'next/link';
 import Layout from '../../../components/layout/layout';
 import ListMenu from './components/list-menu';
+import Empty from '../../../components/empty/empty';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 
@@ -30,6 +31,7 @@ const generateCardItem = (articleInfo: any) => {
     <Card
       sx={[{ '&:not(:last-child)': { mb: 2 }, borderColor: 'info.main' }]}
       variant="outlined"
+      key={articleInfo.id}
     >
       <Link
         href={detailPageURL}
@@ -57,7 +59,6 @@ const generateCardItem = (articleInfo: any) => {
           </CardActions>
         </a>
       </Link>
-
     </Card>
   )
 };
@@ -66,6 +67,8 @@ const generateCardItem = (articleInfo: any) => {
 const ArticleList: NextPage = (props) => {
   const { pageData } = props;
   const [headerVisibility, setHeaderVisibility] = useState<boolean>(true);
+  let className = style['list-page'];
+  if (!pageData.length) className += ' full-vertical';
 
   return (
     <Fragment>
@@ -80,12 +83,12 @@ const ArticleList: NextPage = (props) => {
         onHeaderVisibilityChange={setHeaderVisibility}
       >
         <Box
-          className={style['list-page']}
+          className={className}
           sx={{ pb: 2 }}
         >
           <ListMenu top={!headerVisibility} />
           {
-            pageData.map((articleInfo) => generateCardItem(articleInfo))
+            pageData.length ? pageData.map((articleInfo) => generateCardItem(articleInfo)) : <Empty cover />
           }
         </Box>
       </Layout>
