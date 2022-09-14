@@ -22,7 +22,7 @@ export async function getServerSideProps(props: IArticleDetailPageParams) {
   const id = props.query.id;
   let result;
   try {
-    result = await fetch(`http://localhost:8080/api/article/detail?id=${id}`);
+    result = await fetch(`http://localhost:3000/api/article/detail?id=${id}`);
     result = await result.json();
   } catch (error) {
     result = error;

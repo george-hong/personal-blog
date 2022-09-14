@@ -32,7 +32,7 @@ export async function getServerSideProps(props: IArticleListPageParams) {
   const { pageNo, pageSize } = props.query;
   let result;
   try {
-    result = await fetch(`http://localhost:8080/api/article/list`);
+    result = await fetch(`http://localhost:3000/api/article/list`);
     result = await result.json();
   } catch (error) {
     result = error;
