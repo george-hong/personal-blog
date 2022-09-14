@@ -1,11 +1,24 @@
-import type { NextPage } from 'next';
+import { ReactNode } from 'react';
 import Head from 'next/head';
 import Layout from '../../../components/layout/layout';
 import Middle from "../../../components/middle/middle";
 import MarkdownReader from '../../../components/markdown-editor/markdown-reader';
 import Typography from '@mui/material/typography';
+import type { NextPage } from 'next';
 
-export async function getServerSideProps(props) {
+interface IArticleDetailPageParams {
+  query: {
+    id?: string;
+  }
+}
+interface IArticleDetailProps {
+  pageData: {
+    content: string;
+    title: string;
+  };
+}
+
+export async function getServerSideProps(props: IArticleDetailPageParams) {
   const id = props.query.id;
   let result;
   try {
@@ -17,7 +30,7 @@ export async function getServerSideProps(props) {
   return { props: { pageData: result[0] } };
 }
 
-const ArticleDetail: NextPage = (props) => {
+const ArticleDetail: NextPage<IArticleDetailProps, ReactNode> = (props) => {
   const isUseCover = false;
   const { content, title } = props.pageData;
 

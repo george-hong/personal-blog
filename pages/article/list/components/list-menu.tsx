@@ -22,7 +22,7 @@ const ListMenu: NextPage<IListMenuProps> = (props) => {
       className={className}
       type="thin"
     >
-      <Box sx={{ pt: 1, pb: 1, backgroundColor: 'background.main' }}>
+      <Box sx={{ pt: 1, pb: 1, backgroundColor: 'bg.main' }}>
         <span>Category1</span>
         <span>Category2</span>
         <span>Category3</span>

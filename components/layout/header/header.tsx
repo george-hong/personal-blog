@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ReactNode, ForwardedRef } from 'react';
 import style from './header.module.scss';
 import Link from 'next/link';
 import type { NextPage } from 'next';
 
 interface IHeaderRefProps {
   visibility?: boolean;
+  ref: ForwardedRef<HTMLHeadElement>;
 }
 interface IHeaderProps {
   autoHide?: boolean;
@@ -18,7 +19,7 @@ const menuLinkContrast = {
   List: '/article/list',
 }
 
-const HeaderRef: NextPage<IHeaderRefProps> = React.forwardRef((props, ref) => {
+const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
   const { visibility } = props;
   let className = `${style.header} ground-glass`;
   if (!visibility) className += ` ${style['hide-menu']}`;
@@ -49,7 +50,9 @@ const HeaderRef: NextPage<IHeaderRefProps> = React.forwardRef((props, ref) => {
       </div>
     </header>
   )
-})
+});
+
+HeaderRef.displayName = 'HeaderRef';
 
 /**
  * The header component of layout component.
@@ -61,16 +64,16 @@ const Header: NextPage<IHeaderProps> = (props) => {
   const { autoHide = false, onVisibilityChange } = props;
   const [visibility, setVisibility] = useState<boolean>(true);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
-  const ref = React.createRef();
+  const ref = React.createRef<HTMLHeadElement>();
   let isSetEvent = false;
-  let timer: number;
+  let timer: NodeJS.Timeout;
 
   useEffect(() => {
     if (!autoHide) return;
     const scrollHandler = () => {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
-        const height = ref?.current?.getBoundingClientRect()?.height;
+        const height = ref?.current?.getBoundingClientRect()?.height ?? 0;
         const scrollTop = document.documentElement.scrollTop;
         const isHide = scrollTop > height && scrollTop > lastScrollTop;
         setVisibility(!isHide);

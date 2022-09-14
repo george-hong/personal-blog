@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, ReactNode } from 'react';
 import Head from 'next/head';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -13,7 +13,22 @@ import Empty from '../../../components/empty/empty';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 
-export async function getServerSideProps(props) {
+interface IArticleListPageParams {
+  query: {
+    pageNo?: number;
+    pageSize?: number;
+  }
+}
+interface IArticleInfo {
+  id: number;
+  title: string;
+  content: string;
+}
+interface IArticleListProps {
+  pageData: Array<IArticleInfo>
+}
+
+export async function getServerSideProps(props: IArticleListPageParams) {
   const { pageNo, pageSize } = props.query;
   let result;
   try {
@@ -25,7 +40,7 @@ export async function getServerSideProps(props) {
   return { props: { pageData: result } };
 }
 
-const generateCardItem = (articleInfo: any) => {
+const generateCardItem = (articleInfo: IArticleInfo) => {
   const detailPageURL = `/article/detail?id=${articleInfo.id}`;
   return (
     <Card
@@ -64,7 +79,7 @@ const generateCardItem = (articleInfo: any) => {
 };
 
 
-const ArticleList: NextPage = (props) => {
+const ArticleList: NextPage<IArticleListProps, ReactNode> = (props) => {
   const { pageData } = props;
   const [headerVisibility, setHeaderVisibility] = useState<boolean>(true);
   let className = style['list-page'];

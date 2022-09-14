@@ -1,3 +1,4 @@
+type methodType = 'get' | 'post';
 interface IClientRequestOptions {
   baseURL?: string;
 }
@@ -8,8 +9,6 @@ interface IConfig {
   headers?: { [key: string]: string };
 }
 interface IURLAndParams { url: string, params?: IParams | string };
-
-type methodType = 'get' | 'post';
 
 const CONNECTOR_OF_GET = '?';
 const CONNECTOR_OF_KEY_VALUE = '=';
@@ -40,7 +39,7 @@ class ClientRequest {
 
   private send(method: methodType, url: string, params?: IParams, config?: IConfig) {
     const { url: urlParsed, params: paramsParsed } = this.getUrlAndParamsByMethod(method, url, params);
-    const fetchOptions = {
+    const fetchOptions: RequestInit = {
       method: method,
       headers: {
         'Content-Type': 'application/json',

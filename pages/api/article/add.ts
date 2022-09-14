@@ -5,7 +5,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method.toLowerCase() !== 'post') return res.status(404);
+  if (req?.method?.toLowerCase() !== 'post') return res.status(404);
   const { body = {} } = req;
   console.log('body', body);
   new DataBase()

@@ -18,17 +18,28 @@ interface ILayoutProps {
   onHeaderVisibilityChange?: (visibility: boolean) => void;
 }
 
+declare module '@mui/material/styles/createPalette' {
+  interface PaletteOptions {
+    bg: {
+      main: string;
+    };
+    font: {
+      main: string;
+    }
+  }
+}
+
 const contentLayoutAndClassMapping = {
   middle: 'content',
   'thin-middle': 'content thin',
 };
 const theme = createTheme({
   palette: {
-    background: {
-      main: '#FFF',
+    bg: {
+      main: '#FFFFFF',
     },
     font: {
-      main: '#333',
+      main: '#333333',
     }
   }
 });

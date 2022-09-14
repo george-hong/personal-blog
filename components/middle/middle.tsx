@@ -1,9 +1,9 @@
-import { ReactElement, Component } from 'react';
+import { ReactNode } from 'react';
 import style from './middle.module.scss';
 import type { NextPage } from 'next';
 
 interface MiddleProps {
-  children?: Array<ReactElement | Component> | ReactElement | Component;
+  children?: ReactNode;
   type?: 'thin' | 'thin-right';
   className?: string;
 }
@@ -23,7 +23,7 @@ const typeAndClassMapping = {
  * @param {ReactElement | Component} [props.children] children node
  * @constructor
  */
-const Middle: NextPage<MiddleProps, Component> = (props) => {
+const Middle: NextPage<MiddleProps, ReactNode> = (props) => {
   const { children, type, className: userClassName } = props;
   let outerClassName = style['middle-container'];
   let className = style['middle-content'];
