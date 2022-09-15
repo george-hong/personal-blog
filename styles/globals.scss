@@ -34,6 +34,10 @@ html, body, body > div {
   height: 100%;
 }
 
+.content-to-right {
+  display: flex;
+  justify-content: right;
+}
 
 // display
 .hidden {
@@ -46,4 +50,9 @@ html, body, body > div {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+// cursor
+.cursor-point {
+  cursor: pointer;
 }

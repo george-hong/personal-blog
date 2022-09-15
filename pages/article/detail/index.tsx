@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import Head from 'next/head';
-import Layout from '../../../components/layout/layout';
-import Middle from "../../../components/middle/middle";
-import MarkdownReader from '../../../components/markdown-editor/markdown-reader';
 import Typography from '@mui/material/typography';
+import Container from '@mui/material/Container';
+import Layout from '../../../components/layout/layout';
+import MarkdownReader from '../../../components/markdown-editor/markdown-reader';
 import type { NextPage } from 'next';
 
 interface IArticleDetailPageParams {
@@ -45,18 +45,18 @@ const ArticleDetail: NextPage<IArticleDetailProps, ReactNode> = (props) => {
         contentLayout="middle"
         emptyHeight={isUseCover}
       >
-        <Middle>
+        <Container>
           <Typography
             variant="h1"
             sx={{ pt: 1, pb: 1, fontSize: 30, fontWeight: 600 }}
           >
             {title}
           </Typography>
-        </Middle>
-        <MarkdownReader
-          cover={isUseCover}
-          content={content}
-        />
+          <MarkdownReader
+            cover={isUseCover}
+            content={content}
+          />
+        </Container>
       </Layout>
     </>
   )

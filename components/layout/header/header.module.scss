@@ -1,29 +1,30 @@
 .header {
   width: 100%;
-  line-height: 20px;
   position: fixed;
   left: 0;
   top: 0;
   z-index: $header-z-index;
 
-  &.hide-menu :global {
+  &.hide-menu {
     .content-container {
       margin-top: -$header-height;
     }
   }
 }
 
-.header :global {
+.header {
   .content-container {
+    height: $header-height;
     transition: margin-top $transform-time;
     margin-top: 0;
-    .content {
-      padding: 20px 0;
+
+    h3 {
+      line-height: $header-height;
     }
   }
 }
 
-.header h3:not(last-child) {
+.header h3:not(:last-child) {
   margin-right: $item-margin;
 }
 

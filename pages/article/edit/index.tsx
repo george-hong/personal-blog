@@ -4,13 +4,13 @@ import Head from 'next/head'
 import style from './index.module.scss';
 import Layout from '../../../components/layout/layout';
 import MarkdownEditor from '../../../components/markdown-editor/markdown-editor';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ClientRequest from '../../../tools/clientRequest';
-import Middle from '../../../components/middle/middle';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import { encodeQuotationMarks } from '../../../tools/methods';
 
 const request = new ClientRequest();
@@ -45,8 +45,11 @@ const ArticleEdit: NextPage<void, Component> = () => {
         <title>article detail</title>
         <meta name="编辑文章" content="编辑文章"/>
       </Head>
-      <Box className={style['article-edit-page']} sx={{ pb: 2 }}>
-        <Middle className={style['article-layout']}>
+      <Container
+        classes={{ root: style['article-edit-page'] }}
+        sx={{ pb: 2 }}
+      >
+        <Box className={style['article-layout']}>
           <TextField
             sx={{ flex: 1, margin: 2, ml: 0 }}
             label="title"
@@ -62,13 +65,13 @@ const ArticleEdit: NextPage<void, Component> = () => {
             <Button variant="outlined">Save draft</Button>
             <Button onClick={() => saveArticle(title, inputContent)}>Publish</Button>
           </ButtonGroup>
-        </Middle>
+        </Box>
         <MarkdownEditor
           cover={isUseCover}
           content={inputContent}
           onUpdate={setInputContent}
         />
-      </Box>
+      </Container>
     </Layout>
   )
 };

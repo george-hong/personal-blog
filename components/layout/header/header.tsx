@@ -1,7 +1,10 @@
 import React, { useEffect, useState, ReactNode, ForwardedRef } from 'react';
-import style from './header.module.scss';
 import Link from 'next/link';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import type { NextPage } from 'next';
+import style from './header.module.scss';
 
 interface IHeaderRefProps {
   visibility?: boolean;
@@ -29,25 +32,41 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
       className={className}
       ref={ref}
     >
-      <div className="content-container">
-        <div className="content">
-          {
-            Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
-              const [menu, link] = menuAndLink;
-              return (
-                <h3
-                  className={style['header-link']}
-                  key={menu}
-                >
-                  <Link href={link}>
-                    { menu }
-                  </Link>
-                </h3>
-              )
-            })
-          }
-        </div>
-      </div>
+      <Container classes={{ root: style['content-container'] }}>
+        <Grid container>
+          <Grid item xs={8}>
+            {
+              Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
+                const [menu, link] = menuAndLink;
+                return (
+                  <h3
+                    className={style['header-link']}
+                    key={menu}
+                  >
+                    <Link href={link}>
+                      { menu }
+                    </Link>
+                  </h3>
+                )
+              })
+            }
+          </Grid>
+          <Grid
+            className="content-to-right"
+            item
+            xs={4}
+          >
+            <Typography
+              classes={{ root: 'cursor-point' }}
+              component="h3"
+              sx={{ color: 'primary.main' }}
+            >
+              Login in / Sign in
+            </Typography>
+          </Grid>
+        </Grid>
+
+      </Container>
     </header>
   )
 });
