@@ -16,7 +16,7 @@ import { encodeQuotationMarks } from '../../../tools/methods';
 const request = new ClientRequest();
 
 const saveArticle = (title: string, content: string) => {
-  request.post('http://localhost:8080/api/article/add', {
+  request.post('http://localhost:3000/api/article/add', {
     content: encodeQuotationMarks(content),
     title,
   })

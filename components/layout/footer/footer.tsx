@@ -1,10 +1,14 @@
-import footerStyle from './footer.module.scss';
+import Box from '@mui/material/Box';
+import style from './footer.module.scss';
 
 const Footer = () => {
   return (
-    <div className={footerStyle.footer}>
+    <Box
+      className={style.footer}
+      sx={{ pd: 3, backgroundColor: 'info.dark' }}
+    >
       Footer
-    </div>
+    </Box>
   )
 }
 

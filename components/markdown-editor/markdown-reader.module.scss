@@ -6,6 +6,16 @@
   }
 }
 
+.markdown-reader :global {
+  .milkdown {
+    box-shadow: none;
+
+    > div {
+      padding: 0;
+    }
+  }
+}
+
 .markdown-reader.cover :global {
   .milkdown {
     flex: 1;
