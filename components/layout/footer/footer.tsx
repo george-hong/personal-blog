@@ -1,13 +1,18 @@
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import style from './footer.module.scss';
 
 const Footer = () => {
   return (
     <Box
       className={style.footer}
-      sx={{ pd: 3, backgroundColor: 'info.dark' }}
+      sx={{ backgroundColor: 'info.dark' }}
     >
-      Footer
+      <Container
+        sx={{ pt: 3, pb: 3 }}
+      >
+        Footer
+      </Container>
     </Box>
   )
 }
