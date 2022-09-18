@@ -14,11 +14,42 @@ import { encodeQuotationMarks } from '../../../tools/methods';
 
 const request = new ClientRequest();
 
-const saveArticle = (title: string, content: string) => {
-  request.post('http://localhost:3000/api/article/add', {
+interface IArticleEditPageParams {
+  query: {
+    id?: string;
+  }
+}
+interface IArticleInfo {
+  id: number;
+  content: string;
+  title: string;
+}
+interface IArticleEditProps {
+  pageData?: IArticleInfo;
+}
+
+export async function getServerSideProps(props: IArticleEditPageParams) {
+  const id = props.query.id;
+  if (id === undefined) return { props: {} };
+  let result;
+  try {
+    result = await fetch(`http://localhost:3000/api/article/detail?id=${id}`);
+    result = await result.json();
+  } catch (error) {
+    result = error;
+  }
+  return { props: { pageData: result[0] } };
+}
+
+const saveArticle = (title: string, content: string, pageData?: IArticleInfo) => {
+  const params: Partial<IArticleInfo> = {
     content: encodeQuotationMarks(content),
     title,
-  })
+  };
+  if (pageData) {
+    params.id = pageData.id;
+  }
+  request.post(`http://localhost:3000/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
     .then(result => {
       console.log('result', result);
     })
@@ -31,9 +62,10 @@ const transformToCoverClass = (className: string, cover?: boolean) => {
   return `${className}${cover ? ` ${style['cover-with-content']}` : ''}`;
 }
 
-const ArticleEdit: NextPage<void, Component> = () => {
-  const [inputContent, setInputContent] = useState('');
-  const [title, setTitle] = useState('');
+const ArticleEdit: NextPage<IArticleEditProps, Component> = (props) => {
+  const { pageData } = props;
+  const [inputContent, setInputContent] = useState(pageData?.content ?? '');
+  const [title, setTitle] = useState(pageData?.title ?? '');
   const isUseCover = true;
 
   return (
@@ -57,6 +89,7 @@ const ArticleEdit: NextPage<void, Component> = () => {
               label="title"
               variant="outlined"
               size="small"
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <ButtonGroup
@@ -65,7 +98,7 @@ const ArticleEdit: NextPage<void, Component> = () => {
               disableElevation
             >
               <Button variant="outlined">Save draft</Button>
-              <Button onClick={() => saveArticle(title, inputContent)}>Publish</Button>
+              <Button onClick={() => saveArticle(title, inputContent, pageData)}>Publish</Button>
             </ButtonGroup>
           </Box>
           <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
