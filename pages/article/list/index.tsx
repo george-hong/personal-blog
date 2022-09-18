@@ -93,9 +93,9 @@ const ArticleList: NextPage<IArticleListProps, ReactNode> = (props) => {
       </Head>
 
       <Layout
-        contentLayout="thin-middle"
         autoHideHeader
         onHeaderVisibilityChange={setHeaderVisibility}
+        contentClassName={style['list-container']}
       >
         <Box
           className={className}

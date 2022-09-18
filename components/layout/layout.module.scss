@@ -7,10 +7,7 @@
     padding-top: 0;
   }
   .main {
+    display: flex;
     flex: 1;
-    &.empty-height {
-      flex-shrink: 0;
-      height: 0;
-    }
   }
 }

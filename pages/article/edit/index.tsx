@@ -10,7 +10,6 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import { encodeQuotationMarks } from '../../../tools/methods';
 
 const request = new ClientRequest();
@@ -28,7 +27,9 @@ const saveArticle = (title: string, content: string) => {
     });
 }
 
-
+const transformToCoverClass = (className: string, cover?: boolean) => {
+  return `${className}${cover ? ` ${style['cover-with-content']}` : ''}`;
+}
 
 const ArticleEdit: NextPage<void, Component> = () => {
   const [inputContent, setInputContent] = useState('');
@@ -37,41 +38,45 @@ const ArticleEdit: NextPage<void, Component> = () => {
 
   return (
     <Layout
-      contentLayout="middle"
-      emptyHeight={isUseCover}
+      contentClassName={transformToCoverClass(style['edit-page-layout'], isUseCover)}
       footer={null}
     >
       <Head>
         <title>article detail</title>
         <meta name="编辑文章" content="编辑文章"/>
       </Head>
-      <Container
-        classes={{ root: style['article-edit-page'] }}
+
+      <Box
+        className={transformToCoverClass(style['article-edit-page'], isUseCover)}
         sx={{ pb: 2 }}
       >
-        <Box className={style['article-layout']}>
-          <TextField
-            sx={{ flex: 1, margin: 2, ml: 0 }}
-            label="title"
-            variant="outlined"
-            size="small"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <ButtonGroup
-            sx={{ mt: 2, mb: 2 }}
-            variant="contained"
-            disableElevation
-          >
-            <Button variant="outlined">Save draft</Button>
-            <Button onClick={() => saveArticle(title, inputContent)}>Publish</Button>
-          </ButtonGroup>
+        <Box className={style['inner-box']}>
+          <Box className={style['article-layout']}>
+            <TextField
+              sx={{ flex: 1, margin: 2, ml: 0 }}
+              label="title"
+              variant="outlined"
+              size="small"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <ButtonGroup
+              sx={{ mt: 2, mb: 2 }}
+              variant="contained"
+              disableElevation
+            >
+              <Button variant="outlined">Save draft</Button>
+              <Button onClick={() => saveArticle(title, inputContent)}>Publish</Button>
+            </ButtonGroup>
+          </Box>
+          <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
+            <MarkdownEditor
+              cover={isUseCover}
+              content={inputContent}
+              onUpdate={setInputContent}
+            />
+          </Box>
         </Box>
-        <MarkdownEditor
-          cover={isUseCover}
-          content={inputContent}
-          onUpdate={setInputContent}
-        />
-      </Container>
+      </Box>
     </Layout>
   )
 };

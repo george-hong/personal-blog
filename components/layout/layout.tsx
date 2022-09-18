@@ -6,16 +6,14 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import style from './layout.module.scss';
 import type { NextPage } from 'next';
 
-type contentLayoutType = 'middle' | 'thin-middle';
-
 interface ILayoutProps {
-  className: string;
   children: ReactNode;
+  className?: string;
+  contentClassName?: string;
   sinkIntoHeader?: boolean;
   containerStyle?: object;
   footer?: ReactNode | null | true;
-  contentLayout?: contentLayoutType;
-  emptyHeight?: boolean;
+  notContainer?: boolean;
   autoHideHeader?: boolean;
   onHeaderVisibilityChange?: (visibility: boolean) => void;
 }
@@ -43,9 +41,16 @@ const theme = createTheme({
   }
 });
 
-const getWrapContent = (children: any, contentLayout?: contentLayoutType, emptyHeight?: boolean) => {
+const getContent = (children: ReactNode, notContainer = false, contentClassName?: string) => {
   let className = style.main;
-  if (emptyHeight) className += ` ${style['empty-height']}`;
+  if (contentClassName) className += ` ${contentClassName}`;
+  if (notContainer) {
+    return (
+      <div className={className}>
+        { children }
+      </div>
+    );
+  }
   return (
     <Container classes={{ root: className }}>
       { children }
@@ -57,10 +62,10 @@ const getWrapContent = (children: any, contentLayout?: contentLayoutType, emptyH
  * layout component
  * @param {Object} props
  * @param {string} [props.className] The class of outer container.
+ * @param {string} [props.contentClassName] The class of content container.
  * @param {boolean} [props.sinkIntoHeader] Is content sink into header.
  * @param {ReactElement | null | true} [props.footer = true] footer content.
  * @param {boolean} [props.middle] Make the content at the center of container.
- * @param {boolean} [props.emptyHeight] Content container set flex-shrink and height to zero.
  * @param {boolean} [props.autoHideHeader] Auto hide header.
  * @param {boolean} [props.onHeaderVisibilityChange] The callback of header's visibility change.
  * @constructor
@@ -71,13 +76,13 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     sinkIntoHeader,
     containerStyle,
     footer = true,
-    contentLayout,
-    emptyHeight,
+    notContainer,
     autoHideHeader,
     onHeaderVisibilityChange,
     className: userClassName,
+    contentClassName,
   } = props;
-  const content = children ? getWrapContent(children, contentLayout, emptyHeight) : null;
+  const content = children ? getContent(children, notContainer, contentClassName) : null;
   let className = style.layout;
   if (sinkIntoHeader) className += ` ${style.sunk}`;
   if (userClassName) className += ` ${userClassName}`;

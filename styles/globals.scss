@@ -12,24 +12,6 @@ html, body, body > div {
 }
 
 // layout
-.content-container {
-  width: 100%;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  &.empty-height {
-    height: 0;
-    flex-shrink: 0;
-  }
-  .content {
-    width: 100%;
-    max-width: $content-max-width;
-    &.thin {
-      max-width: $thin-content-max-width;
-    }
-  }
-}
-
 .full-vertical {
   height: 100%;
 }

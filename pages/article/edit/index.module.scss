@@ -1,8 +1,28 @@
 .article-edit-page {
-    max-width: $content-max-width;
-    height: 100%;
-    display: flex;
+    width: 100%;
     flex-direction: column;
+
+    .inner-box {
+        flex-direction: column;
+        display: flex;
+        flex: 1;
+        height: 100%;
+    }
+}
+
+.cover-with-content {
+    display: flex;
+    flex: 1;
+    flex-shrink: 0 !important;
+    height: 0;
+}
+
+.edit-page-layout {
+    flex-direction: column;
+}
+
+.markdown-cover-container {
+    width: 100%;
 }
 
 .article-edit-page > div:last-child {

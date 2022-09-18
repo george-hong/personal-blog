@@ -1,0 +1,26 @@
+.article-detail-page {
+  width: 100%;
+  flex-direction: column;
+
+  .inner-box {
+    flex-direction: column;
+    display: flex;
+    flex: 1;
+    height: 100%;
+  }
+}
+
+.cover-with-content {
+  display: flex;
+  flex: 1;
+  flex-shrink: 0 !important;
+  height: 0;
+}
+
+.detail-page-layout {
+  flex-direction: column;
+}
+
+.markdown-cover-container {
+  width: 100%;
+}

@@ -1,9 +1,10 @@
-import { ReactNode } from 'react';
+import { ReactNode, Fragment } from 'react';
 import Head from 'next/head';
 import Typography from '@mui/material/typography';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Layout from '../../../components/layout/layout';
 import MarkdownReader from '../../../components/markdown-editor/markdown-reader';
+import style from './index.module.scss';
 import type { NextPage } from 'next';
 
 interface IArticleDetailPageParams {
@@ -30,35 +31,38 @@ export async function getServerSideProps(props: IArticleDetailPageParams) {
   return { props: { pageData: result[0] } };
 }
 
+const transformToCoverClass = (className: string, cover?: boolean) => {
+  return `${className}${cover ? ` ${style['cover-with-content']}` : ''}`;
+}
+
 const ArticleDetail: NextPage<IArticleDetailProps, ReactNode> = (props) => {
   const isUseCover = false;
   const { content, title } = props.pageData;
 
   return (
-    <>
+    <Fragment>
       <Head>
         <title>article detail</title>
         <meta name="personal-blog" content="文章详情"/>
       </Head>
 
-      <Layout
-        contentLayout="middle"
-        emptyHeight={isUseCover}
-      >
-        <Container>
+      <Layout contentClassName={transformToCoverClass(style['article-detail-page'], isUseCover)}>
+        <Box>
           <Typography
             variant="h1"
             sx={{ pt: 1, pb: 1, fontSize: 30, fontWeight: 600 }}
           >
             {title}
           </Typography>
+        </Box>
+        <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
           <MarkdownReader
             cover={isUseCover}
             content={content}
           />
-        </Container>
+        </Box>
       </Layout>
-    </>
+    </Fragment>
   )
 };
 
