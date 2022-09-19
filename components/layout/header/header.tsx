@@ -1,8 +1,13 @@
-import React, { useEffect, useState, ReactNode, ForwardedRef } from 'react';
+import React, { useEffect, useState, ReactNode, ForwardedRef, Fragment } from 'react';
 import Link from 'next/link';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import LoginForm from '../../user/login-form/login-form';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
 
@@ -25,48 +30,86 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   const { visibility } = props;
   let className = `${style.header} ground-glass`;
   if (!visibility) className += ` ${style['hide-menu']}`;
+  const [dialogVisible, setDialogVisible] = useState<boolean>(false);
 
   return (
-    <header
-      className={className}
-      ref={ref}
-    >
-      <Container classes={{ root: style['content-container'] }}>
-        <Grid container>
-          <Grid item xs={8}>
-            {
-              Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
-                const [menu, link] = menuAndLink;
-                return (
-                  <h3
-                    className={style['header-link']}
-                    key={menu}
-                  >
-                    <Link href={link}>
-                      { menu }
-                    </Link>
-                  </h3>
-                )
-              })
-            }
-          </Grid>
-          <Grid
-            className="content-to-right"
-            item
-            xs={4}
-          >
-            <Typography
-              classes={{ root: 'cursor-point' }}
-              component="h3"
-              sx={{ color: 'primary.main' }}
+    <Fragment>
+      <header
+        className={className}
+        ref={ref}
+      >
+        <Container classes={{ root: style['content-container'] }}>
+          <Grid container>
+            <Grid item xs={8}>
+              {
+                Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
+                  const [menu, link] = menuAndLink;
+                  return (
+                    <h3
+                      className={style['header-link']}
+                      key={menu}
+                    >
+                      <Link href={link}>
+                        { menu }
+                      </Link>
+                    </h3>
+                  )
+                })
+              }
+            </Grid>
+            <Grid
+              className="content-to-right"
+              item
+              xs={4}
             >
-              Login in / Sign in
-            </Typography>
+              <Typography
+                classes={{ root: 'cursor-point' }}
+                component="h3"
+                sx={{ color: 'primary.main' }}
+                onClick={() => setDialogVisible(true)}
+              >
+                Login in / Sign in
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
+        </Container>
+      </header>
+      <Dialog
+        open={dialogVisible}
+        onClose={() => setDialogVisible(false)}
+      >
+        <Box
+          className={style['header-login-dialog']}
+          sx={{ padding: 3 }}
+        >
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography component="span">
+                Login
+              </Typography>
+            </Grid>
+            <Grid
+              className="content-to-right"
+              item
+              xs={6}
+            >
+              <IconButton
+                color="primary"
+                aria-label="close"
+                component="label"
+                size="small"
+                onClick={() => setDialogVisible(false)}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            </Grid>
+          </Grid>
+          <LoginForm>
 
-      </Container>
-    </header>
+          </LoginForm>
+        </Box>
+      </Dialog>
+    </Fragment>
   )
 });
 

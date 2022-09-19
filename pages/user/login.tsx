@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import Head from 'next/head';
 import Typography from '@mui/material/typography';
 import Container from '@mui/material/Container';
-import Layout from '../../../components/layout/layout';
+import Layout from '../../components/layout/layout';
 import type { NextPage } from 'next';
 
 interface ILoginProps {
