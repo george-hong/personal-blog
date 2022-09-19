@@ -7,18 +7,15 @@ import Button from '@mui/material/Button';
 import style from './login-form.module.scss';
 import type { NextPage } from 'next';
 
-interface IEmptyProps {
-  tips?: string;
-  cover?: boolean;
+interface ILoginFormProps {
+
 }
 
 /**
- * content empty layout component
- * @param {Object} [props] component options
- * @param {string} [props.tips] Literal tips.
+ * content login form component
  * @constructor
  */
-const LoginForm: NextPage<IEmptyProps, Component> = (props) => {
+const LoginForm: NextPage<ILoginFormProps, Component> = (props) => {
   const [account, setAccount] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
