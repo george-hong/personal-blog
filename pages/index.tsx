@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import HomePage from '../components/home-page/home-page';
 import Button from '@mui/material/Button';
+import style from './index.module.scss';
+import Layout from '../components/layout/layout';
 
 const Home: NextPage = () => {
   return (
@@ -13,7 +14,21 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <HomePage></HomePage>
+      <Layout
+        sinkIntoHeader
+        className={style['home-page-container']}
+      >
+        <div className={style['home-page']}>
+          <div className={style['opacity-area']}>
+            <article className={style['main-article']}>
+              content
+            </article>
+          </div>
+          <div style={{height: 2000}}>
+
+          </div>
+        </div>
+      </Layout>
     </>
   )
 }
