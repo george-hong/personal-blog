@@ -1,14 +1,47 @@
 import { Component, useState } from 'react';
 import Box from '@mui/material/Box';
-import FormControl, { useFormControl } from '@mui/material/FormControl';
-import Input from '@mui/material/Input';
-import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField'
 import style from './login-form.module.scss';
 import type { NextPage } from 'next';
 
 interface ILoginFormProps {
 
+}
+interface IFieldInfo {
+  value: string;
+  error: boolean;
+  tips: string;
+}
+type SetFieldInfo = (fieldInfo: IFieldInfo) => void;
+const getFieldDefaultValue = (): IFieldInfo => ({ value: '', error: false, tips: ' ' });
+const resetFieldValidation = (fieldInfo: IFieldInfo, setFieldInfo: SetFieldInfo) => {
+  setFieldInfo({
+    ...fieldInfo,
+    error: false,
+    tips: ' ',
+  });
+}
+const validateAccountAndPassword = (
+  accountInfo: IFieldInfo,
+  setAccountInfo: SetFieldInfo,
+  passwordInfo: IFieldInfo,
+  setPasswordInfo: SetFieldInfo
+) => {
+  if (!accountInfo.value) {
+    setAccountInfo({
+      ...accountInfo,
+      error: true,
+      tips: '请填写账号',
+    });
+  }
+  if (!passwordInfo.value) {
+    setPasswordInfo({
+      ...passwordInfo,
+      error: true,
+      tips: '请填写密码',
+    });
+  }
 }
 
 /**
@@ -16,40 +49,48 @@ interface ILoginFormProps {
  * @constructor
  */
 const LoginForm: NextPage<ILoginFormProps, Component> = (props) => {
-  const [account, setAccount] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [accountInfo, setAccountInfo] = useState<IFieldInfo>(getFieldDefaultValue());
+  const [passwordInfo, setPasswordInfo] = useState<IFieldInfo>(getFieldDefaultValue());
 
   return (
     <Box className={style['login-form']}>
-      <FormControl
-        margin="normal"
+      <TextField
+        required
+        id="account"
+        label="账号"
         variant="standard"
-      >
-        <InputLabel htmlFor="account">Account</InputLabel>
-        <Input
-          id="account"
-          value={account}
-          onChange={(e) => setAccount(e.target.value)}
-        />
-      </FormControl>
-      <FormControl
+        value={accountInfo.value}
+        helperText={accountInfo.tips}
+        error={accountInfo.error}
+        onChange={(e) => setAccountInfo({ ...accountInfo, value: e.target.value })}
+        onFocus={() => resetFieldValidation(accountInfo, setAccountInfo)}
+      />
+      <TextField
+        required
+        id="password"
+        type="password"
+        label="密码"
         variant="standard"
-        margin="normal"
-      >
-        <InputLabel htmlFor="password">Password</InputLabel>
-        <Input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </FormControl>
+        value={passwordInfo.value}
+        helperText={passwordInfo.tips}
+        error={passwordInfo.error}
+        onChange={(e) => setPasswordInfo({ ...passwordInfo, value: e.target.value })}
+        onFocus={() => resetFieldValidation(passwordInfo, setPasswordInfo)}
+      />
       <Button
         variant="contained"
         fullWidth
         sx={{ mt: 2, mb: 2 }}
+        onClick={() => {
+          validateAccountAndPassword(
+            accountInfo,
+            setAccountInfo,
+            passwordInfo,
+            setPasswordInfo
+          )
+        }}
       >
-        Login
+        登录
       </Button>
     </Box>
   );

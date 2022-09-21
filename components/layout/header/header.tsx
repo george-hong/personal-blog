@@ -85,7 +85,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
           <Grid container>
             <Grid item xs={6}>
               <Typography component="span">
-                Login
+                登录
               </Typography>
             </Grid>
             <Grid
