@@ -80,7 +80,7 @@ const LoginForm: NextPage<ILoginFormProps, Component> = (props) => {
       <Button
         variant="contained"
         fullWidth
-        sx={{ mt: 2, mb: 2 }}
+        sx={{ mt: 2, mb: 1 }}
         onClick={() => {
           validateAccountAndPassword(
             accountInfo,

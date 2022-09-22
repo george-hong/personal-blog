@@ -38,3 +38,12 @@ html, body, body > div {
 .cursor-point {
   cursor: pointer;
 }
+
+// a link
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

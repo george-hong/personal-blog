@@ -107,6 +107,17 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
           <LoginForm>
 
           </LoginForm>
+          <Link href="/register">
+            <a>
+              <Typography
+                component="span"
+                sx={{ fontSize: 0.5, color: 'primary.main' }}
+              >
+                前往注册
+              </Typography>
+            </a>
+          </Link>
+
         </Box>
       </Dialog>
     </Fragment>
