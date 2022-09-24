@@ -1,4 +1,4 @@
-import React, { Component, ReactNode, useState } from 'react';
+import React, { Component, ReactNode, useState, forwardRef, ForwardedRef, useImperativeHandle } from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import cloneDeep from 'lodash.clonedeep';
@@ -49,17 +49,38 @@ interface ISetFormConfigChangedObject {
 interface IFormProps {
   config: Array<FormItem>;
   className?: string;
+  ref?: ForwardedRef<any>;
+}
+export interface IFormMethods {
+  validate: (keys?: Array<string>) => null | Array<string>;
+  clearValidation: (keys?: Array<string>) => void;
 }
 
 const messageDefaultValue = ' ';
-const getValueInfo = (formChangedObject: FormConfigChangedObject, key: string): IValueInfo => {
-  return formChangedObject[key].valueInfo;
-};
+const validate = (
+  key: string,
+  formChangedObject: FormConfigChangedObject,
+  setFormChangedObject?: ISetFormConfigChangedObject,
+): boolean => {
+  const formChangedItem = formChangedObject[key];
+  const { rules, valueInfo: { value } } = formChangedItem;
+  const validationResult = { error: false, message: messageDefaultValue };
+  if (rules) {
+    rules.some(rule => {
+      if (rule.required && value === '') {
+        validationResult.error = true;
+        validationResult.message = rule.message ?? messageDefaultValue;
+      }
+    });
+    setValueInfo(formChangedObject, key, validationResult, setFormChangedObject);
+  }
+  return validationResult.error;
+}
 const setValueInfo = (
   formChangedObject: FormConfigChangedObject,
-  setFormChangedObject: ISetFormConfigChangedObject,
   key: string,
-  newValueInfo: Partial<IValueInfo>
+  newValueInfo: Partial<IValueInfo>,
+  setFormChangedObject?: ISetFormConfigChangedObject,
 ): void => {
   const valueInfo = formChangedObject[key].valueInfo;
   formChangedObject[key].valueInfo = {
@@ -67,27 +88,13 @@ const setValueInfo = (
     ...newValueInfo,
   };
   // We use new form object instead of old, Because react didn't update when use same object reference.
-  setFormChangedObject({ ...formChangedObject });
+  setFormChangedObject && setFormChangedObject({ ...formChangedObject });
 };
-const validate = (
+const generateFormItemByType = (
+  key: string,
   formChangedObject: FormConfigChangedObject,
-  setFormChangedObject: ISetFormConfigChangedObject,
-  key: string
-): void => {
-  const formChangedItem = formChangedObject[key];
-  const { rules, valueInfo: { value } } = formChangedItem;
-  if (rules) {
-    const validationResult = { error: false, message: messageDefaultValue };
-    rules.some(rule => {
-      if (rule.required && value === '') {
-        validationResult.error = true;
-        validationResult.message = rule.message ?? messageDefaultValue;
-      }
-    });
-    setValueInfo(formChangedObject, setFormChangedObject, key, validationResult);
-  }
-}
-const generateFormItemByType = (key: string, formChangedObject: FormConfigChangedObject, setFormChangedObject: ISetFormConfigChangedObject) => {
+  setFormChangedObject: ISetFormConfigChangedObject
+) => {
   const formConfigItemChanged = formChangedObject[key];
   const {
     type,
@@ -108,11 +115,14 @@ const generateFormItemByType = (key: string, formChangedObject: FormConfigChange
         error={valueInfo.error}
         helperText={valueInfo.message}
         onChange={(event) => {
-          setValueInfo(formChangedObject, setFormChangedObject, key, { value: event.target.value });
-          validate(formChangedObject, setFormChangedObject, key);
+          setValueInfo(formChangedObject, key, { value: event.target.value }, setFormChangedObject);
+          validate(key, formChangedObject, setFormChangedObject);
         }}
         onFocus={() => {
-          setValueInfo(formChangedObject, setFormChangedObject, key, { error: false, message: ' ' });
+          setValueInfo(formChangedObject, key, { error: false, message: ' ' }, setFormChangedObject);
+        }}
+        onBlur={() => {
+          validate(key, formChangedObject, setFormChangedObject);
         }}
         variant="standard"
         fullWidth
@@ -134,7 +144,7 @@ const generateFormItemByType = (key: string, formChangedObject: FormConfigChange
 /**
  * form component
  */
-const Form: NextPage<IFormProps, Component> = (props) => {
+const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProps>((props, ref) => {
   const { className, config } = props;
   const configObject: FormConfigChangedObject = {};
   cloneDeep(config).forEach(formItem => {
@@ -148,6 +158,26 @@ const Form: NextPage<IFormProps, Component> = (props) => {
     }
   });
   const [formChangedObject, setFormChangedObject] = useState<FormConfigChangedObject>(configObject);
+  useImperativeHandle(ref, () => ({
+    validate: (keys?) => {
+      const validationKeys = keys ? keys : Object.keys(configObject);
+      const maxIndex = validationKeys.length - 1;
+      const keysOfError: Array<string> = [];
+      validationKeys.forEach((key, index) => {
+        const changingStateOrUndefined = index === maxIndex ? setFormChangedObject : undefined;
+        if (validate(key, formChangedObject, changingStateOrUndefined)) keysOfError.push(key);
+      });
+      return keysOfError.length ? keysOfError : null;
+    },
+    clearValidation: (keys?) => {
+      const validationKeys = keys ? keys : Object.keys(configObject);
+      const maxIndex = validationKeys.length - 1;
+      validationKeys.forEach((key, index) => {
+        const changingStateOrUndefined = index === maxIndex ? setFormChangedObject : undefined;
+        setValueInfo(formChangedObject, key, { error: false, message: messageDefaultValue }, changingStateOrUndefined);
+      });
+    },
+  }))
   return (
     <Grid
       className={className}
@@ -161,6 +191,6 @@ const Form: NextPage<IFormProps, Component> = (props) => {
       }
     </Grid>
   );
-};
+});
 
 export default Form;
