@@ -19,9 +19,11 @@ const getRegisterFormConfig = () => {
       key: 'name',
       label: '用户名',
       value: '',
+      grid: { xs: 12 },
       rules: [
         {
           required: true,
+          message: '请填写用户名',
         }
       ]
     },
@@ -30,9 +32,11 @@ const getRegisterFormConfig = () => {
       key: 'password',
       label: '密码',
       value: '',
+      grid: { xs: 12 },
       rules: [
         {
           required: true,
+          message: '请填写密码',
         }
       ]
     },
@@ -41,9 +45,11 @@ const getRegisterFormConfig = () => {
       key: 'passwordRepeat',
       label: '重复密码',
       value: '',
+      grid: { xs: 12 },
       rules: [
         {
           required: true,
+          message: '请再次填写密码',
         }
       ]
     }
@@ -60,7 +66,7 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
         <meta name="personal-blog" content="注册"/>
       </Head>
 
-      <Layout>
+      <Layout contentClassName={style.register}>
         <Box sx={{ pt: 2, pb: 2 }}>
           <Form config={formConfig}/>
         </Box>

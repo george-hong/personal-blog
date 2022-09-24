@@ -28,15 +28,15 @@ interface IFormItemCommon {
   };
 }
 interface IInputForm extends IFormItemCommon {
-
   value: string;
 }
+interface IValueInfo {
+  value: string | number | boolean;
+  error: boolean;
+  message: string;
+}
 interface IFormItemChanged {
-  valueInfo: {
-    value: string | number | boolean;
-    error: boolean;
-    message: string;
-  }
+  valueInfo: IValueInfo;
 }
 type FormItem = IInputForm;
 type FormItemChanged = IInputForm & IFormItemChanged;
@@ -51,15 +51,51 @@ interface IFormProps {
   className?: string;
 }
 
+const messageDefaultValue = ' ';
+const getValueInfo = (formChangedObject: FormConfigChangedObject, key: string): IValueInfo => {
+  return formChangedObject[key].valueInfo;
+};
+const setValueInfo = (
+  formChangedObject: FormConfigChangedObject,
+  setFormChangedObject: ISetFormConfigChangedObject,
+  key: string,
+  newValueInfo: Partial<IValueInfo>
+): void => {
+  const valueInfo = formChangedObject[key].valueInfo;
+  formChangedObject[key].valueInfo = {
+    ...valueInfo,
+    ...newValueInfo,
+  };
+  // We use new form object instead of old, Because react didn't update when use same object reference.
+  setFormChangedObject({ ...formChangedObject });
+};
+const validate = (
+  formChangedObject: FormConfigChangedObject,
+  setFormChangedObject: ISetFormConfigChangedObject,
+  key: string
+): void => {
+  const formChangedItem = formChangedObject[key];
+  const { rules, valueInfo: { value } } = formChangedItem;
+  if (rules) {
+    const validationResult = { error: false, message: messageDefaultValue };
+    rules.some(rule => {
+      if (rule.required && value === '') {
+        validationResult.error = true;
+        validationResult.message = rule.message ?? messageDefaultValue;
+      }
+    });
+    setValueInfo(formChangedObject, setFormChangedObject, key, validationResult);
+  }
+}
 const generateFormItemByType = (key: string, formChangedObject: FormConfigChangedObject, setFormChangedObject: ISetFormConfigChangedObject) => {
-  const formConfigChanged = formChangedObject[key];
+  const formConfigItemChanged = formChangedObject[key];
   const {
     type,
     grid,
     rules,
     valueInfo,
     label,
-  } = formConfigChanged;
+  } = formConfigItemChanged;
   const required = rules && rules.some(rule => rule.required === true);
   let formContent: ReactNode;
   if (type === 'input') {
@@ -72,22 +108,18 @@ const generateFormItemByType = (key: string, formChangedObject: FormConfigChange
         error={valueInfo.error}
         helperText={valueInfo.message}
         onChange={(event) => {
-          setFormChangedObject({
-            ...formChangedObject,
-            [key]: {
-              ...formConfigChanged,
-              valueInfo: {
-                value: event.target.value,
-                error: false,
-                message: ' ',
-              }
-            }
-          })
+          setValueInfo(formChangedObject, setFormChangedObject, key, { value: event.target.value });
+          validate(formChangedObject, setFormChangedObject, key);
+        }}
+        onFocus={() => {
+          setValueInfo(formChangedObject, setFormChangedObject, key, { error: false, message: ' ' });
         }}
         variant="standard"
+        fullWidth
       />
     )
   }
+
   return (
     <Grid
       item
