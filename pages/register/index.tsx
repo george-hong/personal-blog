@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/layout/layout';
-import Form, { FormItemType, IFormMethods } from '../../components/Form/form';
+import Form, { FormItem, FormItemType, IFormMethods } from '../../components/Form/form';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 
@@ -13,7 +13,7 @@ interface IRegisterPageParams {
   }
 }
 
-const getRegisterFormConfig = () => {
+const getRegisterFormConfig = (): Array<FormItem> => {
   return [
     {
       type: FormItemType.Input,
@@ -53,11 +53,12 @@ const getRegisterFormConfig = () => {
           message: '请再次填写密码',
         },
         {
-          custom: (value, values) => {
-            return value === values.password;
+          custom: (value, values, resolve, reject) => {
+            if (value === values.password) resolve();
+            else reject();
           },
           message: '两次密码输入不一致',
-        }
+        },
       ]
     }
   ]
@@ -85,8 +86,13 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
             fullWidth
             sx={{ mt: 2, mb: 1 }}
             onClick={() => {
-              formRef.current?.validate();
-              console.log('formRef.current?.validate();', formRef.current?.getValues());
+              formRef.current?.validate()
+                .then(() => {
+                  console.log('success');
+                })
+                .catch(keysOfError => {
+                  console.log('error fields', keysOfError);
+                })
             }}
           >
             注册

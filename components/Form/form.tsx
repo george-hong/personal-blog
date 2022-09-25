@@ -15,7 +15,7 @@ interface IValues {
 interface IRule {
   message?: string;
   required?: boolean;
-  custom?: (currentValue: ValueType, values: IValues) => boolean;
+  custom?: (currentValue: ValueType, values: IValues, resolve: () => void, reject: () => void) => void;
 }
 interface IFormItemCommon {
   type: FormItemType;
@@ -41,7 +41,7 @@ interface IValueInfo {
 interface IFormItemChanged {
   valueInfo: IValueInfo;
 }
-type FormItem = IInputForm;
+export type FormItem = IInputForm;
 type FormItemChanged = IInputForm & IFormItemChanged;
 interface FormConfigChangedObject {
   [key: string]: FormItemChanged;
@@ -55,7 +55,7 @@ interface IFormProps {
   ref?: ForwardedRef<any>;
 }
 export interface IFormMethods {
-  validate: (keys?: Array<string>) => null | Array<string>;
+  validate: (keys?: Array<string>) => Promise<void>;
   clearValidation: (keys?: Array<string>) => void;
   getValues: (keys?: Array<string>) => IValues;
 }
@@ -72,26 +72,42 @@ const validate = (
   key: string,
   formChangedObject: FormConfigChangedObject,
   setFormChangedObject?: ISetFormConfigChangedObject,
-): boolean => {
-  const formChangedItem = formChangedObject[key];
-  const { rules, valueInfo: { value } } = formChangedItem;
-  const validationResult = { error: false, message: messageDefaultValue };
-  if (rules) {
-    rules.some(rule => {
-      if (
-        // Missing required.
-        (rule.required && value === '') ||
-        // Validation failed on custom function.
-        (rule.custom && !rule.custom(value, getValues(formChangedObject)))
-      ) {
+): Promise<ValueType> => {
+  return new Promise((resolve, reject) => {
+    const formChangedItem = formChangedObject[key];
+    const { rules, valueInfo: { value } } = formChangedItem;
+    const validationResult = { error: false, message: messageDefaultValue };
+    const promiseList: Array<Promise<void>> = [];
+    if (rules) {
+      rules.forEach(rule => {
+        promiseList.push(
+          new Promise<void>((innerResolve: () => void, innerReject) => {
+            if (rule.required && value === '') {
+              innerReject(rule.message);
+            } else if (rule.custom) {
+              rule.custom(value, getValues(formChangedObject), innerResolve, () => {
+                innerReject(rule.message);
+              });
+            } else {
+              innerResolve();
+            }
+          })
+        );
+      });
+    }
+    Promise.all(promiseList)
+      .then(() => {
+        resolve(value);
+      })
+      .catch((errorMessage) => {
         validationResult.error = true;
-        validationResult.message = rule.message ?? messageDefaultValue;
-        return true;
-      }
-    });
-    setValueInfo(formChangedObject, key, validationResult, setFormChangedObject);
-  }
-  return validationResult.error;
+        errorMessage && (validationResult.message = errorMessage);
+        reject();
+      })
+      .finally(() => {
+        setValueInfo(formChangedObject, key, validationResult, setFormChangedObject);
+      });
+  });
 }
 const setValueInfo = (
   formChangedObject: FormConfigChangedObject,
@@ -133,13 +149,13 @@ const generateFormItemByType = (
         helperText={valueInfo.message}
         onChange={(event) => {
           setValueInfo(formChangedObject, key, { value: event.target.value }, setFormChangedObject);
-          validate(key, formChangedObject, setFormChangedObject);
+          validate(key, formChangedObject, setFormChangedObject).catch(() => {});
         }}
         onFocus={() => {
           setValueInfo(formChangedObject, key, { error: false, message: ' ' }, setFormChangedObject);
         }}
         onBlur={() => {
-          validate(key, formChangedObject, setFormChangedObject);
+          validate(key, formChangedObject, setFormChangedObject).catch(() => {});
         }}
         variant="standard"
         fullWidth
@@ -178,14 +194,30 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
 
   useImperativeHandle(ref, () => ({
     validate: (keys?) => {
-      const validationKeys = keys ? keys : Object.keys(configObject);
-      const maxIndex = validationKeys.length - 1;
-      const keysOfError: Array<string> = [];
-      validationKeys.forEach((key, index) => {
-        const changingStateOrUndefined = index === maxIndex ? setFormChangedObject : undefined;
-        if (validate(key, formChangedObject, changingStateOrUndefined)) keysOfError.push(key);
+      return new Promise((resolve, reject) => {
+        const validationKeys = keys ? keys : Object.keys(configObject);
+        const maxIndex = validationKeys.length - 1;
+        const keysOfError: Array<string> = [];
+        const promiseList: Array<Promise<void>> = [];
+        validationKeys.forEach((key, index) => {
+          const changingStateOrUndefined = index === maxIndex ? setFormChangedObject : undefined;
+          promiseList.push(
+            validate(key, formChangedObject, changingStateOrUndefined)
+              .then(() => {})
+              .catch((message) => {
+                keysOfError.push(key);
+                throw new Error(message)
+              })
+          )
+        });
+        Promise.all(promiseList)
+          .then(() => {
+            resolve();
+          })
+          .catch(() => {
+            reject(keysOfError);
+          })
       });
-      return keysOfError.length ? keysOfError : null;
     },
     clearValidation: (keys?) => {
       const validationKeys = keys ? keys : Object.keys(configObject);
