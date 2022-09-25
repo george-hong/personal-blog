@@ -51,6 +51,12 @@ const getRegisterFormConfig = () => {
         {
           required: true,
           message: '请再次填写密码',
+        },
+        {
+          custom: (value, values) => {
+            return value === values.password;
+          },
+          message: '两次密码输入不一致',
         }
       ]
     }
@@ -60,10 +66,6 @@ const getRegisterFormConfig = () => {
 const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
   const formRef = useRef<IFormMethods>();
-
-  setTimeout(() => {
-    console.log('formRef', formRef);
-  })
 
   return (
     <Fragment>
@@ -84,6 +86,7 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
             sx={{ mt: 2, mb: 1 }}
             onClick={() => {
               formRef.current?.validate();
+              console.log('formRef.current?.validate();', formRef.current?.getValues());
             }}
           >
             注册

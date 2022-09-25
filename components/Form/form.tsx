@@ -8,17 +8,20 @@ export enum FormItemType {
  Input = 'input'
 }
 type GridValue = 'auto' | number | boolean;
-interface RuleBase {
-  message?: string;
+type ValueType = string | number | boolean;
+interface IValues {
+  [key: string]: ValueType;
 }
-interface RequireRule extends RuleBase {
+interface IRule {
+  message?: string;
   required?: boolean;
+  custom?: (currentValue: ValueType, values: IValues) => boolean;
 }
 interface IFormItemCommon {
   type: FormItemType;
   label: string;
   key: string;
-  rules?: Array<RequireRule>;
+  rules?: Array<IRule>;
   grid?: {
     xl?: GridValue;
     lg?: GridValue;
@@ -31,7 +34,7 @@ interface IInputForm extends IFormItemCommon {
   value: string;
 }
 interface IValueInfo {
-  value: string | number | boolean;
+  value: ValueType;
   error: boolean;
   message: string;
 }
@@ -54,9 +57,17 @@ interface IFormProps {
 export interface IFormMethods {
   validate: (keys?: Array<string>) => null | Array<string>;
   clearValidation: (keys?: Array<string>) => void;
+  getValues: (keys?: Array<string>) => IValues;
 }
 
 const messageDefaultValue = ' ';
+const getValues = (formChangedObject: FormConfigChangedObject, keys?: Array<string>) => {
+  const validationKeys = keys ? keys : Object.keys(formChangedObject);
+  return validationKeys.reduce((result, key) => {
+  result[key] = formChangedObject[key].valueInfo.value;
+  return result;
+}, {} as IValues);
+}
 const validate = (
   key: string,
   formChangedObject: FormConfigChangedObject,
@@ -67,9 +78,15 @@ const validate = (
   const validationResult = { error: false, message: messageDefaultValue };
   if (rules) {
     rules.some(rule => {
-      if (rule.required && value === '') {
+      if (
+        // Missing required.
+        (rule.required && value === '') ||
+        // Validation failed on custom function.
+        (rule.custom && !rule.custom(value, getValues(formChangedObject)))
+      ) {
         validationResult.error = true;
         validationResult.message = rule.message ?? messageDefaultValue;
+        return true;
       }
     });
     setValueInfo(formChangedObject, key, validationResult, setFormChangedObject);
@@ -158,6 +175,7 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
     }
   });
   const [formChangedObject, setFormChangedObject] = useState<FormConfigChangedObject>(configObject);
+
   useImperativeHandle(ref, () => ({
     validate: (keys?) => {
       const validationKeys = keys ? keys : Object.keys(configObject);
@@ -177,7 +195,11 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
         setValueInfo(formChangedObject, key, { error: false, message: messageDefaultValue }, changingStateOrUndefined);
       });
     },
-  }))
+    getValues: (keys?) => {
+      return getValues(formChangedObject, keys);
+    }
+  }));
+
   return (
     <Grid
       className={className}
