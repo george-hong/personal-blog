@@ -1,10 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import DataBase from '../../../backComponents/database';
+import BaseMiddleware from '../../../middleware/base';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await BaseMiddleware.allowCrossOrigin(req, res);
   if (req?.method?.toLowerCase() !== 'post') return res.status(404);
   const { body = {} } = req;
   console.log('body', body);

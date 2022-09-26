@@ -1,13 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import DataBase from '../../../backComponents/database';
+import BaseMiddleware from '../../../middleware/base';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req?.method?.toLowerCase() !== 'post') return res.status(404);
+  await BaseMiddleware.allowCrossOrigin(req, res);
+  await BaseMiddleware.responseOptionsSpeedy(req, res);
   const { body = {} } = req;
-  console.log('body', body);
   new DataBase()
     .query(`INSERT INTO article (title, content, authorId) VALUES ('${body.title}', '${body.content}', 1);`)
     .then(result => {
@@ -15,6 +16,9 @@ export default function handler(
     })
     .catch(error => {
       res.status(500).json(error);
+    })
+    .finally(() => {
+      console.log('finally');
     })
 
 }

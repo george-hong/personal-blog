@@ -176,6 +176,22 @@ const generateFormItemByType = (
 
 /**
  * form component
+ * @param {string} [className] - Class name of form container.
+ * @param {Object[]} config - Form config.
+ * @param {string} config[].type - Field type. e.g. input、select.
+ * @param {string} config[].key - Field unique key.
+ * @param {string} config[].label - Field name.
+ * @param {string} config[].value - Field default value.
+ * @param {Object} [config[].grid] - Field layout.
+ * @param {number} [config[].grid.xs] - Field layout at size xs.
+ * @param {number} [config[].grid.sm] - Field layout at size sm.
+ * @param {number} [config[].grid.lg] - Field layout at size lg.
+ * @param {number} [config[].grid.xl] - Field layout at size xl.
+ * @param {Object[]} config[].rules - Form validation rules.
+ * @param {string} [config[].rules[].message] - Tooltip for validation fail.
+ * @param {boolean} [config[].rules[].required] - Field is required.
+ * @param {function} [config[].rules[].custom] - Custom validation for field.
+ * @constructor
  */
 const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProps>((props, ref) => {
   const { className, config } = props;
