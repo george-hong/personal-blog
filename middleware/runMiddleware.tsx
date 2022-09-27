@@ -3,7 +3,7 @@ import Middleware from './index';
 import { ConfigMiddleware } from './middleware.interface';
 import Base from './base';
 
-const useMiddleware = (configMiddleware: ConfigMiddleware) => {
+const runMiddleware = (configMiddleware: ConfigMiddleware) => {
   return async function (req: NextApiRequest, res: NextApiResponse,) {
     const middleware = new Middleware(req, res);
     middleware.use(Base.allowCrossOrigin);
@@ -13,4 +13,4 @@ const useMiddleware = (configMiddleware: ConfigMiddleware) => {
   }
 };
 
-export default useMiddleware;
+export default runMiddleware;

@@ -263,4 +263,6 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
   );
 });
 
+Form.displayName = 'Form';
+
 export default Form;

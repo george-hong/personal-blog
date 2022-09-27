@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/layout/layout';
-import Form, { FormItem, FormItemType, IFormMethods } from '../../components/Form/form';
+import Form, { FormItem, FormItemType, IFormMethods } from '../../components/form/form';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 

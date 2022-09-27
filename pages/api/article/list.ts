@@ -1,7 +1,7 @@
 import DataBase from '../../../backComponents/database';
-import useMiddleware from '../../../middleware/useMiddleware';
+import runMiddleware from '../../../middleware/runMiddleware';
 
-export default useMiddleware(middleware => {
+export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
     new DataBase()
       .query(`SELECT id, title, content FROM article`)
