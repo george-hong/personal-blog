@@ -13,8 +13,11 @@ class Base {
   }
 
   static responseOptionsSpeedy(req: NextApiRequest, res: NextApiResponse, next: NextFunction): void {
-    if (req?.method?.toLowerCase() === 'options') res.status(200).json({ result: 'success' });
-    next(true)
+    if (req?.method?.toLowerCase() === 'options') {
+      res.status(200).json({ result: 'success' });
+      next(true);
+    }
+    next();
   }
 }
 

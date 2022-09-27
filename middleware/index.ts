@@ -17,6 +17,7 @@ class Middleware {
   public use(handler: MiddlewareHandler): this {
     this.processes.push(async () => {
       return new Promise<void>((resolve) => {
+        if (this.isFinish) return resolve();
         handler(this.req, this.res, (isFinish) => {
           if (isFinish === true) this.isFinish = isFinish;
           resolve();
