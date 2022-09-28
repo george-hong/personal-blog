@@ -17,6 +17,7 @@
     "@milkdown/plugin-listener": "^6.3.2",
     "@milkdown/plugin-menu": "^6.3.2",
     "@milkdown/preset-commonmark": "^6.3.2",
+    "@milkdown/prose": "^6.4.1",
     "@milkdown/react": "^6.3.2",
     "@milkdown/theme-nord": "^6.3.2",
     "@mui/icons-material": "^5.10.2",
