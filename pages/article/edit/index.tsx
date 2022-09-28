@@ -1,18 +1,19 @@
 import type { NextPage } from 'next'
 import { Component } from 'react';
 import Head from 'next/head'
+import Router from 'next/router';
 import style from './index.module.scss';
 import Layout from '../../../components/layout/layout';
 import MarkdownEditor from '../../../components/markdown-editor/markdown-editor';
 import { useState } from 'react';
-import ClientRequest from '../../../tools/clientRequest';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { encodeQuotationMarks } from '../../../tools/methods';
+import { getArticleDetail } from '../../../tools/clientRequest/modules/article';
+import { generateClientRequest } from '../../../tools/clientRequest';
 
-const request = new ClientRequest();
 
 interface IArticleEditPageParams {
   query: {
@@ -31,15 +32,10 @@ interface IArticleEditProps {
 export async function getServerSideProps(props: IArticleEditPageParams) {
   const id = props.query.id;
   if (id === undefined) return { props: {} };
-  let result;
-  try {
-    result = await fetch(`http://localhost:3000/api/article/detail?id=${id}`);
-    result = await result.json();
-  } catch (error) {
-    result = error;
-  }
-  return { props: { pageData: result[0] } };
+  return await getArticleDetail(props);
 }
+
+const request = generateClientRequest();
 
 const saveArticle = (title: string, content: string, pageData?: IArticleInfo) => {
   const params: Partial<IArticleInfo> = {
@@ -49,9 +45,9 @@ const saveArticle = (title: string, content: string, pageData?: IArticleInfo) =>
   if (pageData) {
     params.id = pageData.id;
   }
-  request.post(`http://localhost:3000/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
+  request.post(`/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
     .then(result => {
-      console.log('result', result);
+      Router.push(`/article/detail?id=${result.id}`);
     })
     .catch(error => {
       console.log('error', error);

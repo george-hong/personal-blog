@@ -10,15 +10,11 @@ import Link from 'next/link';
 import Layout from '../../../components/layout/layout';
 import ListMenu from './components/list-menu';
 import Empty from '../../../components/empty/empty';
+import { getArticleList } from '../../../tools/clientRequest/modules/article';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
+import { IArticleListPageParams } from '../../../interface/article.interface';
 
-interface IArticleListPageParams {
-  query: {
-    pageNo?: number;
-    pageSize?: number;
-  }
-}
 interface IArticleInfo {
   id: number;
   title: string;
@@ -29,15 +25,7 @@ interface IArticleListProps {
 }
 
 export async function getServerSideProps(props: IArticleListPageParams) {
-  const { pageNo, pageSize } = props.query;
-  let result;
-  try {
-    result = await fetch(`http://localhost:3000/api/article/list`);
-    result = await result.json();
-  } catch (error) {
-    result = error;
-  }
-  return { props: { pageData: result } };
+  return await getArticleList(props);
 }
 
 const generateCardItem = (articleInfo: IArticleInfo) => {

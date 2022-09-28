@@ -6,12 +6,9 @@ import Layout from '../../../components/layout/layout';
 import MarkdownReader from '../../../components/markdown-editor/markdown-reader';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
+import { getArticleDetail } from '../../../tools/clientRequest/modules/article';
+import { IArticleDetailPageParams } from '../../../interface/article.interface';
 
-interface IArticleDetailPageParams {
-  query: {
-    id?: string;
-  }
-}
 interface IArticleDetailProps {
   pageData: {
     content: string;
@@ -20,15 +17,7 @@ interface IArticleDetailProps {
 }
 
 export async function getServerSideProps(props: IArticleDetailPageParams) {
-  const id = props.query.id;
-  let result;
-  try {
-    result = await fetch(`http://localhost:3000/api/article/detail?id=${id}`);
-    result = await result.json();
-  } catch (error) {
-    result = error;
-  }
-  return { props: { pageData: result[0] } };
+  return await getArticleDetail(props);
 }
 
 const transformToCoverClass = (className: string, cover?: boolean) => {

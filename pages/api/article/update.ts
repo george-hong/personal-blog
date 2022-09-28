@@ -7,7 +7,7 @@ export default runMiddleware(middleware => {
     new DataBase()
       .query(`UPDATE article SET title = '${body.title}', content = '${body.content}' WHERE id = ${body.id};`)
       .then(result => {
-        res.status(200).json({ status: 'success' });
+        res.status(200).json({ status: 'success', id: body.id });
       })
       .catch(error => {
         res.status(500).json(error);
