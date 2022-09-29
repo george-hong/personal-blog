@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import DataBase from '../../../backComponents/database';
+import DataBase from '../../../back-components/database';
 import BaseMiddleware from '../../../middleware/base';
 import runMiddleware from '../../../middleware/runMiddleware';
 

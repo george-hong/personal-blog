@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from 'next/link';
 import Layout from '../../../components/layout/layout';
-import ListMenu from './components/list-menu';
+import ListMenu from '../../../page-components/article/list-menu/list-menu';
 import Empty from '../../../components/empty/empty';
 import { getArticleList } from '../../../tools/clientRequest/modules/article';
 import style from './index.module.scss';
@@ -83,7 +83,7 @@ const ArticleList: NextPage<IArticleListProps, ReactNode> = (props) => {
       <Layout
         autoHideHeader
         onHeaderVisibilityChange={setHeaderVisibility}
-        contentClassName={style['list-container']}
+        contentClassName={style['article-list-container']}
       >
         <Box
           className={className}

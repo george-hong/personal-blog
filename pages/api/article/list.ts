@@ -1,4 +1,4 @@
-import DataBase from '../../../backComponents/database';
+import DataBase from '../../../back-components/database';
 import runMiddleware from '../../../middleware/runMiddleware';
 
 export default runMiddleware(middleware => {
