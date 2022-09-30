@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/front/layout/layout';
 import Form, { FormItem, FormItemType, IFormMethods } from '../../components/front/form/form';
+import { requestToCheckExistence } from '../../tools/clientRequest/modules/user';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 
@@ -25,6 +26,18 @@ const getRegisterFormConfig = (): Array<FormItem> => {
         {
           required: true,
           message: '请填写用户名',
+        },
+        {
+          custom(name, values, resolve, reject) {
+            requestToCheckExistence({ name: (name as string) })
+              .then(result => {
+                console.log('111',result);
+              })
+              .catch(error => {
+                console.log('222',error);
+              })
+          },
+          message: '用户名重复'
         }
       ]
     },
