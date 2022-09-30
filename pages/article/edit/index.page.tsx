@@ -3,8 +3,8 @@ import { Component } from 'react';
 import Head from 'next/head'
 import Router from 'next/router';
 import style from './index.module.scss';
-import Layout from '../../../components/layout/layout';
-import MarkdownEditor from '../../../components/markdown-editor/markdown-editor';
+import Layout from '../../../components/front/layout/layout';
+import MarkdownEditor from '../../../components/front/markdown-editor/markdown-editor';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';

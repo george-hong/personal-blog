@@ -11,6 +11,14 @@ const nextConfig = {
     ],
     prependData: `@import '/styles/variable.scss';`
   },
+  pageExtensions: [
+    'page.tsx',
+    'page.ts',
+    'page.jsx',
+    'page.js',
+    'api.ts',
+    'api.js',
+  ],
 }
 
 module.exports = nextConfig

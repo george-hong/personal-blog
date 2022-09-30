@@ -2,14 +2,14 @@ import { ReactNode } from 'react';
 import Head from 'next/head';
 import Typography from '@mui/material/typography';
 import Container from '@mui/material/Container';
-import Layout from '../../components/layout/layout';
+import Layout from '../../components/front/layout/layout';
 import type { NextPage } from 'next';
 
 interface ILoginProps {
 
 }
 
-const Login: NextPage<ILoginProps, ReactNode> = (props) => {
+const LoginPage: NextPage<ILoginProps, ReactNode> = (props) => {
 
   return (
     <>
@@ -27,4 +27,4 @@ const Login: NextPage<ILoginProps, ReactNode> = (props) => {
   )
 };
 
-export default Login;
+export default LoginPage;

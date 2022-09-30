@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Button from '@mui/material/Button';
 import style from './index.module.scss';
-import Layout from '../components/layout/layout';
+import Layout from '../components/front/layout/layout';
 
 const Home: NextPage = () => {
   return (
