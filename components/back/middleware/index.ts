@@ -5,23 +5,18 @@ class Middleware {
   readonly req: NextApiRequest;
   readonly res: NextApiResponse;
   readonly processes: Array<() => Promise<void>>;
-  private isFinish: boolean;
 
   constructor(req: NextApiRequest, res: NextApiResponse) {
     this.req = req;
     this.res = res;
-    this.isFinish = false;
     this.processes = [];
   }
 
   public use(handler: MiddlewareHandler): this {
     this.processes.push(async () => {
       return new Promise<void>((resolve) => {
-        if (this.isFinish) return resolve();
-        handler(this.req, this.res, (isFinish) => {
-          if (isFinish === true) this.isFinish = isFinish;
-          resolve();
-        });
+        if (this.res.writableEnded) return resolve();
+        handler(this.req, this.res, resolve);
       });
     })
     return this;
@@ -29,7 +24,7 @@ class Middleware {
 
   public async run() {
     for (let index = 0; index < this.processes.length; index++) {
-      if (this.isFinish) break;
+      if (this.res.writableEnded) break;
       await this.processes[index]();
     }
   }

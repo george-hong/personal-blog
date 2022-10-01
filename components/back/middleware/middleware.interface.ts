@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import Middleware from './index';
 
 export interface NextFunction {
-  (isFinish?: boolean): void;
+  (): void;
 }
 
 export interface MiddlewareHandler {

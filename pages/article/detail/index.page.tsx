@@ -1,4 +1,4 @@
-import { ReactNode, Fragment } from 'react';
+import React, { ReactNode, Fragment } from 'react';
 import Head from 'next/head';
 import Typography from '@mui/material/typography';
 import Box from '@mui/material/Box';

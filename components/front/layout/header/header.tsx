@@ -136,15 +136,15 @@ const Header: NextPage<IHeaderProps> = (props) => {
   const { autoHide = false, onVisibilityChange } = props;
   const [visibility, setVisibility] = useState<boolean>(true);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
+  const [timer, setTimer] = useState<NodeJS.Timeout>();
   const ref = React.createRef<HTMLHeadElement>();
   let isSetEvent = false;
-  let timer: NodeJS.Timeout;
 
   useEffect(() => {
     if (!autoHide) return;
     const scrollHandler = () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
+      const index = setTimeout(() => {
         const height = ref?.current?.getBoundingClientRect()?.height ?? 0;
         const scrollTop = document.documentElement.scrollTop;
         const isHide = scrollTop > height && scrollTop > lastScrollTop;
@@ -152,6 +152,7 @@ const Header: NextPage<IHeaderProps> = (props) => {
         setLastScrollTop(scrollTop);
         onVisibilityChange && onVisibilityChange(!isHide);
       }, 50);
+      setTimer(index);
     };
     if (!isSetEvent && ref.current) {
       isSetEvent = true;
@@ -159,7 +160,7 @@ const Header: NextPage<IHeaderProps> = (props) => {
     }
     return () => {
       isSetEvent = false;
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
       window.removeEventListener('scroll', scrollHandler);
     }
   });
