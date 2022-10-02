@@ -7,8 +7,16 @@ import type { NextPage } from 'next';
 export enum FormItemType {
  Input = 'input'
 }
+export enum TriggerType {
+  OnChange = 'onChange',
+  OnFocus = 'onFocus',
+  OnBlur = 'onBlur',
+}
 type GridValue = 'auto' | number | boolean;
 type ValueType = string | number | boolean;
+interface IEvents {
+  [key: string]: Array<(event: Event) => void>;
+}
 interface IValues {
   [key: string]: ValueType;
 }
@@ -29,6 +37,7 @@ interface IFormItemCommon {
     sm?: GridValue;
     xs?: GridValue;
   };
+  trigger?: Array<TriggerType>;
 }
 interface IInputForm extends IFormItemCommon {
   value: string;
@@ -135,7 +144,37 @@ const generateFormItemByType = (
     rules,
     valueInfo,
     label,
+    trigger = ['onChange'],
   } = formConfigItemChanged;
+  const events: IEvents = {
+    onChange: [
+      (event) => {
+        setValueInfo(formChangedObject, key, { value: event.target.value }, setFormChangedObject);
+      },
+    ],
+    onFocus: [
+      () => {
+        setValueInfo(formChangedObject, key, { error: false, message: ' ' }, setFormChangedObject);
+      }
+    ],
+    onBlur: [],
+  };
+  if (trigger) {
+    const validation = () => {
+      validate(key, formChangedObject, setFormChangedObject).catch(() => {});
+    };
+    // TODO: trigger may repeat
+    trigger.forEach(type => {
+      if (events[type]) events[type].push(validation);
+    });
+  }
+  const eventsObject: { [key: string]: (event: Event) => void } = {};
+  Object.entries(events).forEach(typeAndEvents => {
+    const [type, events] = typeAndEvents;
+    eventsObject[type] = function(event) {
+      events.forEach(handler => handler.call(this, event));
+    };
+  });
   const required = rules && rules.some(rule => rule.required === true);
   let formContent: ReactNode;
   if (type === 'input') {
@@ -147,18 +186,9 @@ const generateFormItemByType = (
         value={valueInfo.value}
         error={valueInfo.error}
         helperText={valueInfo.message}
-        onChange={(event) => {
-          setValueInfo(formChangedObject, key, { value: event.target.value }, setFormChangedObject);
-          validate(key, formChangedObject, setFormChangedObject).catch(() => {});
-        }}
-        onFocus={() => {
-          setValueInfo(formChangedObject, key, { error: false, message: ' ' }, setFormChangedObject);
-        }}
-        onBlur={() => {
-          validate(key, formChangedObject, setFormChangedObject).catch(() => {});
-        }}
         variant="standard"
         fullWidth
+        {...eventsObject}
       />
     )
   }

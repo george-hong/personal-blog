@@ -37,9 +37,10 @@ const getRegisterFormConfig = (): Array<FormItem> => {
                 console.log('222',error);
               })
           },
-          message: '用户名重复'
+          message: '用户名重复',
         }
-      ]
+      ],
+      trigger: ['onBlur'],
     },
     {
       type: FormItemType.Input,
