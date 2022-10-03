@@ -8,14 +8,28 @@ export enum FormItemType {
  Input = 'input'
 }
 export enum TriggerType {
-  OnChange = 'onChange',
-  OnFocus = 'onFocus',
-  OnBlur = 'onBlur',
+  onChange = 'onChange',
+  onFocus = 'onFocus',
+  onBlur = 'onBlur',
 }
 type GridValue = 'auto' | number | boolean;
 type ValueType = string | number | boolean;
+type ChangeHandler = (event?: React.ChangeEvent<HTMLInputElement>) => void;
+type FocusHandler = (event?: React.FocusEvent) => void;
+type BlurHandler = (event?: Event) => void;
 interface IEvents {
-  [key: string]: Array<(event: Event) => void>;
+  [TriggerType.onChange]: Array<ChangeHandler>;
+  [TriggerType.onFocus]: Array<FocusHandler>;
+  [TriggerType.onBlur]: Array<BlurHandler>;
+}
+interface IEventHandler {
+  (event?: React.ChangeEvent<HTMLInputElement>): void;
+}
+interface IEventHandler {
+  (event?: React.FocusEvent): void;
+}
+interface IEventHandler {
+  (event?: Event): void
 }
 interface IValues {
   [key: string]: ValueType;
@@ -149,7 +163,7 @@ const generateFormItemByType = (
   const events: IEvents = {
     onChange: [
       (event) => {
-        setValueInfo(formChangedObject, key, { value: event.target.value }, setFormChangedObject);
+        setValueInfo(formChangedObject, key, { value: event?.target.value }, setFormChangedObject);
       },
     ],
     onFocus: [
@@ -168,7 +182,7 @@ const generateFormItemByType = (
       if (events[type]) events[type].push(validation);
     });
   }
-  const eventsObject: { [key: string]: (event: Event) => void } = {};
+  const eventsObject: { [key: string]: IEventHandler } = {};
   Object.entries(events).forEach(typeAndEvents => {
     const [type, events] = typeAndEvents;
     eventsObject[type] = function(event) {
