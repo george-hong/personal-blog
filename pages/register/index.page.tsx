@@ -1,12 +1,12 @@
-import React, { ReactNode, Fragment, useState, useRef } from 'react';
+import React, {Fragment, ReactNode, useRef, useState} from 'react';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/front/layout/layout';
-import Form, { FormItem, FormItemType, IFormMethods } from '../../components/front/form/form';
-import { requestToCheckExistence } from '../../tools/clientRequest/modules/user';
+import Form, {FormItem, FormItemType, IFormMethods, TriggerType} from '../../components/front/form/form';
+import {requestToCheckExistence} from '../../tools/clientRequest/modules/user';
 import style from './index.module.scss';
-import type { NextPage } from 'next';
+import type {NextPage} from 'next';
 
 interface IRegisterPageParams {
   query: {
@@ -40,7 +40,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
           message: '用户名重复',
         }
       ],
-      trigger: ['onBlur'],
+      trigger: [TriggerType.onBlur],
     },
     {
       type: FormItemType.Input,

@@ -17,19 +17,14 @@ type ValueType = string | number | boolean;
 type ChangeHandler = (event?: React.ChangeEvent<HTMLInputElement>) => void;
 type FocusHandler = (event?: React.FocusEvent) => void;
 type BlurHandler = (event?: Event) => void;
+type EventType = React.ChangeEvent<HTMLInputElement> | FocusEvent | Event;
 interface IEvents {
   [TriggerType.onChange]: Array<ChangeHandler>;
   [TriggerType.onFocus]: Array<FocusHandler>;
   [TriggerType.onBlur]: Array<BlurHandler>;
 }
-interface IEventHandler {
-  (event?: React.ChangeEvent<HTMLInputElement>): void;
-}
-interface IEventHandler {
-  (event?: React.FocusEvent): void;
-}
-interface IEventHandler {
-  (event?: Event): void
+interface IEventHandler<T> {
+  (event?: T): void;
 }
 interface IValues {
   [key: string]: ValueType;
@@ -182,8 +177,8 @@ const generateFormItemByType = (
       if (events[type]) events[type].push(validation);
     });
   }
-  const eventsObject: { [key: string]: IEventHandler } = {};
-  Object.entries(events).forEach(typeAndEvents => {
+  const eventsObject: { [key: string]: IEventHandler<EventType> } = {};
+  Object.entries(events).forEach((typeAndEvents: [string, Array<IEventHandler<EventType>>]) => {
     const [type, events] = typeAndEvents;
     eventsObject[type] = function(event) {
       events.forEach(handler => handler.call(this, event));
