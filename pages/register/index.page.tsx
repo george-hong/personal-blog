@@ -40,7 +40,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
           message: '用户名重复',
         }
       ],
-      trigger: [TriggerType.onBlur],
+      trigger: [TriggerType.onBlur, TriggerType.onBlur],
     },
     {
       type: FormItemType.Input,

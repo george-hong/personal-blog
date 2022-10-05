@@ -172,9 +172,8 @@ const generateFormItemByType = (
     const validation = () => {
       validate(key, formChangedObject, setFormChangedObject).catch(() => {});
     };
-    // TODO: trigger may repeat
     trigger.forEach(type => {
-      if (events[type]) events[type].push(validation);
+      if (events[type] && !events[type].includes(validation)) events[type].push(validation);
     });
   }
   const eventsObject: { [key: string]: IEventHandler<EventType> } = {};
@@ -221,6 +220,7 @@ const generateFormItemByType = (
  * @param {string} config[].key - Field unique key.
  * @param {string} config[].label - Field name.
  * @param {string} config[].value - Field default value.
+ * @param {string[]} config[].trigger - Timing of Field validation triggered, excepted 'onChange'、'onBlur'、'OnFocus'.
  * @param {Object} [config[].grid] - Field layout.
  * @param {number} [config[].grid.xs] - Field layout at size xs.
  * @param {number} [config[].grid.sm] - Field layout at size sm.
