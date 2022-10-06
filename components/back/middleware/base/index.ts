@@ -1,5 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { NextFunction } from '../middleware.interface';
+import { ExtendedNextApiResponse } from '../../../../interface/sever.interface';
+
+const DEFAULT_ERROR_CODE = 503;
+const DEFAULT_ERROR_MESSAGE = 'Internal error';
 
 class Base {
   static allowCrossOrigin(req: NextApiRequest, res: NextApiResponse, next: NextFunction): void {
@@ -16,6 +20,24 @@ class Base {
     if (req?.method?.toLowerCase() === 'options') {
       res.status(200).json({ result: 'success' });
       next();
+    }
+    next();
+  }
+
+  static setRequest(req: NextApiRequest, res: NextApiResponse, next: NextFunction): void {
+    // TODO: need to fix
+    (res as ExtendedNextApiResponse).supply = function (response: unknown) {
+      res.status(200).json({
+        status: 200,
+        data: response,
+      });
+    }
+    (res as ExtendedNextApiResponse).throw = function (message?: string, code?: number) {
+      const errorCode = code ?? DEFAULT_ERROR_CODE;
+      res.status(errorCode).json({
+        status: errorCode,
+        data: message ?? DEFAULT_ERROR_MESSAGE,
+      });
     }
     next();
   }
