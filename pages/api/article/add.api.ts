@@ -7,10 +7,10 @@ export default runMiddleware(middleware => {
     new DataBase()
       .query(`INSERT INTO article (title, content, authorId) VALUES ('${body.title}', '${body.content}', 1);`)
       .then((result) => {
-        res.status(200).json({ status: 'success', id: (result as { insertId?: string }).insertId });
+        res.supply({ id: (result as { insertId?: string }).insertId });
       })
       .catch(error => {
-        res.status(500).json(error);
+       res.throw(error);
       })
       .finally(next)
   })

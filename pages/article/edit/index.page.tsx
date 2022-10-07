@@ -47,7 +47,7 @@ const saveArticle = (title: string, content: string, pageData?: IArticleInfo) =>
   }
   request.post(`/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
     .then(result => {
-      Router.push(`/article/detail?id=${result.id}`);
+      Router.push(`/article/detail?id=${result.data.id}`);
     })
     .catch(error => {
       console.log('error', error);

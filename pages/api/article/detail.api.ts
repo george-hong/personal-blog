@@ -7,10 +7,10 @@ export default runMiddleware(middleware => {
     new DataBase()
       .query(`SELECT * FROM article WHERE id = ${id}`)
       .then(result => {
-        res.status(200).json(result)
+        res.supply(result);
       })
       .catch(error => {
-        res.status(500).json(error)
+        res.throw(error);
       })
       .finally(next);
   })

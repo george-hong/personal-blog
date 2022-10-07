@@ -31,13 +31,14 @@ const getRegisterFormConfig = (): Array<FormItem> => {
           custom(name, values, resolve, reject) {
             requestToCheckExistence({ name: (name as string) })
               .then(result => {
-                console.log('111',result);
+                if (result.data.existence) {
+                  reject('用户名重复');
+                } else resolve();
               })
               .catch(error => {
-                console.log('222',error);
-              })
+                reject('网络异常，请再次输入');
+              });
           },
-          message: '用户名重复',
         }
       ],
       trigger: [TriggerType.onBlur, TriggerType.onBlur],

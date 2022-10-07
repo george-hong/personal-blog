@@ -8,7 +8,7 @@ class DataBase {
     this.connection = mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'zxc916856595',
+      password: '123456',
       database: 'personal-blog'
     });
 

@@ -32,7 +32,7 @@ interface IValues {
 interface IRule {
   message?: string;
   required?: boolean;
-  custom?: (currentValue: ValueType, values: IValues, resolve: () => void, reject: () => void) => void;
+  custom?: (currentValue: ValueType, values: IValues, resolve: () => void, reject: (customMessage?: string) => void) => void;
 }
 interface IFormItemCommon {
   type: FormItemType;
@@ -103,8 +103,8 @@ const validate = (
             if (rule.required && value === '') {
               innerReject(rule.message);
             } else if (rule.custom) {
-              rule.custom(value, getValues(formChangedObject), innerResolve, () => {
-                innerReject(rule.message);
+              rule.custom(value, getValues(formChangedObject), innerResolve, (customMessage?: string) => {
+                innerReject(customMessage ?? rule.message);
               });
             } else {
               innerResolve();

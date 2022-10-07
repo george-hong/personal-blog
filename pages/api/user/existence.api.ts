@@ -8,10 +8,10 @@ export default runMiddleware(middleware => {
       .query(`SELECT id FROM user WHERE name = '${query.name}';`)
       .then((result) => {
         const existence = !!(result as Array<object>).length;
-        res.status(200).json({ status: 'success', existence });
+        res.supply({ existence });
       })
       .catch(error => {
-        res.status(500).json(error);
+        res.throw(error);
       })
       .finally(next)
   })

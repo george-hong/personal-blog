@@ -12,6 +12,7 @@ export async function getArticleList(props: IArticleListPageParams) {
   let result;
   try {
     result = await projectRequest.get(`/api/article/list`);
+    result = result.data;
   } catch (error) {
     result = error;
   }
@@ -25,6 +26,7 @@ export async function getArticleDetail(props: IArticleDetailPageParams) {
   if (id !== undefined) params.id = id;
   try {
     result = await projectRequest.get(`/api/article/detail`, params);
+    result = result.data;
   } catch (error) {
     result = error;
   }

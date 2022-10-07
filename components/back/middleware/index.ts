@@ -1,12 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest } from 'next';
 import { MiddlewareHandler } from './middleware.interface';
+import { ExtendedNextApiResponse } from '../../../interface/sever.interface';
 
 class Middleware {
   readonly req: NextApiRequest;
-  readonly res: NextApiResponse;
+  readonly res: ExtendedNextApiResponse;
   readonly processes: Array<() => Promise<void>>;
 
-  constructor(req: NextApiRequest, res: NextApiResponse) {
+  constructor(req: NextApiRequest, res: ExtendedNextApiResponse) {
     this.req = req;
     this.res = res;
     this.processes = [];

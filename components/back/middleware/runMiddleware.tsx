@@ -8,9 +8,9 @@ const runMiddleware = (configMiddleware: ConfigMiddleware) => {
   return async function (req: NextApiRequest, res: ExtendedNextApiResponse) {
     const middleware = new Middleware(req, res);
     // Use common middleware.
+    middleware.use(Base.setRequest);
     middleware.use(Base.allowCrossOrigin);
     middleware.use(Base.responseOptionsSpeedy);
-    middleware.use(Base.setRequest);
     // Use business middleware.
     configMiddleware(middleware);
     // Run all middleware.
