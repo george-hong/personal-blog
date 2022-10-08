@@ -32,12 +32,15 @@ interface IValues {
 interface IRule {
   message?: string;
   required?: boolean;
+  minLength?: number;
+  maxLength?: number;
   custom?: (currentValue: ValueType, values: IValues, resolve: () => void, reject: (customMessage?: string) => void) => void;
 }
 interface IFormItemCommon {
   type: FormItemType;
   label: string;
   key: string;
+  inputType?: string;
   rules?: Array<IRule>;
   grid?: {
     xl?: GridValue;
@@ -75,16 +78,17 @@ interface IFormProps {
 export interface IFormMethods {
   validate: (keys?: Array<string>) => Promise<void>;
   clearValidation: (keys?: Array<string>) => void;
-  getValues: (keys?: Array<string>) => IValues;
+  getValues: <T>(keys?: Array<string>) => T;
 }
 
 const messageDefaultValue = ' ';
-const getValues = (formChangedObject: FormConfigChangedObject, keys?: Array<string>) => {
+const getValues = <T,>(formChangedObject: FormConfigChangedObject, keys?: Array<string>): T => {
   const validationKeys = keys ? keys : Object.keys(formChangedObject);
   return validationKeys.reduce((result, key) => {
-  result[key] = formChangedObject[key].valueInfo.value;
-  return result;
-}, {} as IValues);
+    // TODO: to fix
+    result[key] = formChangedObject[key].valueInfo.value;
+    return result;
+  }, {} as T);
 }
 const validate = (
   key: string,
@@ -106,6 +110,10 @@ const validate = (
               rule.custom(value, getValues(formChangedObject), innerResolve, (customMessage?: string) => {
                 innerReject(customMessage ?? rule.message);
               });
+            } else if (typeof(value) === 'string' && rule.minLength && value.length < rule.minLength) {
+              innerReject(rule.message);
+            } else if (typeof(value) === 'string' && rule.maxLength && value.length > rule.maxLength) {
+              innerReject(rule.message);
             } else {
               innerResolve();
             }
@@ -186,6 +194,7 @@ const generateFormItemByType = (
   const required = rules && rules.some(rule => rule.required === true);
   let formContent: ReactNode;
   if (type === 'input') {
+    const { inputType = 'text' } = formConfigItemChanged;
     formContent = (
       <TextField
         key={key}
@@ -195,6 +204,7 @@ const generateFormItemByType = (
         error={valueInfo.error}
         helperText={valueInfo.message}
         variant="standard"
+        type={inputType}
         fullWidth
         {...eventsObject}
       />
@@ -220,7 +230,8 @@ const generateFormItemByType = (
  * @param {string} config[].key - Field unique key.
  * @param {string} config[].label - Field name.
  * @param {string} config[].value - Field default value.
- * @param {string[]} config[].trigger - Timing of Field validation triggered, excepted 'onChange'、'onBlur'、'OnFocus'.
+ * @param {string} [config[].inputType = 'text'] - Input type.
+ * @param {string[]} [config[].trigger[] = ['onChange']] - Timing of Field validation triggered, excepted 'onChange'、'onBlur'、'OnFocus'.
  * @param {Object} [config[].grid] - Field layout.
  * @param {number} [config[].grid.xs] - Field layout at size xs.
  * @param {number} [config[].grid.sm] - Field layout at size sm.
@@ -282,8 +293,8 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
         setValueInfo(formChangedObject, key, { error: false, message: messageDefaultValue }, changingStateOrUndefined);
       });
     },
-    getValues: (keys?) => {
-      return getValues(formChangedObject, keys);
+    getValues: <T,>(keys?: Array<string>) => {
+      return getValues<T>(formChangedObject, keys);
     }
   }));
 

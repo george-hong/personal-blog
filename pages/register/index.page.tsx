@@ -4,9 +4,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/front/layout/layout';
 import Form, {FormItem, FormItemType, IFormMethods, TriggerType} from '../../components/front/form/form';
-import {requestToCheckExistence} from '../../tools/clientRequest/modules/user';
+import { requestToCheckExistence, requestToSignUp } from '../../tools/clientRequest/modules/user';
 import style from './index.module.scss';
 import type {NextPage} from 'next';
+import { ISignUpParams } from '../../interface/user.interface';
 
 interface IRegisterPageParams {
   query: {
@@ -26,6 +27,10 @@ const getRegisterFormConfig = (): Array<FormItem> => {
         {
           required: true,
           message: '请填写用户名',
+        },
+        {
+          minLength: 5,
+          message: '账号需要至少5个字符',
         },
         {
           custom(name, values, resolve, reject) {
@@ -48,11 +53,16 @@ const getRegisterFormConfig = (): Array<FormItem> => {
       key: 'password',
       label: '密码',
       value: '',
+      inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
           message: '请填写密码',
+        },
+        {
+          minLength: 8,
+          message: '密码需要至少8个字符',
         }
       ]
     },
@@ -61,6 +71,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
       key: 'passwordRepeat',
       label: '重复密码',
       value: '',
+      inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
@@ -77,7 +88,18 @@ const getRegisterFormConfig = (): Array<FormItem> => {
       ]
     }
   ]
-}
+};
+
+const signUp = (formRef: IFormMethods) => {
+  const values = formRef.getValues<ISignUpParams>();
+  requestToSignUp(values)
+    .then(result => {
+      console.log('注册成功', result);
+    })
+    .catch(error => {
+      console.log('error', error);
+    })
+};
 
 const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
@@ -103,7 +125,7 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
             onClick={() => {
               formRef.current?.validate()
                 .then(() => {
-                  console.log('success');
+                  signUp(formRef.current as IFormMethods);
                 })
                 .catch(keysOfError => {
                   console.log('error fields', keysOfError);
