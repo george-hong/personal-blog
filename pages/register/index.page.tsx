@@ -98,7 +98,7 @@ const signUp = (formRef: IFormMethods) => {
     })
     .catch(error => {
       console.log('error', error);
-    })
+    });
 };
 
 const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {

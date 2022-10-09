@@ -27,7 +27,7 @@ interface IEventHandler<T> {
   (event?: T): void;
 }
 interface IValues {
-  [key: string]: ValueType;
+  [key: string | number]: ValueType;
 }
 interface IRule {
   message?: string;
@@ -82,13 +82,12 @@ export interface IFormMethods {
 }
 
 const messageDefaultValue = ' ';
-const getValues = <T,>(formChangedObject: FormConfigChangedObject, keys?: Array<string>): T => {
+const getValues = (formChangedObject: FormConfigChangedObject, keys?: Array<string>): unknown => {
   const validationKeys = keys ? keys : Object.keys(formChangedObject);
   return validationKeys.reduce((result, key) => {
-    // TODO: to fix
     result[key] = formChangedObject[key].valueInfo.value;
     return result;
-  }, {} as T);
+  }, {} as IValues);
 }
 const validate = (
   key: string,
@@ -107,7 +106,7 @@ const validate = (
             if (rule.required && value === '') {
               innerReject(rule.message);
             } else if (rule.custom) {
-              rule.custom(value, getValues(formChangedObject), innerResolve, (customMessage?: string) => {
+              rule.custom(value, getValues(formChangedObject) as IValues, innerResolve, (customMessage?: string) => {
                 innerReject(customMessage ?? rule.message);
               });
             } else if (typeof(value) === 'string' && rule.minLength && value.length < rule.minLength) {
@@ -293,8 +292,8 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
         setValueInfo(formChangedObject, key, { error: false, message: messageDefaultValue }, changingStateOrUndefined);
       });
     },
-    getValues: <T,>(keys?: Array<string>) => {
-      return getValues<T>(formChangedObject, keys);
+    getValues: <T,>(keys?: Array<string>): T => {
+      return getValues(formChangedObject, keys) as T;
     }
   }));
 
