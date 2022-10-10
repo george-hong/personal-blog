@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/front/layout/layout';
+import Notice, { NoticeType } from '../../components/front/notice/notice';
 import Form, {FormItem, FormItemType, IFormMethods, TriggerType} from '../../components/front/form/form';
 import { requestToCheckExistence, requestToSignUp } from '../../tools/clientRequest/modules/user';
 import style from './index.module.scss';
@@ -46,7 +47,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
           },
         }
       ],
-      trigger: [TriggerType.onBlur, TriggerType.onBlur],
+      trigger: [TriggerType.onBlur],
     },
     {
       type: FormItemType.Input,
@@ -92,18 +93,36 @@ const getRegisterFormConfig = (): Array<FormItem> => {
 
 const signUp = (formRef: IFormMethods) => {
   const values = formRef.getValues<ISignUpParams>();
-  requestToSignUp(values)
-    .then(result => {
-      console.log('注册成功', result);
-    })
-    .catch(error => {
-      console.log('error', error);
-    });
+  return requestToSignUp(values);
 };
 
 const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
+  const [noticeVisible, setNoticeVisible] = useState<boolean>(false);
+  const [noticeType, setNoticeType] = useState<NoticeType>(NoticeType.error);
+  const [noticeMessage, setNoticeMessage] = useState<string>('');
   const formRef = useRef<IFormMethods>();
+
+  const startToSignUp = () => {
+    setNoticeVisible(true)
+    let validationSuccess = false;
+    formRef.current?.validate()
+      .then(() => {
+        validationSuccess = true;
+        return signUp(formRef.current as IFormMethods);
+      })
+      .then(() => {
+        setNoticeType(NoticeType.success);
+        setNoticeMessage('注册成功');
+      })
+      .catch(keysOfError => {
+        setNoticeType(NoticeType.error);
+        setNoticeMessage(validationSuccess ? '请按照提示修改后重试' : '网络异常');
+      })
+      .finally(() => {
+        setNoticeVisible(true);
+      })
+  };
 
   return (
     <Fragment>
@@ -122,19 +141,17 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
             variant="contained"
             fullWidth
             sx={{ mt: 2, mb: 1 }}
-            onClick={() => {
-              formRef.current?.validate()
-                .then(() => {
-                  signUp(formRef.current as IFormMethods);
-                })
-                .catch(keysOfError => {
-                  console.log('error fields', keysOfError);
-                })
-            }}
+            onClick={startToSignUp}
           >
             注册
           </Button>
         </Box>
+        <Notice
+          visible={noticeVisible}
+          onClose={() => setNoticeVisible(false)}
+          message={noticeMessage}
+          type={noticeType}
+        />
       </Layout>
     </Fragment>
   )
