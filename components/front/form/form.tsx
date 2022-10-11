@@ -50,6 +50,7 @@ interface IFormItemCommon {
     xs?: GridValue;
   };
   trigger?: Array<TriggerType>;
+  autoComplete?: string;
 }
 interface IInputForm extends IFormItemCommon {
   value: string;
@@ -161,6 +162,7 @@ const generateFormItemByType = (
     valueInfo,
     label,
     trigger = [TriggerType.onChange, TriggerType.onBlur],
+    autoComplete,
   } = formConfigItemChanged;
   const events: IEvents = {
     onChange: [
@@ -205,6 +207,7 @@ const generateFormItemByType = (
         variant="standard"
         type={inputType}
         fullWidth
+        autoComplete={autoComplete}
         {...eventsObject}
       />
     )
@@ -240,6 +243,7 @@ const generateFormItemByType = (
  * @param {string} [config[].rules[].message] - Tooltip for validation fail.
  * @param {boolean} [config[].rules[].required] - Field is required.
  * @param {function} [config[].rules[].custom] - Custom validation for field.
+ * @param {string} [config[].autoComplete] - Field autocomplete property.
  * @constructor
  */
 const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProps>((props, ref) => {

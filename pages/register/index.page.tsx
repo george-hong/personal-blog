@@ -1,5 +1,6 @@
 import React, {Fragment, ReactNode, useRef, useState} from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/front/layout/layout';
@@ -9,6 +10,7 @@ import { requestToCheckExistence, requestToSignUp } from '../../tools/clientRequ
 import style from './index.module.scss';
 import type {NextPage} from 'next';
 import { ISignUpParams } from '../../interface/user.interface';
+import { IUniformObject } from '../../interface/base.interface';
 
 interface IRegisterPageParams {
   query: {
@@ -102,8 +104,23 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
   const [noticeType, setNoticeType] = useState<NoticeType>(NoticeType.error);
   const [noticeMessage, setNoticeMessage] = useState<string>('');
   const formRef = useRef<IFormMethods>();
+  const router = useRouter();
+  let urlParams;
+  let backUrl: string;
+  // TODO: Extract url parse tool.
+  try {
+    urlParams = router.asPath.split('?')[1].split('&').reduce((total, keyValueString) => {
+      const [key, value] = keyValueString.split('=');
+      total[key] = value;
+      return total;
+    }, {} as IUniformObject<string>);
+  } catch (error) {
+    urlParams = {};
+  }
+  if (urlParams.back) backUrl = urlParams.back;
 
-  const startToSignUp = () => {
+
+  const startToSignUp = (backUrl?: string) => {
     setNoticeVisible(true)
     let validationSuccess = false;
     formRef.current?.validate()
@@ -113,7 +130,10 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
       })
       .then(() => {
         setNoticeType(NoticeType.success);
-        setNoticeMessage('注册成功');
+        setNoticeMessage('注册成功，即将跳转');
+        backUrl && setTimeout(() => {
+          router.push(backUrl);
+        }, 2000);
       })
       .catch(keysOfError => {
         setNoticeType(NoticeType.error);
@@ -141,7 +161,7 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
             variant="contained"
             fullWidth
             sx={{ mt: 2, mb: 1 }}
-            onClick={startToSignUp}
+            onClick={() => startToSignUp(backUrl)}
           >
             注册
           </Button>

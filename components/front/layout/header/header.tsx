@@ -1,5 +1,6 @@
 import React, { useEffect, useState, ReactNode, ForwardedRef, Fragment } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -31,6 +32,8 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   let className = `${style.header} ground-glass`;
   if (!visibility) className += ` ${style['hide-menu']}`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
+  const router = useRouter();
+  const currentPath = `/register?back=${router.asPath}`;
 
   return (
     <Fragment>
@@ -62,6 +65,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               item
               xs={4}
             >
+              {/* TODO: Don't show on register page, extract form by form component */}
               <Typography
                 classes={{ root: 'cursor-point' }}
                 component="h3"
@@ -107,11 +111,11 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
           <LoginForm>
 
           </LoginForm>
-          <Link href="/register">
+          <Link href={currentPath}>
             <a>
               <Typography
                 component="span"
-                sx={{ fontSize: 0.5, color: 'primary.main' }}
+                sx={{ fontSize: 12, color: 'primary.main' }}
               >
                 前往注册
               </Typography>

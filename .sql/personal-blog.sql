@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80030
 File Encoding         : 65001
 
-Date: 2022-09-30 23:42:25
+Date: 2022-10-11 22:52:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,7 +25,7 @@ CREATE TABLE `article` (
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'article content',
   `authorId` int NOT NULL COMMENT 'author id of article',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of article
@@ -34,7 +34,9 @@ INSERT INTO `article` VALUES ('1', 'hello', '在元素作为flex布局的子元�
 INSERT INTO `article` VALUES ('38', 'addFormOtherSource', 'addFormOtherSource222\n', '1');
 INSERT INTO `article` VALUES ('39', 'add', 'add\n', '1');
 INSERT INTO `article` VALUES ('40', 'add', 'add\n', '1');
-INSERT INTO `article` VALUES ('41', '面向对象编程', '### 继承模式\n\n1.  类式继承 通过修改子类的原型对象继承父类的方法\n\n    ```javascript\n    // 父类\n    function SuperClass() {\n      this.superValue = &#39super&#39;\n    }\n    // 父类方法\n    SuperClass.prototype.getSuperValue = function() {\n      return this.superValue;\n    }\n    // 子类\n    function SubClass() {\n      this.subValue = &#39sub&#39;\n    }\n    // 通过替换原型继承父类方法\n    SubClass.prototype = new SuperClass();\n    // 添加子类方法\n    SubClass.prototype.getSubValue = function() {\n      return this.subValue;\n    }\n\n    const sub = new SubClass();\n    sub.getSuperValue();   // &#39super&#39\n    sub.getSubValue();     // &#39sub&#39\n    ```\n\n2.  构造函数继承\n\n3.  组合继承\n\n4.  原型式继承\n\n5.  寄生式继承\n\n6.  寄生组合式继承\n', '1');
+INSERT INTO `article` VALUES ('41', '面向对象编程', '### 继承模式\n\n1.  类式继承\n\n    *   通过修改子类的原型对象继承父类的方法\n\n    ```javascript\n    // 父类\n    function SuperClass() {\n      this.superValue = &#39super&#39;\n    }\n\n    // 父类方法\n    SuperClass.prototype.getSuperValue = function() {\n      return this.superValue;\n    }\n\n    // 子类\n    function SubClass() {\n      this.subValue = &#39sub&#39;\n    }\n\n    // 通过替换原型继承父类方法\n    SubClass.prototype = new SuperClass();\n\n    // 添加子类方法\n    SubClass.prototype.getSubValue = function() {\n      return this.subValue;\n    }\n\n    const sub = new SubClass();\n    sub.getSuperValue();   // &#39super&#39\n    sub.getSubValue();     // &#39sub&#39\n    ```\n\n2.  构造函数继承\n\n    *   在子类构造函数中调用父类构造函数，实现父类属性的继承\n\n    *   缺点是为继承父类原型的方法\n\n    ```javascript\n    // 父类\n    function SuperClass(superValue) {\n      this.books = [&#39JavaScript&#39, &#39TypeScript&#39];\n      this.superValue = superValue;\n    }\n\n    // 父类方法\n    SuperClass.prototype.showBooks = function() {\n      console.log(this.books);\n    }\n\n    // 子类\n    function SubClass(superValue) {\n      SuperClass.call(this, superValue);\n    }\n\n    const instanceOne = new SubClass(&#39super one&#39);\n    const instanceTwo = new SubClass(&#39super two&#39);\n    instanceOne.books.push(&#39NodeJS&#39);\n    console.log(instanceOne.showBooks());       // [&#39JavaScript&#39, &#39TypeScript&#39, &#39NodeJS&#39]\n    console.log(instanceTwo.showBooks());       // [&#39JavaScript&#39, &#39TypeScript&#39]\n    console.log(instanceOne.superValue);  // &#39super one&#39\n    console.log(instanceTwo.superValue);  // &#39super two&#39\n     \n    ```\n\n3.  组合继承\n\n    *   结合类式继承与构造函数继承；将父类实例添加到子类原型，并在子类构造函数中调用父类构造函数\n\n    *   缺点是可能因为缺少必要参数导致父类构造函数报错\n\n    ```javascript\n    // 父类\n    function SuperClass(superValue) {\n      this.superValue = superValue;\n      this.books = [&#39JavaScript&#39, &#39TypeScript&#39];\n    }\n    // 添加父类方法\n    SuperClass.prototype.getBooks = function() {\n      return this.books;\n    }\n\n    // 子类\n    function SubClass(superValue, subValue) {\n      SuperClass.call(this, superValue);\n      this.subValue = subValue;\n    }\n    // 类式继承，子类原型继承父类实例，此时可能因为缺少必要参数导致父类构造函数报错\n    SubClass.prototype = new SuperClass();\n    // 子类方法\n    SubClass.getSubValue = function() {\n      return this.subValue;\n    }\n\n    const instanceOne = new SubClass(&#39sup1&#39, &#39sub1&#39);\n    const instanceTwo = new SubClass(&#39sup2&#39, &#39sub2&#39);\n    instanceTwo.books.push(&#39You dont know JS&#39);\n\n    console.log(instanceOne.superValue);  // &#39sup1&#39\n    console.log(instanceTwo.superValue);  // &#39sup2&#39\n\n    console.log(instanceOne.getSubValue());  // &#39sub1&#39\n    console.log(instanceTwo.getSubValue());  // &#39sub2&#39\n\n    console.log(instanceOne.getBooks());  // [&#39JavaScript&#39, &#39TypeScript&#39]\n    console.log(instanceTwo.getBooks());  // [&#39JavaScript&#39, &#39TypeScript&#39, &#39You dont know JS&#39]\n    ```\n\n4.  原型式继承\n\n5.  寄生式继承\n\n6.  寄生组合式继承\n', '1');
+INSERT INTO `article` VALUES ('42', 'tt', 'tt\n', '1');
+INSERT INTO `article` VALUES ('43', 'tt2', 'tt2\n', '1');
 
 -- ----------------------------
 -- Table structure for user
@@ -43,14 +45,16 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT 'user name',
-  `password` varchar(255) DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL COMMENT 'user avatar',
-  `createTime` timestamp NULL DEFAULT NULL,
+  `createTime` bigint unsigned NOT NULL,
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'admin', null, null, null, null);
+INSERT INTO `user` VALUES ('4', 'user4', '12345678', null, '1665289822909', null);
+INSERT INTO `user` VALUES ('5', 'admin', '12345678', null, '1665409401000', null);
+INSERT INTO `user` VALUES ('6', 'admin3', '12345678', null, '1665499362920', null);
