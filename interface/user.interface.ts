@@ -6,3 +6,8 @@ export interface ISignUpParams {
   name: string;
   password: string;
 }
+
+export interface ILoginParams {
+  name: string;
+  password: string;
+}

@@ -77,7 +77,7 @@ interface IFormProps {
   ref?: ForwardedRef<any>;
 }
 export interface IFormMethods {
-  validate: (keys?: Array<string>) => Promise<void>;
+  validate: <T>(keys?: Array<string>) => Promise<T>;
   clearValidation: (keys?: Array<string>) => void;
   getValues: <T>(keys?: Array<string>) => T;
 }
@@ -262,8 +262,8 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
   const [formChangedObject, setFormChangedObject] = useState<FormConfigChangedObject>(configObject);
 
   useImperativeHandle(ref, () => ({
-    validate: (keys?) => {
-      return new Promise((resolve, reject) => {
+    validate: <T,>(keys?: Array<string>) => {
+      return new Promise<T>((resolve, reject) => {
         const validationKeys = keys ? keys : Object.keys(configObject);
         const maxIndex = validationKeys.length - 1;
         const keysOfError: Array<string> = [];
@@ -281,7 +281,7 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
         });
         Promise.all(promiseList)
           .then(() => {
-            resolve();
+            resolve(getValues(formChangedObject, keys) as T);
           })
           .catch(() => {
             reject(keysOfError);

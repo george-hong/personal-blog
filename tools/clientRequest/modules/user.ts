@@ -1,5 +1,9 @@
 import { requestInstance } from '../index';
-import { IExistenceVerificationParams, ISignUpParams } from '../../../interface/user.interface';
+import {
+  IExistenceVerificationParams,
+  ISignUpParams,
+  ILoginParams,
+} from '../../../interface/user.interface';
 
 export function requestToCheckExistence(params: IExistenceVerificationParams) {
   const { name } = params;
@@ -16,4 +20,13 @@ export function requestToSignUp(params: ISignUpParams) {
     password,
   };
   return requestInstance.post('/api/user/sign-up', requestParams);
+}
+
+export function requestToLogin(params: ILoginParams) {
+  const { name, password } = params;
+  const requestParams = {
+    name,
+    password,
+  };
+  return requestInstance.post('/api/user/login', requestParams);
 }

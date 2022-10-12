@@ -4,11 +4,7 @@ import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import LoginForm from '../../user/login-form/login-form';
+import LoginDialog from '../../login-dialog/login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
 
@@ -33,7 +29,8 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   if (!visibility) className += ` ${style['hide-menu']}`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const router = useRouter();
-  const currentPath = `/register?back=${router.asPath}`;
+  const { asPath } = router;
+  const isRegisterPage = asPath.startsWith('/register');
 
   return (
     <Fragment>
@@ -66,64 +63,26 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               xs={4}
             >
               {/* TODO: Don't show on register page, extract form by form component */}
-              <Typography
-                classes={{ root: 'cursor-point' }}
-                component="h3"
-                sx={{ color: 'primary.main' }}
-                onClick={() => setDialogVisible(true)}
-              >
-                Login in / Sign in
-              </Typography>
+              {
+                !isRegisterPage && (
+                  <Typography
+                    classes={{ root: 'cursor-point' }}
+                    component="h3"
+                    sx={{ color: 'primary.main' }}
+                    onClick={() => setDialogVisible(true)}
+                  >
+                    Login in / Sign in
+                  </Typography>
+                )
+              }
             </Grid>
           </Grid>
         </Container>
       </header>
-      <Dialog
-        open={dialogVisible}
+      <LoginDialog
+        visible={dialogVisible}
         onClose={() => setDialogVisible(false)}
-      >
-        <Box
-          className={style['header-login-dialog']}
-          sx={{ padding: 3 }}
-        >
-          <Grid container>
-            <Grid item xs={6}>
-              <Typography component="span">
-                登录
-              </Typography>
-            </Grid>
-            <Grid
-              className="content-to-right"
-              item
-              xs={6}
-            >
-              <IconButton
-                color="primary"
-                aria-label="close"
-                component="label"
-                size="small"
-                onClick={() => setDialogVisible(false)}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            </Grid>
-          </Grid>
-          <LoginForm>
-
-          </LoginForm>
-          <Link href={currentPath}>
-            <a>
-              <Typography
-                component="span"
-                sx={{ fontSize: 12, color: 'primary.main' }}
-              >
-                前往注册
-              </Typography>
-            </a>
-          </Link>
-
-        </Box>
-      </Dialog>
+      />
     </Fragment>
   )
 });
