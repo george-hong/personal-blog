@@ -15,9 +15,9 @@ class DataBase {
     this.connection.connect();
   }
 
-  public query(sqlSentence: string) {
-    return new Promise((resolve, reject) => {
-      this.connection.query(sqlSentence, function (error, result, fields) {
+  public query<T>(sqlSentence: string) {
+    return new Promise<T>((resolve, reject) => {
+      this.connection.query(sqlSentence, function (error, result: T, fields) {
         if (error) return reject(error);
         resolve(result);
       })
