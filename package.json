@@ -21,6 +21,7 @@
     "@milkdown/react": "^6.3.2",
     "@milkdown/theme-nord": "^6.3.2",
     "@mui/icons-material": "^5.10.2",
+    "@mui/lab": "^5.0.0-alpha.102",
     "@mui/material": "^5.10.2",
     "lodash.clonedeep": "^4.5.0",
     "marked": "^4.1.0",

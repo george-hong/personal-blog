@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import cloneDeep from 'lodash.clonedeep';
 import type { NextPage } from 'next';
+import { IUniformObject } from '../../../interface/base.interface';
 
 export enum FormItemType {
  Input = 'input'
@@ -55,10 +56,12 @@ interface IFormItemCommon {
 interface IInputForm extends IFormItemCommon {
   value: string;
 }
-interface IValueInfo {
-  value: ValueType;
+interface IValueErrorInfo {
   error: boolean;
   message: string;
+}
+interface IValueInfo extends IValueErrorInfo {
+  value: ValueType;
 }
 interface IFormItemChanged {
   valueInfo: IValueInfo;
@@ -79,6 +82,7 @@ interface IFormProps {
 export interface IFormMethods {
   validate: <T>(keys?: Array<string>) => Promise<T>;
   clearValidation: (keys?: Array<string>) => void;
+  setValidation: (keyAndValidationMapping: IUniformObject<IValueErrorInfo>) => void;
   getValues: <T>(keys?: Array<string>) => T;
 }
 
@@ -296,9 +300,18 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
         setValueInfo(formChangedObject, key, { error: false, message: messageDefaultValue }, changingStateOrUndefined);
       });
     },
+    setValidation: (keyAndValidationMapping) => {
+      const keyAndValidationList = Object.entries(keyAndValidationMapping);
+      const maxIndex = keyAndValidationList.length - 1;
+      keyAndValidationList.forEach((keyAndValidation, index) => {
+        const [key, validation] = keyAndValidation;
+        const changingStateOrUndefined = index === maxIndex ? setFormChangedObject : undefined;
+        setValueInfo(formChangedObject, key, { error: validation.error, message: validation.message }, changingStateOrUndefined);
+      });
+    },
     getValues: <T,>(keys?: Array<string>): T => {
       return getValues(formChangedObject, keys) as T;
-    }
+    },
   }));
 
   return (

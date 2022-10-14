@@ -1,6 +1,7 @@
 import { NextApiResponse } from 'next';
+import { IUniformObject } from './base.interface';
 
 export interface ExtendedNextApiResponse extends NextApiResponse {
   supply: (response: unknown) => void;
-  throw: (message?: string, code?: number) => void;
+  throw: (messageOrProps?: string | IUniformObject<string>, code?: number) => void;
 }

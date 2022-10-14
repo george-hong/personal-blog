@@ -13,11 +13,15 @@ class Base {
         data: response,
       });
     }
-    res.throw = function (message?: string, code?: number) {
+    res.throw = function (messageOrProps, code?) {
       const errorCode = code ?? DEFAULT_ERROR_CODE;
+      const responseProps = !messageOrProps ? {} :
+        typeof messageOrProps === 'string' ? { message: messageOrProps } : messageOrProps;
+      const { message, ...otherResponse } = responseProps;
       res.status(errorCode).json({
+        ...otherResponse,
+        message: message ?? DEFAULT_ERROR_MESSAGE,
         status: errorCode,
-        data: message ?? DEFAULT_ERROR_MESSAGE,
       });
     }
     next();

@@ -80,7 +80,15 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
         console.log(result);
       })
       .catch(error => {
-        console.log('error', error);
+        const { message, field } = error;
+        if (message && field) {
+          formRef.current?.setValidation({
+            [field]: {
+              error: true,
+              message,
+            }
+          });
+        }
         // Form error.
       });
   };

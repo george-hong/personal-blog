@@ -53,17 +53,25 @@ class Request {
     return result;
   }
 
-  private send(method: methodType, url: string, params?: IParams, config?: IConfig) {
-    const { url: urlParsed, params: paramsParsed } = this.getUrlAndParamsByMethod(method, url, params);
-    const fetchOptions: RequestInit = {
-      method: method,
-      headers: {
-        'Content-Type': 'application/json',
-        ...config?.headers,
-      },
-    };
-    if (paramsParsed) fetchOptions.body = paramsParsed as string;
-    return fetch(urlParsed, fetchOptions).then((response) => response.json());
+  private send<T>(method: methodType, url: string, params?: IParams, config?: IConfig): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      const { url: urlParsed, params: paramsParsed } = this.getUrlAndParamsByMethod(method, url, params);
+      const fetchOptions: RequestInit = {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          ...config?.headers,
+        },
+      };
+      if (paramsParsed) fetchOptions.body = paramsParsed as string;
+      fetch(urlParsed, fetchOptions)
+        .then((response) => response.json())
+        .then((response) => {
+          const { status } = response;
+          if (status === 200) resolve(response as T);
+          else reject(response);
+        })
+    })
   }
 
   public get(url: string, params?: IParams, config?: IConfig) {

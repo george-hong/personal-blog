@@ -16,8 +16,8 @@ export default runMiddleware(middleware => {
           });
           next();
         } else if (matchedAccount) {
-          throw('密码不正确');
-        } else throw('账号不存在');
+          throw({ message: '密码不正确', field: 'password' });
+        } else throw({ message: '账号不存在', field: 'name' });
       })
       .catch(error => {
         res.throw(error);
