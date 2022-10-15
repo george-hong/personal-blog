@@ -74,12 +74,12 @@ class Request {
     })
   }
 
-  public get(url: string, params?: IParams, config?: IConfig) {
-    return this.send('get', url, params, config);
+  public get<T>(url: string, params?: IParams, config?: IConfig) {
+    return this.send<T>('get', url, params, config);
   }
 
-  public post(url: string, params?: IParams, config?: IConfig) {
-    return this.send('post', url, params, config);
+  public post<T>(url: string, params?: IParams, config?: IConfig) {
+    return this.send<T>('post', url, params, config);
   }
 }
 

@@ -3,6 +3,7 @@ import {
   IExistenceVerificationParams,
   ISignUpParams,
   ILoginParams,
+  IRegisterResponse,
 } from '../../../interface/user.interface';
 
 export function requestToCheckExistence(params: IExistenceVerificationParams) {
@@ -10,7 +11,7 @@ export function requestToCheckExistence(params: IExistenceVerificationParams) {
   const requestParams = {
     name,
   };
-  return requestInstance.get('/api/user/existence', requestParams);
+  return requestInstance.get<IRegisterResponse>('/api/user/existence', requestParams);
 }
 
 export function requestToSignUp(params: ISignUpParams) {

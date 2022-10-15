@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import { encodeQuotationMarks } from '../../../tools/methods';
 import { getArticleDetail } from '../../../tools/clientRequest/modules/article';
 import { generateClientRequest } from '../../../tools/clientRequest';
+import { IEditArticleResponse } from '../../../interface/user.interface';
 
 
 interface IArticleEditPageParams {
@@ -45,7 +46,7 @@ const saveArticle = (title: string, content: string, pageData?: IArticleInfo) =>
   if (pageData) {
     params.id = pageData.id;
   }
-  request.post(`/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
+  request.post<IEditArticleResponse>(`/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
     .then(result => {
       Router.push(`/article/detail?id=${result.data.id}`);
     })
