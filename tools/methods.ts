@@ -9,3 +9,7 @@ export const decodeQuotationMarks = (source: string, transformDouble = false): s
   if (transformDouble) return result.replace(/&#34/g, '"');
   return result;
 };
+
+export const isString = (value: unknown): boolean => {
+  return typeof value === 'string';
+}

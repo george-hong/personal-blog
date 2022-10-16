@@ -13,6 +13,7 @@ import Form, { FormItem, FormItemType, IFormMethods, TriggerType } from '../form
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
 import { ILoginParams } from '../../../interface/user.interface';
+import Secret from '../../../tools/secret';
 
 interface ILoginDialogProps {
   visible: boolean;
@@ -74,6 +75,8 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
   const startToLogin = () => {
     formRef.current?.validate<ILoginParams>()
       .then((values) => {
+        // Encode login info.
+        values.password = Secret.encode(values.password);
         return requestToLogin(values);
       })
       .then(result => {
