@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80030
 File Encoding         : 65001
 
-Date: 2022-10-11 22:52:23
+Date: 2022-10-17 22:46:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,6 +47,7 @@ CREATE TABLE `user` (
   `name` varchar(255) NOT NULL COMMENT 'user name',
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL COMMENT 'user avatar',
+  `privateKey` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createTime` bigint unsigned NOT NULL,
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -55,6 +56,6 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('4', 'user4', '12345678', null, '1665289822909', null);
-INSERT INTO `user` VALUES ('5', 'admin', '12345678', null, '1665409401000', null);
-INSERT INTO `user` VALUES ('6', 'admin3', '12345678', null, '1665499362920', null);
+INSERT INTO `user` VALUES ('4', 'user4', '12345678', null, '123456', '1665289822909', '2022-10-17 21:12:45');
+INSERT INTO `user` VALUES ('5', 'admin', '03c8d50b9f0f3d9e27722deed2d83c4ea44cb1c9fe27e255beee88a057d3e717', null, '7777', '1665409401000', '2022-10-17 22:15:26');
+INSERT INTO `user` VALUES ('6', 'admin3', '12345678', null, '88888', '1665499362920', '2022-10-17 21:12:57');

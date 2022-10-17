@@ -1,7 +1,10 @@
-import { IUniformObject } from './base.interface';
+export enum SecretType {
+  base64 = 'base64',
+  sha256 = 'sha256',
+}
 
 export interface ISecretEncodeOptions {
-  type?: string;
+  type?: SecretType;
 }
 
 export interface ISecretDecodeOptions {

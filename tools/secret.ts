@@ -2,19 +2,21 @@
  * class to encode / decode
  */
 import cloneDeep from 'lodash.cloneDeep';
+import sha256 from 'crypto-js/sha256';
 import {
   IDecodeResult,
   ISecretCache,
   ISecretDecodeOptions,
-  ISecretEncodeOptions
+  ISecretEncodeOptions,
+  SecretType
 } from '../interface/tool.interface';
 
 const secretEncodeOptions = {
-  type: 'base64',
+  type: SecretType.base64,
 };
 
 const secretDecodeOptions = {
-  type: 'base64',
+  type: SecretType.base64,
 };
 
 function encode(payload: string, options?: Partial<ISecretEncodeOptions>): string;
@@ -24,6 +26,9 @@ function encode(payload: string | object, options?: Partial<ISecretEncodeOptions
   const { type } = realOptions;
   let encodedStr;
   switch(type) {
+    case SecretType.sha256:
+      encodedStr = Secret.encodeByMd5(payload);
+      break;
     default:
       encodedStr = Secret.encodeByBase64(payload);
   }
@@ -67,6 +72,14 @@ class Secret {
     }
     return decodeResult;
   }
+
+  static encodeByMd5(payload: string | object): string {
+    const cache: ISecretCache<string | object> = {
+      payload: payload,
+    };
+    return sha256(JSON.stringify(cache)).toString();
+  }
+
 }
 
 export default Secret;

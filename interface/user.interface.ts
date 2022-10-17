@@ -15,7 +15,9 @@ export interface ILoginParams {
 }
 
 export interface ILoginQueryResult {
+  id: number;
   password: string;
+  privateKey: string;
 }
 
 export interface IEditArticleResponse extends IResponseBase {

@@ -14,6 +14,7 @@ import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
 import { ILoginParams } from '../../../interface/user.interface';
 import Secret from '../../../tools/secret';
+import { SecretType } from '../../../interface/tool.interface';
 
 interface ILoginDialogProps {
   visible: boolean;
@@ -76,7 +77,7 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
     formRef.current?.validate<ILoginParams>()
       .then((values) => {
         // Encode login info.
-        values.password = Secret.encode(values.password);
+        values.password = Secret.encode(values.password, { type: SecretType.sha256 });
         return requestToLogin(values);
       })
       .then(result => {
