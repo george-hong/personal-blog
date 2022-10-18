@@ -10,10 +10,11 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { requestToLogin } from '../../../tools/clientRequest/modules/user';
 import Form, { FormItem, FormItemType, IFormMethods, TriggerType } from '../form/form';
+import Secret from '../../../tools/secret';
+import { TOKEN_FIELD } from '../../../config/constant';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
 import { ILoginParams } from '../../../interface/user.interface';
-import Secret from '../../../tools/secret';
 import { SecretType } from '../../../interface/tool.interface';
 
 interface ILoginDialogProps {
@@ -82,6 +83,7 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
       })
       .then(result => {
         console.log(result);
+        localStorage.setItem(TOKEN_FIELD, result.data.token);
       })
       .catch(error => {
         const { message, field } = error;

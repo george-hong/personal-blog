@@ -31,3 +31,9 @@ export interface IRegisterResponse extends IResponseBase {
     existence: boolean;
   }
 }
+
+export interface ILoginResponse extends IResponseBase {
+  data: {
+    token: string;
+  }
+}
