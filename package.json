@@ -25,6 +25,7 @@
     "@mui/material": "^5.10.2",
     "crypto-js": "^4.1.1",
     "jsonwebtoken": "^8.5.1",
+    "jsrsasign": "^10.5.27",
     "lodash.clonedeep": "^4.5.0",
     "marked": "^4.1.0",
     "mysql": "^2.18.1",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
     "@types/jsonwebtoken": "^8.5.9",
+    "@types/jsrsasign": "^10.5.4",
     "@types/lodash.clonedeep": "^4.5.7",
     "@types/marked": "^4.0.6",
     "@types/mysql": "^2.15.21",

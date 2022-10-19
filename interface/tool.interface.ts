@@ -1,6 +1,7 @@
 export enum SecretType {
   base64 = 'base64',
   sha256 = 'sha256',
+  rsa = 'rsa',
 }
 
 export interface ISecretEncodeOptions {
