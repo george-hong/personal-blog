@@ -14,6 +14,10 @@ export interface ILoginParams {
   password: string;
 }
 
+export interface IRequestToLoginParams {
+  content: string;
+}
+
 export interface ILoginQueryResult {
   id: number;
   password: string;
@@ -23,6 +27,12 @@ export interface ILoginQueryResult {
 export interface IEditArticleResponse extends IResponseBase {
   data: {
     id: number;
+  };
+}
+
+export interface IGetPublicKeyResponse extends IResponseBase {
+  data: {
+    content: string;
   };
 }
 

@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { requestToLogin } from '../../../tools/clientRequest/modules/user';
+import { requestToGetRSAPublicKey, requestToLogin } from '../../../tools/clientRequest/modules/user';
 import Form, { FormItem, FormItemType, IFormMethods, TriggerType } from '../form/form';
 import Secret from '../../../tools/secret';
 import { TOKEN_FIELD } from '../../../config/constant';
@@ -61,7 +61,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
 
 /**
  * login dialog component
- * @param {Object} [props] component options
+ * @param {object} [props] component options
  * @param {string} [props.visible] Dialog visibility.
  * @param {function} [props.onClose] The function to close dialog.
  * @constructor
@@ -75,11 +75,25 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
   const registerPath = `/register?back=${asPath}`;
 
   const startToLogin = () => {
+    let loginParams: ILoginParams;
     formRef.current?.validate<ILoginParams>()
       .then((values) => {
+        // Record login parameters.
+        loginParams = values;
+        return requestToGetRSAPublicKey();
+      })
+      .then(publicKeyInfo => {
+        const { password } = loginParams;
         // Encode login info.
-        values.password = Secret.encode(values.password, { type: SecretType.sha256 });
-        return requestToLogin(values);
+        loginParams.password = Secret.encode(password, { type: SecretType.SHA256 });
+        const secretString = loginParams.password = Secret.encode(
+          loginParams,
+          {
+            type: SecretType.RSA,
+            key: publicKeyInfo.data.content,
+          }
+        );
+        return requestToLogin({ content: secretString });
       })
       .then(result => {
         console.log(result);
@@ -94,7 +108,7 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
               message,
             }
           });
-        }
+        } else throw(error);
         // Form error.
       });
   };

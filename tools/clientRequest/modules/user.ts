@@ -4,7 +4,9 @@ import {
   ISignUpParams,
   ILoginParams,
   IRegisterResponse,
-  ILoginResponse
+  ILoginResponse,
+  IGetPublicKeyResponse,
+  IRequestToLoginParams
 } from '../../../interface/user.interface';
 
 export function requestToCheckExistence(params: IExistenceVerificationParams) {
@@ -13,6 +15,10 @@ export function requestToCheckExistence(params: IExistenceVerificationParams) {
     name,
   };
   return requestInstance.get<IRegisterResponse>('/api/user/existence', requestParams);
+}
+
+export function requestToGetRSAPublicKey() {
+  return requestInstance.get<IGetPublicKeyResponse>('/api/user/public-key/get');
 }
 
 export function requestToSignUp(params: ISignUpParams) {
@@ -24,11 +30,10 @@ export function requestToSignUp(params: ISignUpParams) {
   return requestInstance.post('/api/user/sign-up', requestParams);
 }
 
-export function requestToLogin(params: ILoginParams) {
-  const { name, password } = params;
+export function requestToLogin(params: IRequestToLoginParams) {
+  const { content } = params;
   const requestParams = {
-    name,
-    password,
+    content
   };
   return requestInstance.post<ILoginResponse>('/api/user/login', requestParams);
 }
