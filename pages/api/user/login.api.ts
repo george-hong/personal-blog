@@ -2,6 +2,8 @@ import DataBase from '../../../components/back/database';
 import runMiddleware from '../../../components/back/middleware/runMiddleware';
 import { ILoginQueryResult } from '../../../interface/user.interface';
 import jwt from 'jsonwebtoken';
+import Secret from '../../../tools/secret';
+import { SecretType } from '../../../interface/tool.interface';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
@@ -11,7 +13,8 @@ export default runMiddleware(middleware => {
       .query<Array<ILoginQueryResult>>(`SELECT password, privateKey, id FROM user WHERE name = '${body.name}';`)
       .then((result) => {
         const matchedAccount = result[0];
-        if (matchedAccount && matchedAccount.password === body.password) {
+        const decodeResult = Secret.decode(body.password, { type: SecretType.RSA });
+        if (matchedAccount && decodeResult.success && matchedAccount.password === decodeResult.payload) {
           const token = jwt.sign({ id: matchedAccount.id }, matchedAccount.privateKey, { expiresIn: '1h' });
           res.supply({
             token,

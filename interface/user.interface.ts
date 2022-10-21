@@ -14,10 +14,6 @@ export interface ILoginParams {
   password: string;
 }
 
-export interface IRequestToLoginParams {
-  content: string;
-}
-
 export interface ILoginQueryResult {
   id: number;
   password: string;

@@ -83,17 +83,16 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
         return requestToGetRSAPublicKey();
       })
       .then(publicKeyInfo => {
-        const { password } = loginParams;
         // Encode login info.
-        loginParams.password = Secret.encode(password, { type: SecretType.SHA256 });
-        const secretString = loginParams.password = Secret.encode(
-          loginParams,
+        loginParams.password = Secret.encode(loginParams.password, { type: SecretType.SHA256 });
+        loginParams.password = Secret.encode(
+          loginParams.password,
           {
             type: SecretType.RSA,
             key: publicKeyInfo.data.content,
           }
         );
-        return requestToLogin({ content: secretString });
+        return requestToLogin(loginParams);
       })
       .then(result => {
         console.log(result);

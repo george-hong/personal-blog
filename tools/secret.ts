@@ -11,6 +11,10 @@ import {
   ISecretEncodeOptions,
   SecretType
 } from '../interface/tool.interface';
+import {
+  isString,
+  splitStringByByteLength,
+} from '../libs/base-type-utils';
 
 const secretEncodeOptions = {
   type: SecretType.Base64,
@@ -33,7 +37,8 @@ function encode(payload: string | object, options?: Partial<ISecretEncodeOptions
       encodedStr = Secret.encodeBySHA256(payload);
       break;
     case SecretType.RSA:
-      encodedStr = Secret.encodeByRSA(payload, options);
+      const realPayload = (isString(payload) ? payload : JSON.stringify(payload)) as string;
+      encodedStr = Secret.encodeByRSA(realPayload, options);
       break;
     default:
       encodedStr = Secret.encodeByBase64(payload);
@@ -47,15 +52,17 @@ const { prvKeyObj: rsaPrivateKeyObj, pubKeyObj: rsaPublicKeyObj } = KEYUTIL.gene
 class Secret {
   static RSAPublicKey: string = KEYUTIL.getPEM(rsaPublicKeyObj);
 
+  static RSASplitString: string = '.';
+
   static encode = encode;
 
-  static decode<T>(str: string, options?: Partial<ISecretDecodeOptions>): IDecodeResult<T> {
+  static decode<T>(str: string, options?: Partial<ISecretDecodeOptions>): IDecodeResult<T> | IDecodeResult<string> {
     const realOptions = Object.assign(cloneDeep(secretDecodeOptions), options) as ISecretDecodeOptions
     const { type } = realOptions;
     let decodeResult;
     switch(type) {
       case SecretType.RSA:
-        decodeResult = this.decodeByRSA<T>(str);
+        decodeResult = this.decodeByRSA(str);
         break;
       default:
         decodeResult = this.decodeByBase64<T>(str);
@@ -94,28 +101,33 @@ class Secret {
     return sha256(JSON.stringify(cache)).toString();
   }
 
-  static encodeByRSA(payload: string | object, options: IRSAEncodeOptions = {}): string {
-    const cache: ISecretCache<string | object> = {
-      payload: payload,
-    };
+  static encodeByRSA(payload: string, options: IRSAEncodeOptions = {}): string {
     const { key } = options;
-    let RSAPublicKey: RSAKey = rsaPublicKeyObj as RSAKey;
-    if (key) RSAPublicKey = KEYUTIL.getKey(key) as RSAKey;
-    return KJUR.crypto.Cipher.encrypt(JSON.stringify(cache), RSAPublicKey, ALG_NAME);
+    const RSAPublicKey = (key ? KEYUTIL.getKey(key) : rsaPublicKeyObj) as RSAKey;
+    return (
+      splitStringByByteLength(payload, 117)
+        .map(str => KJUR.crypto.Cipher.encrypt(str, RSAPublicKey, ALG_NAME))
+        .join(this.RSASplitString)
+    );
   }
 
-  static decodeByRSA<T>(str: string, options: IRSADecodeOptions = {}): IDecodeResult<T> {
-    const decodeResult: IDecodeResult<T> = {
+  static decodeByRSA(str: string, options: IRSADecodeOptions = {}): IDecodeResult<string> {
+    const decodeResult: IDecodeResult<string> = {
       success: false,
     }
     const { key } = options;
-    let RSAPrivateKey: RSAKey = rsaPrivateKeyObj as RSAKey;
-    if (key) RSAPrivateKey = KEYUTIL.getKey(key) as RSAKey;
+    const RSAPrivateKey = (key ? KEYUTIL.getKey(key) : rsaPrivateKeyObj) as RSAKey;
     try {
-      const cache = JSON.parse(KJUR.crypto.Cipher.decrypt(str, RSAPrivateKey, ALG_NAME));
-      decodeResult.payload = (cache as ISecretCache<T>).payload;
+      const payload = (
+        str
+          .split(this.RSASplitString)
+          .map(secretString => KJUR.crypto.Cipher.decrypt(secretString, RSAPrivateKey, ALG_NAME))
+          .join()
+      );
+      decodeResult.payload = payload;
       decodeResult.success = true;
     } catch (error) {
+      throw(error)
       // Do not need to do anything.
     }
     return decodeResult;
