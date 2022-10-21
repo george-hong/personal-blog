@@ -51,6 +51,7 @@ const { prvKeyObj: rsaPrivateKeyObj, pubKeyObj: rsaPublicKeyObj } = KEYUTIL.gene
 
 class Secret {
   static RSAPublicKey: string = KEYUTIL.getPEM(rsaPublicKeyObj);
+  static RSAPrivateKey: string = KEYUTIL.getPEM(rsaPrivateKeyObj, 'PKCS8PRV');
 
   static RSASplitString: string = '.';
 
@@ -103,7 +104,7 @@ class Secret {
 
   static encodeByRSA(payload: string, options: IRSAEncodeOptions = {}): string {
     const { key } = options;
-    const RSAPublicKey = (key ? KEYUTIL.getKey(key) : rsaPublicKeyObj) as RSAKey;
+    const RSAPublicKey = KEYUTIL.getKey(key ?? this.RSAPublicKey) as RSAKey;
     return (
       splitStringByByteLength(payload, 117)
         .map(str => KJUR.crypto.Cipher.encrypt(str, RSAPublicKey, ALG_NAME))
@@ -116,12 +117,14 @@ class Secret {
       success: false,
     }
     const { key } = options;
-    const RSAPrivateKey = (key ? KEYUTIL.getKey(key) : rsaPrivateKeyObj) as RSAKey;
+    const RSAPrivateKey = KEYUTIL.getKey(key ?? this.RSAPrivateKey) as RSAKey;
     try {
       const payload = (
         str
           .split(this.RSASplitString)
-          .map(secretString => KJUR.crypto.Cipher.decrypt(secretString, RSAPrivateKey, ALG_NAME))
+          .map(secretString => {
+            return KJUR.crypto.Cipher.decrypt(secretString, RSAPrivateKey, ALG_NAME);
+          })
           .join()
       );
       decodeResult.payload = payload;

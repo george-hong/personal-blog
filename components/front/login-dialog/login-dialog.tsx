@@ -69,6 +69,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
 const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
   const { visible, onClose } = props;
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
+  const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
   const { asPath } = router;
@@ -80,16 +81,19 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
       .then((values) => {
         // Record login parameters.
         loginParams = values;
+        if (publicKey) return Promise.resolve({ data: { content: publicKey } });
         return requestToGetRSAPublicKey();
       })
       .then(publicKeyInfo => {
         // Encode login info.
+        const key = publicKeyInfo.data.content;
+        setPublicKey(key);
         loginParams.password = Secret.encode(loginParams.password, { type: SecretType.SHA256 });
         loginParams.password = Secret.encode(
           loginParams.password,
           {
             type: SecretType.RSA,
-            key: publicKeyInfo.data.content,
+            key,
           }
         );
         return requestToLogin(loginParams);
