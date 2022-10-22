@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80030
 File Encoding         : 65001
 
-Date: 2022-10-17 22:46:47
+Date: 2022-10-23 00:54:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,7 +25,7 @@ CREATE TABLE `article` (
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'article content',
   `authorId` int NOT NULL COMMENT 'author id of article',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of article
@@ -37,6 +37,7 @@ INSERT INTO `article` VALUES ('40', 'add', 'add\n', '1');
 INSERT INTO `article` VALUES ('41', '面向对象编程', '### 继承模式\n\n1.  类式继承\n\n    *   通过修改子类的原型对象继承父类的方法\n\n    ```javascript\n    // 父类\n    function SuperClass() {\n      this.superValue = &#39super&#39;\n    }\n\n    // 父类方法\n    SuperClass.prototype.getSuperValue = function() {\n      return this.superValue;\n    }\n\n    // 子类\n    function SubClass() {\n      this.subValue = &#39sub&#39;\n    }\n\n    // 通过替换原型继承父类方法\n    SubClass.prototype = new SuperClass();\n\n    // 添加子类方法\n    SubClass.prototype.getSubValue = function() {\n      return this.subValue;\n    }\n\n    const sub = new SubClass();\n    sub.getSuperValue();   // &#39super&#39\n    sub.getSubValue();     // &#39sub&#39\n    ```\n\n2.  构造函数继承\n\n    *   在子类构造函数中调用父类构造函数，实现父类属性的继承\n\n    *   缺点是为继承父类原型的方法\n\n    ```javascript\n    // 父类\n    function SuperClass(superValue) {\n      this.books = [&#39JavaScript&#39, &#39TypeScript&#39];\n      this.superValue = superValue;\n    }\n\n    // 父类方法\n    SuperClass.prototype.showBooks = function() {\n      console.log(this.books);\n    }\n\n    // 子类\n    function SubClass(superValue) {\n      SuperClass.call(this, superValue);\n    }\n\n    const instanceOne = new SubClass(&#39super one&#39);\n    const instanceTwo = new SubClass(&#39super two&#39);\n    instanceOne.books.push(&#39NodeJS&#39);\n    console.log(instanceOne.showBooks());       // [&#39JavaScript&#39, &#39TypeScript&#39, &#39NodeJS&#39]\n    console.log(instanceTwo.showBooks());       // [&#39JavaScript&#39, &#39TypeScript&#39]\n    console.log(instanceOne.superValue);  // &#39super one&#39\n    console.log(instanceTwo.superValue);  // &#39super two&#39\n     \n    ```\n\n3.  组合继承\n\n    *   结合类式继承与构造函数继承；将父类实例添加到子类原型，并在子类构造函数中调用父类构造函数\n\n    *   缺点是可能因为缺少必要参数导致父类构造函数报错\n\n    ```javascript\n    // 父类\n    function SuperClass(superValue) {\n      this.superValue = superValue;\n      this.books = [&#39JavaScript&#39, &#39TypeScript&#39];\n    }\n    // 添加父类方法\n    SuperClass.prototype.getBooks = function() {\n      return this.books;\n    }\n\n    // 子类\n    function SubClass(superValue, subValue) {\n      SuperClass.call(this, superValue);\n      this.subValue = subValue;\n    }\n    // 类式继承，子类原型继承父类实例，此时可能因为缺少必要参数导致父类构造函数报错\n    SubClass.prototype = new SuperClass();\n    // 子类方法\n    SubClass.getSubValue = function() {\n      return this.subValue;\n    }\n\n    const instanceOne = new SubClass(&#39sup1&#39, &#39sub1&#39);\n    const instanceTwo = new SubClass(&#39sup2&#39, &#39sub2&#39);\n    instanceTwo.books.push(&#39You dont know JS&#39);\n\n    console.log(instanceOne.superValue);  // &#39sup1&#39\n    console.log(instanceTwo.superValue);  // &#39sup2&#39\n\n    console.log(instanceOne.getSubValue());  // &#39sub1&#39\n    console.log(instanceTwo.getSubValue());  // &#39sub2&#39\n\n    console.log(instanceOne.getBooks());  // [&#39JavaScript&#39, &#39TypeScript&#39]\n    console.log(instanceTwo.getBooks());  // [&#39JavaScript&#39, &#39TypeScript&#39, &#39You dont know JS&#39]\n    ```\n\n4.  原型式继承\n\n5.  寄生式继承\n\n6.  寄生组合式继承\n', '1');
 INSERT INTO `article` VALUES ('42', 'tt', 'tt\n', '1');
 INSERT INTO `article` VALUES ('43', 'tt2', 'tt2\n', '1');
+INSERT INTO `article` VALUES ('44', 'nextjs已知问题', '1.  开发环境下未预加载全部界面，导致某些动态生成的变量被重复执行，导致页面拿到的值不正确，最终导致功能异常。\n\n2.  生产环境下由于已加载全部界面，取到的为最终值，因此不存在此问题。\n', '1');
 
 -- ----------------------------
 -- Table structure for user
@@ -51,11 +52,14 @@ CREATE TABLE `user` (
   `createTime` bigint unsigned NOT NULL,
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('4', 'user4', '12345678', null, '123456', '1665289822909', '2022-10-17 21:12:45');
-INSERT INTO `user` VALUES ('5', 'admin', '03c8d50b9f0f3d9e27722deed2d83c4ea44cb1c9fe27e255beee88a057d3e717', null, '7777', '1665409401000', '2022-10-17 22:15:26');
-INSERT INTO `user` VALUES ('6', 'admin3', '12345678', null, '88888', '1665499362920', '2022-10-17 21:12:57');
+INSERT INTO `user` VALUES ('5', 'admin', '45499e4ca39017d2c4a753927362c628aaf52814c256b0521f30330225783244', null, '7777', '1665409401000', '2022-10-22 00:02:40');
+INSERT INTO `user` VALUES ('6', 'admin3', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', null, '88888', '1665499362920', '2022-10-21 23:20:18');
+INSERT INTO `user` VALUES ('7', 'admin7', '12345678', null, '1666454122902', '1666454122902', null);
+INSERT INTO `user` VALUES ('8', 'admin8', '12345678', null, '1666454198446', '1666454198446', null);
+INSERT INTO `user` VALUES ('11', 'usertest', '75e44c02f418661b05d1dd668b20a152fe8502b5749e459b249a8735afa3f670', null, '1666457271459', '1666457271459', null);
