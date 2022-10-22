@@ -99,8 +99,8 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
         return requestToLogin(loginParams);
       })
       .then(result => {
-        console.log(result);
         localStorage.setItem(TOKEN_FIELD, result.data.token);
+        onClose();
       })
       .catch(error => {
         const { message, field } = error;
@@ -169,7 +169,6 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
             </Typography>
           </a>
         </Link>
-
       </Box>
     </Dialog>
   );

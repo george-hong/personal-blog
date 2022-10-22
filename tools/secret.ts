@@ -5,16 +5,19 @@ import cloneDeep from 'lodash.cloneDeep';
 import sha256 from 'crypto-js/sha256';
 import { KEYUTIL, KJUR, RSAKey } from 'jsrsasign';
 import {
-  IDecodeResult, IRSADecodeOptions, IRSAEncodeOptions,
-  ISecretCache,
-  ISecretDecodeOptions,
-  ISecretEncodeOptions,
-  SecretType
-} from '../interface/tool.interface';
-import {
   isString,
   splitStringByByteLength,
 } from '../libs/base-type-utils';
+import RSAString from './rsa';
+import {
+  IDecodeResult,
+  IRSADecodeOptions,
+  IRSAEncodeOptions,
+  ISecretCache,
+  ISecretDecodeOptions,
+  ISecretEncodeOptions,
+  SecretType,
+} from '../interface/tool.interface';
 
 const secretEncodeOptions = {
   type: SecretType.Base64,
@@ -46,12 +49,24 @@ function encode(payload: string | object, options?: Partial<ISecretEncodeOptions
   return encodedStr;
 }
 
-// Generate RSA key pair.
-const { prvKeyObj: rsaPrivateKeyObj, pubKeyObj: rsaPublicKeyObj } = KEYUTIL.generateKeypair('RSA', 1024);
+// fix: When we are in development environmental, if some server-side api refer this file
+// and developer visit it, it will cause the rsa key refresh. Eventually, encode/decode fail
+// at the first time.
+let RSAPublicKey: string;
+let RSAPrivateKey: string;
+if (process.env.NODE_ENV === 'production') {
+  const keyPair = KEYUTIL.generateKeypair('RSA', 1024);
+  RSAPublicKey = KEYUTIL.getPEM(keyPair.pubKeyObj);
+  RSAPrivateKey = KEYUTIL.getPEM(keyPair.prvKeyObj, 'PKCS8PRV');
+} else {
+  RSAPublicKey = RSAString.public;
+  RSAPrivateKey = RSAString.private;
+}
 
 class Secret {
-  static RSAPublicKey: string = KEYUTIL.getPEM(rsaPublicKeyObj);
-  static RSAPrivateKey: string = KEYUTIL.getPEM(rsaPrivateKeyObj, 'PKCS8PRV');
+  static RSAPublicKey: string = RSAPublicKey;
+  static RSAPrivateKey: string = RSAPrivateKey;
+
 
   static RSASplitString: string = '.';
 
@@ -119,7 +134,7 @@ class Secret {
     const { key } = options;
     const RSAPrivateKey = KEYUTIL.getKey(key ?? this.RSAPrivateKey) as RSAKey;
     try {
-      const payload = (
+      decodeResult.payload = (
         str
           .split(this.RSASplitString)
           .map(secretString => {
@@ -127,7 +142,6 @@ class Secret {
           })
           .join()
       );
-      decodeResult.payload = payload;
       decodeResult.success = true;
     } catch (error) {
       throw(error)

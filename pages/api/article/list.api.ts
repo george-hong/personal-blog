@@ -12,5 +12,5 @@ export default runMiddleware(middleware => {
         res.throw(error);
       })
       .finally(next)
-  })
+  });
 });
