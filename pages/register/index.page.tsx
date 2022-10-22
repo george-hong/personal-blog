@@ -6,9 +6,14 @@ import Button from '@mui/material/Button';
 import Layout from '../../components/front/layout/layout';
 import Notice, { NoticeType } from '../../components/front/notice/notice';
 import Form, {FormItem, FormItemType, IFormMethods, TriggerType} from '../../components/front/form/form';
-import { requestToCheckExistence, requestToSignUp } from '../../tools/clientRequest/modules/user';
+import {
+  requestToCheckExistence,
+  requestToGetRSAPublicKey,
+  requestToSignUp,
+} from '../../tools/clientRequest/modules/user';
+import User from '../../libs/user';
 import style from './index.module.scss';
-import type {NextPage} from 'next';
+import type { NextPage } from 'next';
 import { ISignUpParams } from '../../interface/user.interface';
 import { IUniformObject } from '../../interface/base.interface';
 
@@ -93,16 +98,12 @@ const getRegisterFormConfig = (): Array<FormItem> => {
   ]
 };
 
-const signUp = (formRef: IFormMethods) => {
-  const values = formRef.getValues<ISignUpParams>();
-  return requestToSignUp(values);
-};
-
 const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
   const [noticeVisible, setNoticeVisible] = useState<boolean>(false);
   const [noticeType, setNoticeType] = useState<NoticeType>(NoticeType.error);
   const [noticeMessage, setNoticeMessage] = useState<string>('');
+  const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
   let urlParams;
@@ -123,10 +124,20 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
   const startToSignUp = (backUrl?: string) => {
     setNoticeVisible(true)
     let validationSuccess = false;
-    formRef.current?.validate()
-      .then(() => {
+    let signUpParams: ISignUpParams;
+    formRef.current?.validate<ISignUpParams>()
+      .then((values) => {
+        signUpParams = values;
         validationSuccess = true;
-        return signUp(formRef.current as IFormMethods);
+        if (publicKey) return Promise.resolve({ data: { content: publicKey } });
+        else return requestToGetRSAPublicKey();
+      })
+      .then(publicKeyInfo => {
+        const publicKey = publicKeyInfo.data.content;
+        const user = new User(signUpParams);
+        setPublicKey(publicKey);
+        user.encodeAndSetPassword(signUpParams.password, publicKey);
+        return requestToSignUp(user.generateSignUpParams());
       })
       .then(() => {
         setNoticeType(NoticeType.success);

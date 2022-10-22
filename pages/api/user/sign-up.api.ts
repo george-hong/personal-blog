@@ -1,5 +1,6 @@
 import DataBase from '../../../components/back/database';
 import runMiddleware from '../../../components/back/middleware/runMiddleware';
+import User from '../../../libs/user';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
@@ -10,7 +11,9 @@ export default runMiddleware(middleware => {
       .then((result) => {
         const existence = !!(result as Array<object>).length;
         if (existence) throw('账号已存在');
-        return db.query(`INSERT INTO user (name, password, createTime) VALUES ('${body.name}', '${body.password}', ${Date.now()})`);
+        const currentTimeStamp = Date.now();
+        const realPassword = new User({ name: body.name, password: body.password }).getDecodedPassword();
+        return db.query(`INSERT INTO user (name, password, privateKey, createTime) VALUES ('${body.name}', '${realPassword}', ${currentTimeStamp}, ${currentTimeStamp})`);
       })
       .then((result) => {
         res.supply({ id: (result as { insertId?: string }).insertId });
