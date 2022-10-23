@@ -1,7 +1,13 @@
 import { IResponseBase } from './base.interface';
 
+export enum ExistenceCheckType {
+  account = 'account',
+  nickName = 'nickName',
+}
+
 export interface IExistenceVerificationParams {
-  account: string;
+  field: ExistenceCheckType;
+  value: string;
 }
 
 export interface ISignUpParams {
@@ -18,6 +24,8 @@ export interface ILoginQueryResult {
   id: number;
   password: string;
   privateKey: string;
+  nickName: string;
+  avatar?: string;
 }
 
 export interface IEditArticleResponse extends IResponseBase {

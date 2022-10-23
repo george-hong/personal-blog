@@ -10,7 +10,7 @@ export default runMiddleware(middleware => {
     const { body = {} } = req;
     const db = new DataBase();
     db
-      .query<Array<ILoginQueryResult>>(`SELECT password, privateKey, id FROM user WHERE account = '${body.account}';`)
+      .query<Array<ILoginQueryResult>>(`SELECT password, privateKey, nickName, avatar, id FROM user WHERE account = '${body.account}';`)
       .then((result) => {
         const matchedAccount = result[0];
         const decodeResult = Secret.decode(body.password, { type: SecretType.RSA });
@@ -18,6 +18,8 @@ export default runMiddleware(middleware => {
           const token = jwt.sign({ id: matchedAccount.id }, matchedAccount.privateKey, { expiresIn: '1h' });
           res.supply({
             token,
+            nickName: matchedAccount.nickName,
+            avatar: matchedAccount.avatar || '',
           });
           next();
         } else if (matchedAccount) {

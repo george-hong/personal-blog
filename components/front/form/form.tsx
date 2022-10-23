@@ -36,6 +36,7 @@ const validate = (
     const validationResult = { error: false, message: messageDefaultValue };
     const promiseList: Array<Promise<void>> = [];
     if (rules) {
+      const isRequired = !!rules.find(rule => rule.required === true);
       rules.forEach(rule => {
         promiseList.push(
           new Promise<void>((innerResolve: () => void, innerReject) => {
@@ -45,9 +46,19 @@ const validate = (
               rule.custom(value, getValues(formChangedObject) as IValues, innerResolve, (customMessage?: string) => {
                 innerReject(customMessage ?? rule.message);
               });
-            } else if (typeof(value) === 'string' && rule.minLength && value.length < rule.minLength) {
+            } else if (
+              typeof(value) === 'string' &&
+              rule.minLength &&
+              value.length < rule.minLength &&
+              !(!isRequired && value.length === 0)
+            ) {
               innerReject(rule.message);
-            } else if (typeof(value) === 'string' && rule.maxLength && value.length > rule.maxLength) {
+            } else if (
+              typeof(value) === 'string' &&
+              rule.maxLength &&
+              value.length > rule.maxLength &&
+              !(!isRequired && value.length === 0)
+            ) {
               innerReject(rule.message);
             } else {
               innerResolve();

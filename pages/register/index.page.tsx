@@ -1,4 +1,4 @@
-import React, {Fragment, ReactNode, useRef, useState} from 'react';
+import React, { Fragment, ReactNode, useRef, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
@@ -9,12 +9,12 @@ import Form from '../../components/front/form/form';
 import {
   requestToCheckExistence,
   requestToGetRSAPublicKey,
-  requestToSignUp,
+  requestToSignUp
 } from '../../tools/clientRequest/modules/user';
 import User from '../../libs/user';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
-import { ISignUpParams } from '../../interface/user.interface';
+import { ExistenceCheckType, ISignUpParams } from '../../interface/user.interface';
 import { IUniformObject } from '../../interface/base.interface';
 import { FormItem, FormItemType, IFormMethods, TriggerType } from '../../components/front/form/form.interface';
 import { INoticeMethods, NoticeType } from '../../components/front/notice/notice.interface';
@@ -44,7 +44,9 @@ const getRegisterFormConfig = (): Array<FormItem> => {
         },
         {
           custom(account, values, resolve, reject) {
-            requestToCheckExistence({ account: (account as string) })
+            if (!account) return resolve();
+            const requestParams = { field: ExistenceCheckType.account, value: account as string };
+            requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
                   reject('用户名重复');
@@ -54,7 +56,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
                 reject('网络异常，请再次输入');
               });
           },
-        }
+        },
       ],
       trigger: [TriggerType.onBlur],
     },
@@ -73,6 +75,10 @@ const getRegisterFormConfig = (): Array<FormItem> => {
         {
           minLength: 8,
           message: '密码需要至少8个字符',
+        },
+        {
+          maxLength: 30,
+          message: '密码最长为30个字符',
         }
       ]
     },
@@ -96,7 +102,41 @@ const getRegisterFormConfig = (): Array<FormItem> => {
           message: '两次密码输入不一致',
         },
       ]
-    }
+    },
+    {
+      type: FormItemType.Input,
+      key: 'nickName',
+      label: '昵称',
+      value: '',
+      inputType: 'text',
+      grid: { xs: 12 },
+      rules: [
+        {
+          minLength: 1,
+          message: '昵称需要至少1个字符',
+        },
+        {
+          maxLength: 20,
+          message: '昵称最长为20个字符',
+        },
+        {
+          custom(nickName, values, resolve, reject) {
+            if (!nickName) return resolve();
+            const requestParams = { field: ExistenceCheckType.nickName, value: nickName as string };
+            requestToCheckExistence(requestParams)
+              .then(result => {
+                if (result.data.existence) {
+                  reject('昵称重复');
+                } else resolve();
+              })
+              .catch(error => {
+                reject('网络异常，请再次输入');
+              });
+          },
+        }
+      ],
+      trigger: [TriggerType.onBlur],
+    },
   ]
 };
 

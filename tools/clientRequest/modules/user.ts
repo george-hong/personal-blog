@@ -9,11 +9,12 @@ import {
 } from '../../../interface/user.interface';
 
 export function requestToCheckExistence(params: IExistenceVerificationParams) {
-  const { account } = params;
+  const { field, value } = params;
   const requestParams = {
-    account,
+    field,
+    value,
   };
-  return requestInstance.get<IRegisterResponse>('/api/user/check-account-existence', requestParams);
+  return requestInstance.get<IRegisterResponse>('/api/user/check-existence', requestParams);
 }
 
 export function requestToGetRSAPublicKey() {

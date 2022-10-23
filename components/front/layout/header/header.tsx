@@ -62,7 +62,6 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               item
               xs={4}
             >
-              {/* TODO: Don't show on register page, extract form by form component */}
               {
                 !isRegisterPage && (
                   <Typography
