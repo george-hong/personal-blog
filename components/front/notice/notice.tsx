@@ -1,50 +1,67 @@
-import React, { Component } from 'react';
-import SnackBar from '@mui/material/SnackBar';
-import Alert from '@mui/material/Alert';
+import React, { Component, forwardRef, useImperativeHandle } from 'react';
+import Box from '@mui/material/Box';
+import toast, { Toaster } from 'react-hot-toast';
 import type { NextPage } from 'next';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import style from './notice.module.scss';
+import { INoticeMethods, INoticeOptions, INoticeProps, NoticeType } from './notice.interface';
 
-export enum NoticeType {
-  info = 'info',
-  success = 'success',
-  warning = 'warning',
-  error = 'error',
+const NOTICE_TYPE_AND_OPTIONS_MAPPING = {
+  [NoticeType.info]: {
+    className: '',
+    icon: <InfoRoundedIcon />,
+  },
+  [NoticeType.success]: {
+    className: style['notice-success'],
+    icon: <CheckCircleRoundedIcon  />,
+  },
+  [NoticeType.warning]: {
+    className: style['notice-warning'],
+    icon: <ErrorRoundedIcon />,
+  },
+  [NoticeType.error]: {
+    className: style['notice-error'],
+    icon: <CancelRoundedIcon fontSize="medium" />,
+  },
 }
-interface INoticeProps {
-  visible: boolean;
-  onClose: () => unknown;
-  message: string;
-  type?: NoticeType;
+
+const DEFAULT_NOTICE_OPTIONS = {
+  type: NoticeType.info,
 }
 
 /**
  * content empty layout component
  * @param {Object} props component options
- * @param {boolean} props.visible Notice visibility.
- * @param {function} props.onClose Method of close notice.
- * @param {string} props.message Message of notice.
- * @param {string} props.type Type of notice.
- * @constructor
  */
-const Notice: NextPage<INoticeProps, Component> = (props) => {
-  const {
-    visible,
-    onClose,
-    message,
-    type = NoticeType.info,
-  } = props;
+const Notice: NextPage<INoticeProps, Component> = forwardRef<INoticeMethods, INoticeProps>(function (props, ref) {
+  useImperativeHandle(ref, () => ({
+    notice(message: string, options: Partial<INoticeOptions>) {
+      const realOptions = Object.assign({}, DEFAULT_NOTICE_OPTIONS, options) as INoticeOptions;
+      const { type }= realOptions;
+      const currentTypeOptions = NOTICE_TYPE_AND_OPTIONS_MAPPING[type];
+      const noticeNode = (
+        <div className={`${style.notice} ${currentTypeOptions.className}`} >
+          <Box sx={{ mr: 1, display: 'flex' }}>
+            { currentTypeOptions.icon }
+          </Box>
+          { message }
+        </div>
+      )
+      toast.custom(noticeNode, {
+        duration: 3000,
+        position: 'top-center',
+      });
+    }
+  }));
 
   return (
-    <SnackBar
-      open={visible}
-      onClose={onClose}
-      autoHideDuration={5000}
-      anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-    >
-      <Alert severity={type} sx={{ width: '100%' }}>
-        { message }
-      </Alert>
-    </SnackBar>
-  );
-};
+    <Toaster
+      position="top-center"
+    />
+  )
+});
 
 export default Notice;

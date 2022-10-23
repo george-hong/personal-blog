@@ -9,13 +9,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { requestToGetRSAPublicKey, requestToLogin } from '../../../tools/clientRequest/modules/user';
-import Form, { FormItem, FormItemType, IFormMethods, TriggerType } from '../form/form';
+import Form from '../form/form';
 import Secret from '../../../tools/secret';
 import { TOKEN_FIELD } from '../../../config/constant';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
 import { ILoginParams } from '../../../interface/user.interface';
 import { SecretType } from '../../../interface/tool.interface';
+import { FormItem, FormItemType, IFormMethods, TriggerType } from '../form/form.interface';
 
 interface ILoginDialogProps {
   visible: boolean;

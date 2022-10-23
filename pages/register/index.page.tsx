@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/front/layout/layout';
-import Notice, { NoticeType } from '../../components/front/notice/notice';
-import Form, {FormItem, FormItemType, IFormMethods, TriggerType} from '../../components/front/form/form';
+import Notice from '../../components/front/notice/notice';
+import Form from '../../components/front/form/form';
 import {
   requestToCheckExistence,
   requestToGetRSAPublicKey,
@@ -16,6 +16,8 @@ import style from './index.module.scss';
 import type { NextPage } from 'next';
 import { ISignUpParams } from '../../interface/user.interface';
 import { IUniformObject } from '../../interface/base.interface';
+import { FormItem, FormItemType, IFormMethods, TriggerType } from '../../components/front/form/form.interface';
+import { INoticeMethods, NoticeType } from '../../components/front/notice/notice.interface';
 
 interface IRegisterPageParams {
   query: {
@@ -100,9 +102,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
 
 const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
-  const [noticeVisible, setNoticeVisible] = useState<boolean>(false);
-  const [noticeType, setNoticeType] = useState<NoticeType>(NoticeType.error);
-  const [noticeMessage, setNoticeMessage] = useState<string>('');
+  const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
@@ -120,9 +120,11 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
   }
   if (urlParams.back) backUrl = urlParams.back;
 
+  const showNotice = (message: string, type?: NoticeType) => {
+    noticeRef.current?.notice(message, { type });
+  };
 
   const startToSignUp = (backUrl?: string) => {
-    setNoticeVisible(true)
     let validationSuccess = false;
     let signUpParams: ISignUpParams;
     formRef.current?.validate<ISignUpParams>()
@@ -140,19 +142,14 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
         return requestToSignUp(user.generateSignUpParams());
       })
       .then(() => {
-        setNoticeType(NoticeType.success);
-        setNoticeMessage('注册成功，即将跳转');
+        showNotice('注册成功，即将跳转', NoticeType.success);
         backUrl && setTimeout(() => {
           router.push(backUrl);
         }, 2000);
       })
       .catch(keysOfError => {
-        setNoticeType(NoticeType.error);
-        setNoticeMessage(validationSuccess ? '请按照提示修改后重试' : '网络异常');
-      })
-      .finally(() => {
-        setNoticeVisible(true);
-      })
+        showNotice(validationSuccess ? '请按照提示修改后重试' : '网络异常', NoticeType.error);
+      });
   };
 
   return (
@@ -177,12 +174,7 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
             注册
           </Button>
         </Box>
-        <Notice
-          visible={noticeVisible}
-          onClose={() => setNoticeVisible(false)}
-          message={noticeMessage}
-          type={noticeType}
-        />
+        <Notice ref={noticeRef} />
       </Layout>
     </Fragment>
   )

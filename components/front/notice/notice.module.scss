@@ -1,0 +1,21 @@
+.notice {
+  font-size: 14px;
+  color: #FFF;
+  padding: 8px;
+  border-radius: 3px;
+  max-width: 260px;
+  display: flex;
+  align-items: center;
+}
+
+.notice-success {
+  background: #4caf50;
+}
+
+.notice-error {
+  background: #ef5030;
+}
+
+.notice-warning {
+  background: #ff9800;
+}

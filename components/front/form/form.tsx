@@ -1,90 +1,21 @@
-import React, { Component, ReactNode, useState, forwardRef, ForwardedRef, useImperativeHandle } from 'react';
+import React, { Component, forwardRef, ReactNode, useImperativeHandle, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import cloneDeep from 'lodash.clonedeep';
 import type { NextPage } from 'next';
-import { IUniformObject } from '../../../interface/base.interface';
-
-export enum FormItemType {
- Input = 'input'
-}
-export enum TriggerType {
-  onChange = 'onChange',
-  onFocus = 'onFocus',
-  onBlur = 'onBlur',
-}
-type GridValue = 'auto' | number | boolean;
-type ValueType = string | number | boolean;
-type ChangeHandler = (event?: React.ChangeEvent<HTMLInputElement>) => void;
-type FocusHandler = (event?: React.FocusEvent) => void;
-type BlurHandler = (event?: Event) => void;
-type EventType = React.ChangeEvent<HTMLInputElement> | FocusEvent | Event;
-interface IEvents {
-  [TriggerType.onChange]: Array<ChangeHandler>;
-  [TriggerType.onFocus]: Array<FocusHandler>;
-  [TriggerType.onBlur]: Array<BlurHandler>;
-}
-interface IEventHandler<T> {
-  (event?: T): void;
-}
-interface IValues {
-  [key: string | number]: ValueType;
-}
-interface IRule {
-  message?: string;
-  required?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  custom?: (currentValue: ValueType, values: IValues, resolve: () => void, reject: (customMessage?: string) => void) => void;
-}
-interface IFormItemCommon {
-  type: FormItemType;
-  label: string;
-  key: string;
-  inputType?: string;
-  rules?: Array<IRule>;
-  grid?: {
-    xl?: GridValue;
-    lg?: GridValue;
-    md?: GridValue;
-    sm?: GridValue;
-    xs?: GridValue;
-  };
-  trigger?: Array<TriggerType>;
-  autoComplete?: string;
-}
-interface IInputForm extends IFormItemCommon {
-  value: string;
-}
-interface IValueErrorInfo {
-  error: boolean;
-  message: string;
-}
-interface IValueInfo extends IValueErrorInfo {
-  value: ValueType;
-}
-interface IFormItemChanged {
-  valueInfo: IValueInfo;
-}
-export type FormItem = IInputForm;
-type FormItemChanged = IInputForm & IFormItemChanged;
-interface FormConfigChangedObject {
-  [key: string]: FormItemChanged;
-}
-interface ISetFormConfigChangedObject {
-  (formChangedObject: FormConfigChangedObject): void;
-}
-interface IFormProps {
-  config: Array<FormItem>;
-  className?: string;
-  ref?: ForwardedRef<any>;
-}
-export interface IFormMethods {
-  validate: <T>(keys?: Array<string>) => Promise<T>;
-  clearValidation: (keys?: Array<string>) => void;
-  setValidation: (keyAndValidationMapping: IUniformObject<IValueErrorInfo>) => void;
-  getValues: <T>(keys?: Array<string>) => T;
-}
+import {
+  EventType,
+  FormConfigChangedObject,
+  IEventHandler,
+  IEvents,
+  IFormMethods,
+  IFormProps,
+  ISetFormConfigChangedObject,
+  IValueInfo,
+  IValues,
+  TriggerType,
+  ValueType,
+} from './form.interface';
 
 const messageDefaultValue = ' ';
 const getValues = (formChangedObject: FormConfigChangedObject, keys?: Array<string>): unknown => {

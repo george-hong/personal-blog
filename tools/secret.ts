@@ -1,7 +1,7 @@
 /**
  * class to encode / decode
  */
-import cloneDeep from 'lodash.cloneDeep';
+import cloneDeep from 'lodash.clonedeep';
 import sha256 from 'crypto-js/sha256';
 import { KEYUTIL, KJUR, RSAKey } from 'jsrsasign';
 import {
@@ -65,8 +65,8 @@ if (process.env.NODE_ENV === 'production') {
 
 class Secret {
   static RSAPublicKey: string = RSAPublicKey;
-  static RSAPrivateKey: string = RSAPrivateKey;
 
+  static RSAPrivateKey: string = RSAPrivateKey;
 
   static RSASplitString: string = '.';
 
