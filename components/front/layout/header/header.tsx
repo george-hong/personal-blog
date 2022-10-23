@@ -1,4 +1,10 @@
-import React, { useEffect, useState, ReactNode, ForwardedRef, Fragment } from 'react';
+import React, {
+  useEffect,
+  useState,
+  ReactNode,
+  ForwardedRef,
+  Fragment,
+} from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
@@ -8,6 +14,8 @@ import LoginDialog from '../../login-dialog/login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
 import { IUserBaseInfo } from '../../../../interface/user.interface';
+import UserForFront from '../../../../business/user/user-for-front';
+import UserOperation from '../../user-operation';
 
 interface IHeaderRefProps {
   visibility?: boolean;
@@ -31,9 +39,28 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   let className = `${style.header} ground-glass`;
   if (!visibility) className += ` ${style['hide-menu']}`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
+  // TODO: Avoid the rendering error of next line;
+  // const [userBaseInfo] = useState<IUserBaseInfo | null>((typeof window !== undefined && UserForFront.getUserBaseInfoFromLocal()) || null);
+  const userBaseInfo = null;
   const router = useRouter();
   const { asPath } = router;
   const isRegisterPage = asPath.startsWith('/register');
+
+  const headerRightPart = (
+    userBaseInfo ?
+      (
+        <UserOperation userBaseInfo={userBaseInfo} />
+      ) : (
+        <Typography
+          classes={{ root: 'cursor-point' }}
+          component="h3"
+          sx={{ color: 'primary.main' }}
+          onClick={() => setDialogVisible(true)}
+        >
+          登录/注册
+        </Typography>
+      )
+  )
 
   return (
     <Fragment>
@@ -66,16 +93,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               xs={4}
             >
               {
-                !isRegisterPage && (
-                  <Typography
-                    classes={{ root: 'cursor-point' }}
-                    component="h3"
-                    sx={{ color: 'primary.main' }}
-                    onClick={() => setDialogVisible(true)}
-                  >
-                    登录/注册
-                  </Typography>
-                )
+                !isRegisterPage && headerRightPart
               }
             </Grid>
           </Grid>

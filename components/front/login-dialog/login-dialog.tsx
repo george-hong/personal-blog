@@ -8,18 +8,26 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { requestToGetRSAPublicKey, requestToLogin } from '../../../tools/clientRequest/modules/user';
+import {
+  requestToGetRSAPublicKey,
+  requestToLogin,
+} from '../../../tools/clientRequest/modules/user';
 import Form from '../form/form';
 import Secret from '../../../tools/secret';
 import Notice from '../notice/notice';
-import { TOKEN_FIELD } from '../../../config/constant';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
-import { ILoginParams, IUserBaseInfo } from '../../../interface/user.interface';
+import { ILoginParams } from '../../../interface/user.interface';
 import { SecretType } from '../../../interface/tool.interface';
-import { FormItem, FormItemType, IFormMethods, TriggerType } from '../form/form.interface';
+import {
+  FormItem,
+  FormItemType,
+  IFormMethods,
+  TriggerType,
+} from '../form/form.interface';
 import { INoticeMethods } from '../notice/notice.interface';
 import { ILoginDialogProps } from './login-dialog.interface';
+import UserForFront from '../../../business/user/user-for-front';
 
 const getRegisterFormConfig = (): Array<FormItem> => {
   return [
@@ -99,10 +107,11 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
         return requestToLogin(loginParams);
       })
       .then(result => {
-        const { token, ...userBaseInfo } = result.data;
-        localStorage.setItem(TOKEN_FIELD, token);
+        const user = new UserForFront({ account: loginParams.account });
+        user.saveLoginInfoToLocal(result);
+        // Close login dialog.
         onClose();
-        onLogin && onLogin(userBaseInfo as IUserBaseInfo);
+        onLogin && onLogin(result.data);
       })
       .catch(error => {
         const { message, field } = error;

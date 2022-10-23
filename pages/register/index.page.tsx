@@ -11,7 +11,7 @@ import {
   requestToGetRSAPublicKey,
   requestToSignUp
 } from '../../tools/clientRequest/modules/user';
-import User from '../../libs/user';
+import User from '../../business/user/user';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 import { ExistenceCheckType, ISignUpParams } from '../../interface/user.interface';

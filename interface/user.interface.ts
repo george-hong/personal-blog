@@ -31,6 +31,7 @@ export interface ILoginQueryResult {
 export interface IUserBaseInfo {
   id: number;
   nickName: string;
+  token: string;
   avatar?: string;
 }
 
@@ -53,7 +54,5 @@ export interface IRegisterResponse extends IResponseBase {
 }
 
 export interface ILoginResponse extends IResponseBase {
-  data: {
-    token: string;
-  }
+  data: IUserBaseInfo;
 }
