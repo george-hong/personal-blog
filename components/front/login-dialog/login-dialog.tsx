@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from 'react';
+import React, { Component, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
@@ -11,17 +11,15 @@ import Button from '@mui/material/Button';
 import { requestToGetRSAPublicKey, requestToLogin } from '../../../tools/clientRequest/modules/user';
 import Form from '../form/form';
 import Secret from '../../../tools/secret';
+import Notice from '../notice/notice';
 import { TOKEN_FIELD } from '../../../config/constant';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
-import { ILoginParams } from '../../../interface/user.interface';
+import { ILoginParams, IUserBaseInfo } from '../../../interface/user.interface';
 import { SecretType } from '../../../interface/tool.interface';
 import { FormItem, FormItemType, IFormMethods, TriggerType } from '../form/form.interface';
-
-interface ILoginDialogProps {
-  visible: boolean;
-  onClose: () => unknown;
-}
+import { INoticeMethods } from '../notice/notice.interface';
+import { ILoginDialogProps } from './login-dialog.interface';
 
 const getRegisterFormConfig = (): Array<FormItem> => {
   return [
@@ -68,8 +66,9 @@ const getRegisterFormConfig = (): Array<FormItem> => {
  * @constructor
  */
 const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
-  const { visible, onClose } = props;
+  const { visible, onClose, onLogin } = props;
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
+  const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
@@ -100,8 +99,10 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
         return requestToLogin(loginParams);
       })
       .then(result => {
-        localStorage.setItem(TOKEN_FIELD, result.data.token);
+        const { token, ...userBaseInfo } = result.data;
+        localStorage.setItem(TOKEN_FIELD, token);
         onClose();
+        onLogin && onLogin(userBaseInfo as IUserBaseInfo);
       })
       .catch(error => {
         const { message, field } = error;
@@ -170,6 +171,7 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
             </Typography>
           </a>
         </Link>
+        <Notice ref={noticeRef} />
       </Box>
     </Dialog>
   );

@@ -20,6 +20,7 @@ export default runMiddleware(middleware => {
             token,
             nickName: matchedAccount.nickName,
             avatar: matchedAccount.avatar || '',
+            id: matchedAccount.id,
           });
           next();
         } else if (matchedAccount) {

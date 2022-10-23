@@ -7,13 +7,16 @@ import Typography from '@mui/material/Typography';
 import LoginDialog from '../../login-dialog/login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
+import { IUserBaseInfo } from '../../../../interface/user.interface';
 
 interface IHeaderRefProps {
   visibility?: boolean;
+  onLogin?: (userBaseInfo: IUserBaseInfo) => void;
   ref: ForwardedRef<HTMLHeadElement>;
 }
 interface IHeaderProps {
   autoHide?: boolean;
+  onLogin?: (userBaseInfo: IUserBaseInfo) => void;
   onVisibilityChange?: (visibility: boolean) => void;
 }
 
@@ -24,7 +27,7 @@ const menuLinkContrast = {
 }
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
-  const { visibility } = props;
+  const { visibility, onLogin } = props;
   let className = `${style.header} ground-glass`;
   if (!visibility) className += ` ${style['hide-menu']}`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
@@ -81,6 +84,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
       <LoginDialog
         visible={dialogVisible}
         onClose={() => setDialogVisible(false)}
+        onLogin={onLogin}
       />
     </Fragment>
   )
@@ -95,7 +99,7 @@ HeaderRef.displayName = 'HeaderRef';
  * @param [props.onVisibilityChange] {Function} The callback of visibility changes.
  */
 const Header: NextPage<IHeaderProps> = (props) => {
-  const { autoHide = false, onVisibilityChange } = props;
+  const { autoHide = false, onVisibilityChange, onLogin } = props;
   const [visibility, setVisibility] = useState<boolean>(true);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
@@ -131,6 +135,7 @@ const Header: NextPage<IHeaderProps> = (props) => {
     <HeaderRef
       ref={ref}
       visibility={visibility}
+      onLogin={onLogin}
     />
   )
 }

@@ -7,7 +7,12 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 import style from './notice.module.scss';
-import { INoticeMethods, INoticeOptions, INoticeProps, NoticeType } from './notice.interface';
+import {
+  INoticeMethods,
+  INoticeOptions,
+  INoticeProps,
+  NoticeType,
+} from './notice.interface';
 
 const NOTICE_TYPE_AND_OPTIONS_MAPPING = {
   [NoticeType.info]: {
@@ -38,7 +43,7 @@ const DEFAULT_NOTICE_OPTIONS = {
  */
 const Notice: NextPage<INoticeProps, Component> = forwardRef<INoticeMethods, INoticeProps>(function (props, ref) {
   useImperativeHandle(ref, () => ({
-    notice(message: string, options: Partial<INoticeOptions>) {
+    notice(message: string, options?: Partial<INoticeOptions>) {
       const realOptions = Object.assign({}, DEFAULT_NOTICE_OPTIONS, options) as INoticeOptions;
       const { type }= realOptions;
       const currentTypeOptions = NOTICE_TYPE_AND_OPTIONS_MAPPING[type];

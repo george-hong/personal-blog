@@ -16,5 +16,5 @@ export interface INoticeOptions {
 }
 
 export interface INoticeMethods {
-  notice: (message: string, options: Partial<INoticeOptions>) => void;
+  notice: (message: string, options?: Partial<INoticeOptions>) => void;
 }

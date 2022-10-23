@@ -1,10 +1,12 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import Container from '@mui/material/Container';
 import Header from './header/header';
 import Footer from './footer/footer';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import style from './layout.module.scss';
 import type { NextPage } from 'next';
+import Notice from '../notice/notice';
+import { INoticeMethods, NoticeType } from '../notice/notice.interface';
 
 interface ILayoutProps {
   children: ReactNode;
@@ -83,6 +85,7 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     contentClassName,
   } = props;
   const content = children ? getContent(children, notContainer, contentClassName) : null;
+  const noticeRef = useRef<INoticeMethods>(null);
   let className = style.layout;
   if (sinkIntoHeader) className += ` ${style.sunk}`;
   if (userClassName) className += ` ${userClassName}`;
@@ -96,7 +99,11 @@ const Layout: NextPage<ILayoutProps> = (props) => {
         <Header
           autoHide={autoHideHeader}
           onVisibilityChange={onHeaderVisibilityChange}
+          onLogin={() => {
+            noticeRef.current?.notice('登录成功', { type: NoticeType.success });
+          }}
         />
+        <Notice ref={noticeRef} />
         {
           content
         }

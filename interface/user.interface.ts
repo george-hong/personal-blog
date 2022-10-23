@@ -28,6 +28,12 @@ export interface ILoginQueryResult {
   avatar?: string;
 }
 
+export interface IUserBaseInfo {
+  id: number;
+  nickName: string;
+  avatar?: string;
+}
+
 export interface IEditArticleResponse extends IResponseBase {
   data: {
     id: number;
