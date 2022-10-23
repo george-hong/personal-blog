@@ -1,16 +1,16 @@
 import { IResponseBase } from './base.interface';
 
 export interface IExistenceVerificationParams {
-  name: string;
+  account: string;
 }
 
 export interface ISignUpParams {
-  name: string;
+  account: string;
   password: string;
 }
 
 export interface ILoginParams {
-  name: string;
+  account: string;
   password: string;
 }
 

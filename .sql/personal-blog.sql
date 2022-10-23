@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80030
 File Encoding         : 65001
 
-Date: 2022-10-23 00:54:56
+Date: 2022-10-23 14:36:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -45,21 +45,24 @@ INSERT INTO `article` VALUES ('44', 'nextjs已知问题', '1.  开发环境下�
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT 'user name',
+  `account` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'user name',
+  `nickName` varchar(255) DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL COMMENT 'user avatar',
   `privateKey` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createTime` bigint unsigned NOT NULL,
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('4', 'user4', '12345678', null, '123456', '1665289822909', '2022-10-17 21:12:45');
-INSERT INTO `user` VALUES ('5', 'admin', '45499e4ca39017d2c4a753927362c628aaf52814c256b0521f30330225783244', null, '7777', '1665409401000', '2022-10-22 00:02:40');
-INSERT INTO `user` VALUES ('6', 'admin3', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', null, '88888', '1665499362920', '2022-10-21 23:20:18');
-INSERT INTO `user` VALUES ('7', 'admin7', '12345678', null, '1666454122902', '1666454122902', null);
-INSERT INTO `user` VALUES ('8', 'admin8', '12345678', null, '1666454198446', '1666454198446', null);
-INSERT INTO `user` VALUES ('11', 'usertest', '75e44c02f418661b05d1dd668b20a152fe8502b5749e459b249a8735afa3f670', null, '1666457271459', '1666457271459', null);
+INSERT INTO `user` VALUES ('4', 'user4', null, '12345678', null, '123456', '1665289822909', '2022-10-17 21:12:45');
+INSERT INTO `user` VALUES ('5', 'admin', null, '45499e4ca39017d2c4a753927362c628aaf52814c256b0521f30330225783244', null, '7777', '1665409401000', '2022-10-22 00:02:40');
+INSERT INTO `user` VALUES ('6', 'admin3', null, 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', null, '88888', '1665499362920', '2022-10-21 23:20:18');
+INSERT INTO `user` VALUES ('7', 'admin7', null, '12345678', null, '1666454122902', '1666454122902', null);
+INSERT INTO `user` VALUES ('8', 'admin8', null, '12345678', null, '1666454198446', '1666454198446', null);
+INSERT INTO `user` VALUES ('11', 'usertest', null, '75e44c02f418661b05d1dd668b20a152fe8502b5749e459b249a8735afa3f670', null, '1666457271459', '1666457271459', null);
+INSERT INTO `user` VALUES ('12', 'usertest2', null, '6dbe461b11491d6d976c3de5f525707ef7573c08f0b0e07fb4c9bc4f6c97bfbb', null, '1666503175313', '1666503175313', null);
+INSERT INTO `user` VALUES ('13', 'usertest9', null, '75e44c02f418661b05d1dd668b20a152fe8502b5749e459b249a8735afa3f670', null, '1666506609846', '1666506609846', null);

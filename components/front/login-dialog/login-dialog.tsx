@@ -27,13 +27,13 @@ const getRegisterFormConfig = (): Array<FormItem> => {
   return [
     {
       type: FormItemType.Input,
-      key: 'name',
-      label: '用户名',
+      key: 'account',
+      label: '账号',
       value: '',
       rules: [
         {
           required: true,
-          message: '请填写用户名',
+          message: '请填写账号',
         },
       ],
       grid: {

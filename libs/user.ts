@@ -18,9 +18,9 @@ class User {
   }
 
   public generateSignUpParams(): ISignUpParams {
-    const { name, password } = this.userOptions;
+    const { account, password } = this.userOptions;
     return {
-      name,
+      account,
       password: password ?? '',
     };
   }

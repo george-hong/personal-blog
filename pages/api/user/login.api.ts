@@ -10,7 +10,7 @@ export default runMiddleware(middleware => {
     const { body = {} } = req;
     const db = new DataBase();
     db
-      .query<Array<ILoginQueryResult>>(`SELECT password, privateKey, id FROM user WHERE name = '${body.name}';`)
+      .query<Array<ILoginQueryResult>>(`SELECT password, privateKey, id FROM user WHERE account = '${body.account}';`)
       .then((result) => {
         const matchedAccount = result[0];
         const decodeResult = Secret.decode(body.password, { type: SecretType.RSA });
@@ -22,7 +22,7 @@ export default runMiddleware(middleware => {
           next();
         } else if (matchedAccount) {
           throw({ message: '密码不正确', field: 'password' });
-        } else throw({ message: '账号不存在', field: 'name' });
+        } else throw({ message: '账号不存在', field: 'account' });
       })
       .catch(error => {
         res.throw(error);

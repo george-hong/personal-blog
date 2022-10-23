@@ -29,22 +29,22 @@ const getRegisterFormConfig = (): Array<FormItem> => {
   return [
     {
       type: FormItemType.Input,
-      key: 'name',
-      label: '用户名',
+      key: 'account',
+      label: '账号',
       value: '',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: '请填写用户名',
+          message: '请填写账号',
         },
         {
           minLength: 5,
           message: '账号需要至少5个字符',
         },
         {
-          custom(name, values, resolve, reject) {
-            requestToCheckExistence({ name: (name as string) })
+          custom(account, values, resolve, reject) {
+            requestToCheckExistence({ account: (account as string) })
               .then(result => {
                 if (result.data.existence) {
                   reject('用户名重复');

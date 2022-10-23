@@ -71,7 +71,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
                     sx={{ color: 'primary.main' }}
                     onClick={() => setDialogVisible(true)}
                   >
-                    Login in / Sign in
+                    登录/注册
                   </Typography>
                 )
               }

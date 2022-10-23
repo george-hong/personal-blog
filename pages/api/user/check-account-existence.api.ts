@@ -5,7 +5,7 @@ export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
     const { query = {} } = req;
     new DataBase()
-      .query(`SELECT id FROM user WHERE name = '${query.name}';`)
+      .query(`SELECT id FROM user WHERE account = '${query.account}';`)
       .then((result) => {
         const existence = !!(result as Array<object>).length;
         res.supply({ existence });

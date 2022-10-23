@@ -9,11 +9,11 @@ import {
 } from '../../../interface/user.interface';
 
 export function requestToCheckExistence(params: IExistenceVerificationParams) {
-  const { name } = params;
+  const { account } = params;
   const requestParams = {
-    name,
+    account,
   };
-  return requestInstance.get<IRegisterResponse>('/api/user/existence', requestParams);
+  return requestInstance.get<IRegisterResponse>('/api/user/check-account-existence', requestParams);
 }
 
 export function requestToGetRSAPublicKey() {
@@ -21,18 +21,18 @@ export function requestToGetRSAPublicKey() {
 }
 
 export function requestToSignUp(params: ISignUpParams) {
-  const { name, password } = params;
+  const { account, password } = params;
   const requestParams = {
-    name,
+    account,
     password,
   };
   return requestInstance.post('/api/user/sign-up', requestParams);
 }
 
 export function requestToLogin(params: ILoginParams) {
-  const { name, password } = params;
+  const { account, password } = params;
   const requestParams = {
-    name,
+    account,
     password,
   };
   return requestInstance.post<ILoginResponse>('/api/user/login', requestParams);

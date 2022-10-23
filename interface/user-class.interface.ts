@@ -1,4 +1,4 @@
 export interface IUserClassOptions {
-  name: string;
+  account: string;
   password?: string;
 }
