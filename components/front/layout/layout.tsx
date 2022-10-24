@@ -5,8 +5,10 @@ import Footer from './footer/footer';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import style from './layout.module.scss';
 import type { NextPage } from 'next';
-import Notice from '../notice/notice';
-import { INoticeMethods, NoticeType } from '../notice/notice.interface';
+import Notice, {
+  NoticeType,
+  INoticeMethods,
+} from '../notice';
 
 interface ILayoutProps {
   children: ReactNode;

@@ -24,6 +24,16 @@ class UserForFront extends User {
     return baseInfoString ? JSON.parse(baseInfoString) : null;
   }
 
+  static getUserAvatarChar(userBaseInfo: IUserBaseInfo): string {
+    const { nickName } = userBaseInfo;
+    return nickName.slice(0, 1).toUpperCase();
+  }
+
+  static removeUserBaseInfoFromLocal(): void {
+    localStorage.removeItem(TOKEN_FIELD);
+    localStorage.removeItem(USER_BASE_INFO_FIELD);
+  }
+
   public saveLoginInfoToLocal(loginResponse: ILoginResponse): void {
     const { token, ...userBaseInfo } = loginResponse.data;
     localStorage.setItem(TOKEN_FIELD, token);

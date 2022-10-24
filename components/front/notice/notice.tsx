@@ -38,10 +38,10 @@ const DEFAULT_NOTICE_OPTIONS = {
 }
 
 /**
- * content empty layout component
+ * notice component
  * @param {Object} props component options
  */
-const Notice: NextPage<INoticeProps, Component> = forwardRef<INoticeMethods, INoticeProps>(function (props, ref) {
+const Notice: NextPage<INoticeProps, Component> = forwardRef<INoticeMethods, INoticeProps>((props, ref) => {
   useImperativeHandle(ref, () => ({
     notice(message: string, options?: Partial<INoticeOptions>) {
       const realOptions = Object.assign({}, DEFAULT_NOTICE_OPTIONS, options) as INoticeOptions;
@@ -68,5 +68,7 @@ const Notice: NextPage<INoticeProps, Component> = forwardRef<INoticeMethods, INo
     />
   )
 });
+
+Notice.displayName = 'Notice';
 
 export default Notice;

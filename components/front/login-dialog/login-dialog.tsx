@@ -14,7 +14,6 @@ import {
 } from '../../../tools/clientRequest/modules/user';
 import Form from '../form/form';
 import Secret from '../../../tools/secret';
-import Notice from '../notice/notice';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
 import { ILoginParams } from '../../../interface/user.interface';
@@ -25,7 +24,6 @@ import {
   IFormMethods,
   TriggerType,
 } from '../form/form.interface';
-import { INoticeMethods } from '../notice/notice.interface';
 import { ILoginDialogProps } from './login-dialog.interface';
 import UserForFront from '../../../business/user/user-for-front';
 
@@ -76,7 +74,6 @@ const getRegisterFormConfig = (): Array<FormItem> => {
 const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
   const { visible, onClose, onLogin } = props;
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
-  const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
@@ -180,7 +177,6 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
             </Typography>
           </a>
         </Link>
-        <Notice ref={noticeRef} />
       </Box>
     </Dialog>
   );

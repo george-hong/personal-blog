@@ -39,17 +39,29 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   let className = `${style.header} ground-glass`;
   if (!visibility) className += ` ${style['hide-menu']}`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
-  // TODO: Avoid the rendering error of next line;
-  // const [userBaseInfo] = useState<IUserBaseInfo | null>((typeof window !== undefined && UserForFront.getUserBaseInfoFromLocal()) || null);
-  const userBaseInfo = null;
+  const [userBaseInfo, setUserBaseInfo] = useState<IUserBaseInfo | null>(null);
+  const [isSet, setIsSet] = useState<boolean>(false);
   const router = useRouter();
   const { asPath } = router;
   const isRegisterPage = asPath.startsWith('/register');
 
+  useEffect(() => {
+    if (isSet) return;
+    setUserBaseInfo(UserForFront.getUserBaseInfoFromLocal());
+    setIsSet(true);
+  });
+
+  const loginFromHeader = (userBaseInfo: IUserBaseInfo) => {
+    onLogin && onLogin(userBaseInfo);
+    setUserBaseInfo(userBaseInfo);
+  };
   const headerRightPart = (
     userBaseInfo ?
       (
-        <UserOperation userBaseInfo={userBaseInfo} />
+        <UserOperation
+          userBaseInfo={userBaseInfo}
+          onLogout={() => setUserBaseInfo(null)}
+        />
       ) : (
         <Typography
           classes={{ root: 'cursor-point' }}
@@ -102,7 +114,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
       <LoginDialog
         visible={dialogVisible}
         onClose={() => setDialogVisible(false)}
-        onLogin={onLogin}
+        onLogin={loginFromHeader}
       />
     </Fragment>
   )
@@ -122,10 +134,10 @@ const Header: NextPage<IHeaderProps> = (props) => {
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
   const ref = React.createRef<HTMLHeadElement>();
-  let isSetEvent = false;
 
   useEffect(() => {
     if (!autoHide) return;
+    let isSetEvent = false;
     const scrollHandler = () => {
       if (timer) clearTimeout(timer);
       const index = setTimeout(() => {

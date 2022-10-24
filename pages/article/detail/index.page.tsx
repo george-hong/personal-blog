@@ -1,6 +1,6 @@
 import React, { ReactNode, Fragment } from 'react';
 import Head from 'next/head';
-import Typography from '@mui/material/typography';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Layout from '../../../components/front/layout/layout';
 import MarkdownReader from '../../../components/front/markdown-editor/markdown-reader';
