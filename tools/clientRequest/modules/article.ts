@@ -1,5 +1,4 @@
-import Request from '../request';
-import PROJECT_CONFIG from '../../../config/project';
+import { serverRequest } from '../index';
 import {
   IArticleListPageParams,
   IArticleDetailPageParams,
@@ -7,13 +6,11 @@ import {
   IArticleDetailResponse,
 } from '../../../interface/article.interface';
 
-const projectRequest = new Request({ baseURL: PROJECT_CONFIG.CLIENT_BASE_URL });
-
 export async function getArticleList(props: IArticleListPageParams) {
   const { pageNo, pageSize } = props.query;
   let result;
   try {
-    result = await projectRequest.get<IArticleListResponse>(`/api/article/list`);
+    result = await serverRequest.get<IArticleListResponse>(`/api/article/list`);
     result = result.data;
   } catch (error) {
     result = error;
@@ -28,7 +25,7 @@ export async function getArticleDetail(props: IArticleDetailPageParams) {
   const params: { id?: string } = {};
   if (id !== undefined) params.id = id;
   try {
-    result = await projectRequest.get<IArticleDetailResponse>(`/api/article/detail`, params);
+    result = await serverRequest.get<IArticleDetailResponse>(`/api/article/detail`, params);
     result = result.data[0];
   } catch (err) {
     error = err;

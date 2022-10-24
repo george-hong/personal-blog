@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { encodeQuotationMarks } from '../../../tools/methods';
 import { getArticleDetail } from '../../../tools/clientRequest/modules/article';
-import { generateClientRequest } from '../../../tools/clientRequest';
+import { clientRequest } from '../../../tools/clientRequest';
 import { IEditArticleResponse } from '../../../interface/user.interface';
 
 
@@ -36,8 +36,6 @@ export async function getServerSideProps(props: IArticleEditPageParams) {
   return await getArticleDetail(props);
 }
 
-const request = generateClientRequest();
-
 const saveArticle = (title: string, content: string, pageData?: IArticleInfo) => {
   const params: Partial<IArticleInfo> = {
     content: encodeQuotationMarks(content),
@@ -46,7 +44,7 @@ const saveArticle = (title: string, content: string, pageData?: IArticleInfo) =>
   if (pageData) {
     params.id = pageData.id;
   }
-  request.post<IEditArticleResponse>(`/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
+  clientRequest.post<IEditArticleResponse>(`/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
     .then(result => {
       Router.push(`/article/detail?id=${result.data.id}`);
     })

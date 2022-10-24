@@ -32,6 +32,7 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
     onLogout && onLogout();
   };
 
+  // TODO: Menu cause the page resize.
   return (
     <Box className={style['user-operation']}>
       <IconButton

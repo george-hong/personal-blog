@@ -55,7 +55,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
     onLogin && onLogin(userBaseInfo);
     setUserBaseInfo(userBaseInfo);
   };
-  const headerRightPart = (
+  const headerRightPart = isSet && (
     userBaseInfo ?
       (
         <UserOperation

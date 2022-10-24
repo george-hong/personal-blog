@@ -1,4 +1,4 @@
-import { requestInstance } from '../index';
+import { clientRequest } from '../index';
 import {
   IExistenceVerificationParams,
   ISignUpParams,
@@ -14,11 +14,11 @@ export function requestToCheckExistence(params: IExistenceVerificationParams) {
     field,
     value,
   };
-  return requestInstance.get<IRegisterResponse>('/api/user/check-existence', requestParams);
+  return clientRequest.get<IRegisterResponse>('/api/user/check-existence', requestParams);
 }
 
 export function requestToGetRSAPublicKey() {
-  return requestInstance.get<IGetPublicKeyResponse>('/api/user/public-key/get');
+  return clientRequest.get<IGetPublicKeyResponse>('/api/user/public-key/get');
 }
 
 export function requestToSignUp(params: ISignUpParams) {
@@ -27,7 +27,7 @@ export function requestToSignUp(params: ISignUpParams) {
     account,
     password,
   };
-  return requestInstance.post('/api/user/sign-up', requestParams);
+  return clientRequest.post('/api/user/sign-up', requestParams);
 }
 
 export function requestToLogin(params: ILoginParams) {
@@ -36,5 +36,5 @@ export function requestToLogin(params: ILoginParams) {
     account,
     password,
   };
-  return requestInstance.post<ILoginResponse>('/api/user/login', requestParams);
+  return clientRequest.post<ILoginResponse>('/api/user/login', requestParams);
 }

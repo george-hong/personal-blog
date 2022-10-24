@@ -24,6 +24,7 @@
     "@mui/lab": "^5.0.0-alpha.102",
     "@mui/material": "^5.10.2",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.6",
     "jsonwebtoken": "^8.5.1",
     "jsrsasign": "^10.5.27",
     "lodash.clonedeep": "^4.5.0",

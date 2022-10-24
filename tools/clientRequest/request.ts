@@ -1,6 +1,12 @@
 type methodType = 'get' | 'post';
+interface IFetchOptions extends RequestInit {
+  headers?: {
+    token?: string;
+  }
+}
 interface IRequestOptions {
   baseURL?: string;
+  beforeSend?: (fetchOptions: IFetchOptions) => IFetchOptions;
 }
 interface IParams {
   [key: string]: number | string | boolean;
@@ -56,15 +62,19 @@ class Request {
   private send<T>(method: methodType, url: string, params?: IParams, config?: IConfig): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const { url: urlParsed, params: paramsParsed } = this.getUrlAndParamsByMethod(method, url, params);
+      const headers = {
+        'Content-Type': 'application/json',
+        ...config?.headers,
+      };
       const fetchOptions: RequestInit = {
         method: method,
-        headers: {
-          'Content-Type': 'application/json',
-          ...config?.headers,
-        },
+        headers,
       };
+      // TODO: fix type
+      // @ts-ignore
+      const realOptions = this.options.beforeSend ? this.options.beforeSend(fetchOptions) : fetchOptions;
       if (paramsParsed) fetchOptions.body = paramsParsed as string;
-      fetch(urlParsed, fetchOptions)
+      fetch(urlParsed, realOptions)
         .then((response) => response.json())
         .then((response) => {
           const { status } = response;

@@ -1,15 +1,25 @@
-import type { NextApiRequest } from 'next';
 import Middleware from './index';
-import { ExtendedNextApiResponse } from '../../../interface/sever.interface';
+import {
+  ExtendedNextApiRequest,
+  ExtendedNextApiResponse,
+} from '../../../interface/sever.interface';
 
 export interface NextFunction {
   (): void;
 }
 
 export interface MiddlewareHandler {
-  (req: NextApiRequest, res: ExtendedNextApiResponse, next: NextFunction): void;
+  (req: ExtendedNextApiRequest, res: ExtendedNextApiResponse, next: NextFunction): void;
 }
 
 export interface ConfigMiddleware {
   (middleware: Middleware): void;
+}
+
+export interface ITokenParseResult {
+  id: number;
+}
+
+export interface ITokenQueryInfo {
+  privateKey: string;
 }
