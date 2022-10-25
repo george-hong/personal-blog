@@ -1,15 +1,16 @@
 import mysql from 'mysql';
 import type { Connection } from 'mysql';
+import { DB } from '../../../config/project';
 
 class DataBase {
   private connection: Connection;
 
   constructor() {
     this.connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '123456',
-      database: 'personal-blog'
+      host: DB.HOST,
+      user: DB.USER,
+      password: DB.PASSWORD,
+      database: DB.DATABASE
     });
 
     this.connection.connect();

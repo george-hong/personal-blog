@@ -4,16 +4,22 @@ import Head from 'next/head'
 import Router from 'next/router';
 import style from './index.module.scss';
 import Layout from '../../../components/front/layout/layout';
-import MarkdownEditor from '../../../components/front/markdown-editor/markdown-editor';
+import { MarkdownEditor } from '../../../components/front/markdown-editor';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { encodeQuotationMarks } from '../../../tools/methods';
-import { getArticleDetail } from '../../../tools/clientRequest/modules/article';
-import { clientRequest } from '../../../tools/clientRequest';
-import { IEditArticleResponse } from '../../../interface/user.interface';
+import {
+  getArticleDetail,
+  requestToAddArticle,
+  requestToEditArticle
+} from '../../../tools/clientRequest/modules/article';
+import {
+  IArticleAddParams,
+  IArticleEditParams,
+} from '../../../interface/article.interface';
 
 
 interface IArticleEditPageParams {
@@ -41,10 +47,15 @@ const saveArticle = (title: string, content: string, pageData?: IArticleInfo) =>
     content: encodeQuotationMarks(content),
     title,
   };
+  let isEdit = false;
   if (pageData) {
+    isEdit = true;
     params.id = pageData.id;
   }
-  clientRequest.post<IEditArticleResponse>(`/api/article/${pageData?.id === undefined ? 'add' : 'update'}`, params)
+  const requestMethod = isEdit ?
+    requestToEditArticle(params as IArticleEditParams) :
+    requestToAddArticle(params as IArticleAddParams);
+  requestMethod
     .then(result => {
       Router.push(`/article/detail?id=${result.data.id}`);
     })
@@ -62,6 +73,7 @@ const ArticleEdit: NextPage<IArticleEditProps, Component> = (props) => {
   const [inputContent, setInputContent] = useState(pageData?.content ?? '');
   const [title, setTitle] = useState(pageData?.title ?? '');
   const isUseCover = true;
+  const isEdit = pageData?.id !== undefined;
 
   return (
     <Layout
@@ -92,8 +104,8 @@ const ArticleEdit: NextPage<IArticleEditProps, Component> = (props) => {
               variant="contained"
               disableElevation
             >
-              <Button variant="outlined">Save draft</Button>
-              <Button onClick={() => saveArticle(title, inputContent, pageData)}>Publish</Button>
+              <Button variant="outlined">保存草稿</Button>
+              <Button onClick={() => saveArticle(title, inputContent, pageData)}>{ isEdit ? '更新' : '发布' }</Button>
             </ButtonGroup>
           </Box>
           <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>

@@ -1,10 +1,14 @@
-import { serverRequest } from '../index';
+import { clientRequest, serverRequest } from '../index';
 import {
   IArticleListPageParams,
   IArticleDetailPageParams,
   IArticleListResponse,
   IArticleDetailResponse,
+  IArticleAddParams,
+  IArticleEditParams,
+  IArticleEditResponse,
 } from '../../../interface/article.interface';
+import { encodeQuotationMarks } from '../../methods';
 
 export async function getArticleList(props: IArticleListPageParams) {
   const { pageNo, pageSize } = props.query;
@@ -31,4 +35,23 @@ export async function getArticleDetail(props: IArticleDetailPageParams) {
     error = err;
   }
   return { props: { pageData: error || result } };
+}
+
+export function requestToAddArticle(params: IArticleAddParams) {
+  const { title, content } = params;
+  const requestParams = {
+    title,
+    content: encodeQuotationMarks(content),
+  };
+  return clientRequest.post<IArticleEditResponse>('/api/article/add', requestParams);
+}
+
+export function requestToEditArticle(params: IArticleEditParams) {
+  const { title, content, id } = params;
+  const requestParams = {
+    title,
+    content: encodeQuotationMarks(content),
+    id,
+  };
+  return clientRequest.post<IArticleEditResponse>('/api/article/update', requestParams);
 }

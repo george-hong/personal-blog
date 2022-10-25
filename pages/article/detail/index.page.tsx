@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Layout from '../../../components/front/layout/layout';
-import MarkdownReader from '../../../components/front/markdown-editor/markdown-reader';
+import { MarkdownReader } from '../../../components/front/markdown-editor';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 import { getArticleDetail } from '../../../tools/clientRequest/modules/article';
