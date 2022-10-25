@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -15,13 +14,14 @@ import UserForFront from '../../../business/user/user-for-front';
  * user operation component
  * @param {Object} [props] user operation options
  * @param {Object} [props.userBaseInfo] The base info of local user.
+ * @param {Function} [props.onLogout] The callback of user logout.
  * @constructor
  */
 const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
   const { userBaseInfo, onLogout } = props;
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLDivElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -32,24 +32,20 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
     onLogout && onLogout();
   };
 
-  // TODO: Menu cause the page resize.
   return (
     <Box className={style['user-operation']}>
-      <IconButton
+      <Avatar
         onClick={handleClick}
-        aria-controls={open ? 'account-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
       >
-        <Avatar>{ UserForFront.getUserAvatarChar(userBaseInfo) }</Avatar>
-      </IconButton>
+        { UserForFront.getUserAvatarChar(userBaseInfo) }
+      </Avatar>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
         onClose={handleClose}
         onClick={handleClose}
-        hideBackdrop={true}
+        disableScrollLock
         PaperProps={{
           elevation: 0,
           sx: {

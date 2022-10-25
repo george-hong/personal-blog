@@ -20,11 +20,13 @@ import UserOperation from '../../user-operation';
 interface IHeaderRefProps {
   visibility?: boolean;
   onLogin?: (userBaseInfo: IUserBaseInfo) => void;
+  onLogout?: () => void;
   ref: ForwardedRef<HTMLHeadElement>;
 }
 interface IHeaderProps {
   autoHide?: boolean;
   onLogin?: (userBaseInfo: IUserBaseInfo) => void;
+  onLogout?: () => void;
   onVisibilityChange?: (visibility: boolean) => void;
 }
 
@@ -35,7 +37,7 @@ const menuLinkContrast = {
 }
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
-  const { visibility, onLogin } = props;
+  const { visibility, onLogin, onLogout } = props;
   let className = `${style.header} ground-glass`;
   if (!visibility) className += ` ${style['hide-menu']}`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
@@ -46,21 +48,24 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   const isRegisterPage = asPath.startsWith('/register');
 
   useEffect(() => {
-    if (isSet) return;
     setUserBaseInfo(UserForFront.getUserBaseInfoFromLocal());
     setIsSet(true);
-  });
+  }, [isSet]);
 
   const loginFromHeader = (userBaseInfo: IUserBaseInfo) => {
-    onLogin && onLogin(userBaseInfo);
     setUserBaseInfo(userBaseInfo);
+    onLogin && onLogin(userBaseInfo);
+  };
+  const logoutFromHeader = () => {
+    setUserBaseInfo(null);
+    onLogout && onLogout();
   };
   const headerRightPart = isSet && (
     userBaseInfo ?
       (
         <UserOperation
           userBaseInfo={userBaseInfo}
-          onLogout={() => setUserBaseInfo(null)}
+          onLogout={logoutFromHeader}
         />
       ) : (
         <Typography
@@ -124,12 +129,14 @@ HeaderRef.displayName = 'HeaderRef';
 
 /**
  * The header component of layout component.
- * @param props {Object} component props
- * @param [props.autoHide] {boolean} Auto hide the header.
- * @param [props.onVisibilityChange] {Function} The callback of visibility changes.
+ * @param {Object} props component props
+ * @param {boolean} [props.autoHide] Auto hide the header.
+ * @param {Function} [props.onVisibilityChange] The callback of visibility changes.
+ * @param {Function} [props.onLogin] The callback of user login.
+ * @param {Function} [props.onLogout] The callback of user logout.
  */
 const Header: NextPage<IHeaderProps> = (props) => {
-  const { autoHide = false, onVisibilityChange, onLogin } = props;
+  const { autoHide = false, onVisibilityChange, onLogin, onLogout } = props;
   const [visibility, setVisibility] = useState<boolean>(true);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
@@ -166,6 +173,7 @@ const Header: NextPage<IHeaderProps> = (props) => {
       ref={ref}
       visibility={visibility}
       onLogin={onLogin}
+      onLogout={onLogout}
     />
   )
 }

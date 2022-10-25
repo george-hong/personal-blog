@@ -1,6 +1,6 @@
 import React, { ReactNode, useRef } from 'react';
 import Container from '@mui/material/Container';
-import Header from './header/header';
+import Header from './header';
 import Footer from './footer/footer';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import style from './layout.module.scss';
@@ -88,6 +88,9 @@ const Layout: NextPage<ILayoutProps> = (props) => {
   } = props;
   const content = children ? getContent(children, notContainer, contentClassName) : null;
   const noticeRef = useRef<INoticeMethods>(null);
+  const showNotice = (message: string) => {
+    noticeRef.current?.notice(message, { type: NoticeType.success });
+  };
   let className = style.layout;
   if (sinkIntoHeader) className += ` ${style.sunk}`;
   if (userClassName) className += ` ${userClassName}`;
@@ -101,9 +104,8 @@ const Layout: NextPage<ILayoutProps> = (props) => {
         <Header
           autoHide={autoHideHeader}
           onVisibilityChange={onHeaderVisibilityChange}
-          onLogin={() => {
-            noticeRef.current?.notice('登录成功', { type: NoticeType.success });
-          }}
+          onLogin={() => showNotice('登录成功')}
+          onLogout={() => showNotice('已退出登录')}
         />
         <Notice ref={noticeRef} />
         {

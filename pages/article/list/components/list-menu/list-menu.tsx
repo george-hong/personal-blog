@@ -1,5 +1,5 @@
+import Box from '@mui/material/Box';
 import style from './list-menu.module.scss';
-import Container from '@mui/material/Container';
 import type { NextPage } from 'next';
 
 interface IListMenuProps {
@@ -17,17 +17,19 @@ const ListMenu: NextPage<IListMenuProps> = (props) => {
   if (top) className += ` ${style.top}`;
 
   return (
-    <Container
-      classes={{ root: className }}
-      sx={{ pt: 1, pb: 1, backgroundColor: 'bg.main' }}
-      disableGutters
-      maxWidth={false}
+    <Box
+      className={`${className} ground-glass`}
+      sx={{ pt: 1, pb: 1 }}
     >
-      <span>Category1</span>
-      <span>Category2</span>
-      <span>Category3</span>
-      <span>Category4</span>
-    </Container>
+      <Box className={style['menu-container']}>
+        <Box>
+          <span>Category1</span>
+          <span>Category2</span>
+          <span>Category3</span>
+          <span>Category4</span>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

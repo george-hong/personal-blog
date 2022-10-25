@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Link from 'next/link';
 import Layout from '../../../components/front/layout/layout';
 import Empty from '../../../components/front/empty/empty';
-import ListMenu from './components/list-menu/list-menu';
+import ListMenu from './components/list-menu';
 import { getArticleList } from '../../../tools/clientRequest/modules/article';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
@@ -32,6 +32,7 @@ const generateCardItem = (articleInfo: IArticleInfo) => {
   const detailPageURL = `/article/detail?id=${articleInfo.id}`;
   return (
     <Card
+      classes={{ root: style['list-item'] }}
       sx={[{ '&:not(:last-child)': { mb: 2 }, borderColor: 'info.main' }]}
       variant="outlined"
       key={articleInfo.id}
@@ -83,16 +84,19 @@ const ArticleList: NextPage<IArticleListProps, ReactNode> = (props) => {
       <Layout
         autoHideHeader
         onHeaderVisibilityChange={setHeaderVisibility}
-        contentClassName={style['article-list-container']}
       >
         <Box
           className={className}
           sx={{ pb: 2 }}
         >
           <ListMenu top={!headerVisibility} />
-          {
-            pageData.length ? pageData.map((articleInfo) => generateCardItem(articleInfo)) : <Empty cover />
-          }
+          <Box className={style['article-list-container']}>
+            <Box className={style['article-list-inner-container']}>
+              {
+                pageData.length ? pageData.map((articleInfo) => generateCardItem(articleInfo)) : <Empty cover />
+              }
+            </Box>
+          </Box>
         </Box>
       </Layout>
     </Fragment>
