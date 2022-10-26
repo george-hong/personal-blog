@@ -1,4 +1,9 @@
-import React, { Component, forwardRef, useImperativeHandle } from 'react';
+import React, {
+  Fragment,
+  Component,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import Box from '@mui/material/Box';
 import toast, { Toaster } from 'react-hot-toast';
 import type { NextPage } from 'next';
@@ -17,19 +22,19 @@ import {
 const NOTICE_TYPE_AND_OPTIONS_MAPPING = {
   [NoticeType.info]: {
     className: '',
-    icon: <InfoRoundedIcon />,
+    icon: <InfoRoundedIcon fontSize="small" />,
   },
   [NoticeType.success]: {
     className: style['notice-success'],
-    icon: <CheckCircleRoundedIcon  />,
+    icon: <CheckCircleRoundedIcon fontSize="small" />,
   },
   [NoticeType.warning]: {
     className: style['notice-warning'],
-    icon: <ErrorRoundedIcon />,
+    icon: <ErrorRoundedIcon fontSize="small" />,
   },
   [NoticeType.error]: {
     className: style['notice-error'],
-    icon: <CancelRoundedIcon fontSize="medium" />,
+    icon: <CancelRoundedIcon fontSize="small" />,
   },
 }
 
@@ -48,25 +53,22 @@ const Notice: NextPage<INoticeProps, Component> = forwardRef<INoticeMethods, INo
       const { type }= realOptions;
       const currentTypeOptions = NOTICE_TYPE_AND_OPTIONS_MAPPING[type];
       const noticeNode = (
-        <div className={`${style.notice} ${currentTypeOptions.className}`} >
+        <Fragment>
           <Box sx={{ mr: 1, display: 'flex' }}>
             { currentTypeOptions.icon }
           </Box>
           { message }
-        </div>
+        </Fragment>
       )
-      toast.custom(noticeNode, {
+      toast(noticeNode, {
         duration: 3000,
         position: 'top-center',
+        className: `${style.notice} ${currentTypeOptions.className}`,
       });
     }
   }));
 
-  return (
-    <Toaster
-      position="top-center"
-    />
-  )
+  return <Toaster position="top-center" />
 });
 
 Notice.displayName = 'Notice';

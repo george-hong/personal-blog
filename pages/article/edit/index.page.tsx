@@ -1,15 +1,22 @@
+import React, {
+  useState,
+  useRef,
+} from 'react';
 import type { NextPage } from 'next'
 import { Component } from 'react';
 import Head from 'next/head'
 import Router from 'next/router';
 import style from './index.module.scss';
 import Layout from '../../../components/front/layout/layout';
-import { MarkdownEditor } from '../../../components/front/markdown-editor';
-import { useState } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import { MarkdownEditor } from '../../../components/front/markdown-editor';
+import Notice, {
+  INoticeMethods,
+  NoticeType,
+} from '../../../components/front/notice';
 import { encodeQuotationMarks } from '../../../tools/methods';
 import {
   getArticleDetail,
@@ -72,8 +79,16 @@ const ArticleEdit: NextPage<IArticleEditProps, Component> = (props) => {
   const { pageData } = props;
   const [inputContent, setInputContent] = useState(pageData?.content ?? '');
   const [title, setTitle] = useState(pageData?.title ?? '');
+  const noticeRef = useRef<INoticeMethods>(null);
   const isUseCover = true;
   const isEdit = pageData?.id !== undefined;
+  const saveIfValid = (title: string, content: string, pageData?: IArticleInfo) => {
+    if (!title || !content) {
+      noticeRef.current?.notice('请输入标题和内容', { type: NoticeType.error });
+      return;
+    }
+    saveArticle(title, inputContent, pageData);
+  }
 
   return (
     <Layout
@@ -105,7 +120,7 @@ const ArticleEdit: NextPage<IArticleEditProps, Component> = (props) => {
               disableElevation
             >
               <Button variant="outlined">保存草稿</Button>
-              <Button onClick={() => saveArticle(title, inputContent, pageData)}>{ isEdit ? '更新' : '发布' }</Button>
+              <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? '更新' : '发布' }</Button>
             </ButtonGroup>
           </Box>
           <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
@@ -117,6 +132,8 @@ const ArticleEdit: NextPage<IArticleEditProps, Component> = (props) => {
           </Box>
         </Box>
       </Box>
+
+      <Notice ref={noticeRef} />
     </Layout>
   )
 };
