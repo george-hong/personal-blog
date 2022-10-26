@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import LoginDialog from '../../login-dialog/login-dialog';
+import LoginDialog from '../../login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
 import { IUserBaseInfo } from '../../../../interface/user.interface';

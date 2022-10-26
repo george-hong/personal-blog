@@ -7,7 +7,7 @@ import { Component } from 'react';
 import Head from 'next/head'
 import Router from 'next/router';
 import style from './index.module.scss';
-import Layout from '../../../components/front/layout/layout';
+import Layout from '../../../components/front/layout';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';

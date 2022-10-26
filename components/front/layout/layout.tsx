@@ -1,7 +1,7 @@
 import React, { ReactNode, useRef } from 'react';
 import Container from '@mui/material/Container';
 import Header from './header';
-import Footer from './footer/footer';
+import Footer from './footer';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import style from './layout.module.scss';
 import type { NextPage } from 'next';

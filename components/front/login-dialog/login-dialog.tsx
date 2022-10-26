@@ -12,7 +12,7 @@ import {
   requestToGetRSAPublicKey,
   requestToLogin,
 } from '../../../tools/clientRequest/modules/user';
-import Form from '../form/form';
+import Form from '../form';
 import Secret from '../../../tools/secret';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';

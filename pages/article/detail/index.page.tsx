@@ -2,7 +2,7 @@ import React, { ReactNode, Fragment } from 'react';
 import Head from 'next/head';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Layout from '../../../components/front/layout/layout';
+import Layout from '../../../components/front/layout';
 import { MarkdownReader } from '../../../components/front/markdown-editor';
 import style from './index.module.scss';
 import type { NextPage } from 'next';

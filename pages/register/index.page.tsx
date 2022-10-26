@@ -3,9 +3,9 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Layout from '../../components/front/layout/layout';
-import Notice from '../../components/front/notice/notice';
-import Form from '../../components/front/form/form';
+import Layout from '../../components/front/layout';
+import Notice from '../../components/front/notice';
+import Form from '../../components/front/form';
 import {
   requestToCheckExistence,
   requestToGetRSAPublicKey,
