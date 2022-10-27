@@ -36,9 +36,8 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
     <Box className={style['user-operation']}>
       <Avatar
         onClick={handleClick}
-      >
-        { UserForFront.getUserAvatarChar(userBaseInfo) }
-      </Avatar>
+        {...UserForFront.getUserAvatarConfig(userBaseInfo)}
+      />
       <Menu
         anchorEl={anchorEl}
         id="account-menu"

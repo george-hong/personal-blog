@@ -16,7 +16,7 @@ const PROJECT_CONFIG = {
   CLIENT_BASE_URL: `${PROTOCOL ? PROTOCOL + '://' : ''}${HOST}${PORT ? ':' + PORT : ''}`,
 };
 
-export const DB = {
+export const DB_CONFIG = {
   HOST: DB_HOST,
   USER: DB_USER,
   PASSWORD: DB_PASSWORD,

@@ -1,7 +1,7 @@
 import DataBase from '../../../components/back/database';
 import runMiddleware from '../../../components/back/middleware/runMiddleware';
 import { ILoginQueryResult } from '../../../interface/user.interface';
-import jwt from 'jsonwebtoken';
+import UserForBack from '../../../business/user/user-for-back';
 import Secret from '../../../tools/secret';
 import { SecretType } from '../../../interface/tool.interface';
 
@@ -15,13 +15,8 @@ export default runMiddleware(middleware => {
         const matchedAccount = result[0];
         const decodeResult = Secret.decode(body.password, { type: SecretType.RSA });
         if (matchedAccount && decodeResult.success && matchedAccount.password === decodeResult.payload) {
-          const token = jwt.sign({ id: matchedAccount.id }, matchedAccount.privateKey, { expiresIn: '1h' });
-          res.supply({
-            token,
-            nickName: matchedAccount.nickName,
-            avatar: matchedAccount.avatar || '',
-            id: matchedAccount.id,
-          });
+          const userInfo = UserForBack.generateUserInfoByLoginResult(matchedAccount);
+          res.supply(userInfo);
           next();
         } else if (matchedAccount) {
           throw({ message: '密码不正确', field: 'password' });

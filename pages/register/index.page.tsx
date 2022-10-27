@@ -1,4 +1,9 @@
-import React, { Fragment, ReactNode, useRef, useState } from 'react';
+import React, {
+  Fragment,
+  ReactNode,
+  useRef,
+  useState,
+} from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
@@ -9,15 +14,26 @@ import Form from '../../components/front/form';
 import {
   requestToCheckExistence,
   requestToGetRSAPublicKey,
-  requestToSignUp
+  requestToSignUp,
 } from '../../tools/clientRequest/modules/user';
 import User from '../../business/user/user';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
-import { ExistenceCheckType, ISignUpParams } from '../../interface/user.interface';
+import {
+  ExistenceCheckType,
+  ISignUpParams,
+} from '../../interface/user.interface';
 import { IUniformObject } from '../../interface/base.interface';
-import { FormItem, FormItemType, IFormMethods, TriggerType } from '../../components/front/form/form.interface';
-import { INoticeMethods, NoticeType } from '../../components/front/notice/notice.interface';
+import {
+  FormItem,
+  FormItemType,
+  IFormMethods,
+  TriggerType,
+} from '../../components/front/form/form.interface';
+import {
+  INoticeMethods,
+  NoticeType,
+} from '../../components/front/notice/notice.interface';
 
 interface IRegisterPageParams {
   query: {
@@ -112,8 +128,12 @@ const getRegisterFormConfig = (): Array<FormItem> => {
       grid: { xs: 12 },
       rules: [
         {
-          minLength: 1,
-          message: '昵称需要至少1个字符',
+          required: true,
+          message: '请填写昵称',
+        },
+        {
+          minLength: 2,
+          message: '昵称需要至少2个字符',
         },
         {
           maxLength: 20,

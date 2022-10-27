@@ -13,6 +13,11 @@ export interface IExistenceVerificationParams {
 export interface ISignUpParams {
   account: string;
   password: string;
+  nickName: string;
+}
+
+export interface ISignUpResponse extends IResponseBase {
+  data: IUserBaseInfo;
 }
 
 export interface ILoginParams {

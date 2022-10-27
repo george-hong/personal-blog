@@ -4,6 +4,7 @@ import {
   TOKEN_FIELD,
   USER_BASE_INFO_FIELD,
 } from '../../config/constant';
+import { IUserAvatarConfig } from './user.interface';
 
 class UserForFront extends User {
   static checkIsLogin(): boolean {
@@ -24,9 +25,12 @@ class UserForFront extends User {
     return baseInfoString ? JSON.parse(baseInfoString) : null;
   }
 
-  static getUserAvatarChar(userBaseInfo: IUserBaseInfo): string {
-    const { nickName } = userBaseInfo;
-    return nickName.slice(0, 1).toUpperCase();
+  static getUserAvatarConfig(userBaseInfo: IUserBaseInfo): IUserAvatarConfig {
+    const { nickName, avatar } = userBaseInfo;
+    return {
+      alt: nickName,
+      src: avatar,
+    }
   }
 
   static removeUserBaseInfoFromLocal(): void {
