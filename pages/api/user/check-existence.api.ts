@@ -1,6 +1,6 @@
 import DataBase from '../../../components/back/database';
-import runMiddleware from '../../../components/back/middleware/runMiddleware';
-import { ExistenceCheckType } from '../../../interface/user.interface';
+import runMiddleware from '../../../components/back/middleware/run-middleware';
+import { ExistenceCheckType } from '../../../interface/request-response/user.interface';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {

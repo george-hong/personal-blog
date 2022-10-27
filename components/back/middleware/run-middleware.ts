@@ -4,7 +4,7 @@ import Base from './base';
 import {
   ExtendedNextApiRequest,
   ExtendedNextApiResponse,
-} from '../../../interface/sever.interface';
+} from '../../../interface/request-response/base.interface';
 
 const runMiddleware = (configMiddleware: ConfigMiddleware) => {
   return async function (req: ExtendedNextApiRequest, res: ExtendedNextApiResponse) {

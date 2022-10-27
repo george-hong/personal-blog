@@ -1,18 +1,19 @@
-import { Editor, rootCtx, defaultValueCtx, editorViewOptionsCtx } from '@milkdown/core';
-import { Ctx } from '@milkdown/ctx';
-import { ReactEditor, useEditor } from '@milkdown/react';
+import React from 'react';
+import {
+  defaultValueCtx,
+  Editor,
+  editorViewOptionsCtx,
+  rootCtx,
+} from '@milkdown/core';
+import {
+  ReactEditor,
+  useEditor,
+} from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
 import style from './markdown-base.module.scss';
 import type { NextPage } from 'next';
-
-interface IMarkdownBaseOptions {
-  content?: string;
-  className?: string;
-  editable?: boolean;
-  config?: (context: Ctx) => void;
-  plugins?: Array<any>;
-}
+import { IMarkdownBaseOptions } from './markdown.interface';
 
 /**
  *

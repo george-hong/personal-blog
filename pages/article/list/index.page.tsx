@@ -13,7 +13,7 @@ import ListMenu from './components/list-menu';
 import { getArticleList } from '../../../tools/clientRequest/modules/article';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
-import { IArticleListPageParams } from '../../../interface/article.interface';
+import { IArticleListPageParams } from '../../../interface/request-response/article.interface';
 
 interface IArticleInfo {
   id: number;

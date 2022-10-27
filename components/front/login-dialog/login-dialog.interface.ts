@@ -1,4 +1,4 @@
-import { IUserBaseInfo } from '../../../interface/user.interface';
+import { IUserBaseInfo } from '../../../interface/request-response/user.interface';
 
 export interface ILoginDialogProps {
   visible: boolean;

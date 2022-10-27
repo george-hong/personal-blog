@@ -1,9 +1,8 @@
 import React, {
+  Fragment,
+  ReactNode,
   useEffect,
   useState,
-  ReactNode,
-  ForwardedRef,
-  Fragment,
 } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -13,22 +12,10 @@ import Typography from '@mui/material/Typography';
 import LoginDialog from '../../login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
-import { IUserBaseInfo } from '../../../../interface/user.interface';
+import { IUserBaseInfo } from '../../../../interface/request-response/user.interface';
 import UserForFront from '../../../../business/user/user-for-front';
 import UserOperation from '../../user-operation';
-
-interface IHeaderRefProps {
-  visibility?: boolean;
-  onLogin?: (userBaseInfo: IUserBaseInfo) => void;
-  onLogout?: () => void;
-  ref: ForwardedRef<HTMLHeadElement>;
-}
-interface IHeaderProps {
-  autoHide?: boolean;
-  onLogin?: (userBaseInfo: IUserBaseInfo) => void;
-  onLogout?: () => void;
-  onVisibilityChange?: (visibility: boolean) => void;
-}
+import { IHeaderProps, IHeaderRefProps } from './header.interface';
 
 const menuLinkContrast = {
   Home: '/',

@@ -7,7 +7,7 @@ import {
   IArticleAddParams,
   IArticleEditParams,
   IArticleEditResponse,
-} from '../../../interface/article.interface';
+} from '../../../interface/request-response/article.interface';
 import { encodeQuotationMarks } from '../../methods';
 
 export async function getArticleList(props: IArticleListPageParams) {

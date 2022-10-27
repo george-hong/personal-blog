@@ -1,9 +1,10 @@
 import DataBase from '../../../components/back/database';
-import runMiddleware from '../../../components/back/middleware/runMiddleware';
-import { ILoginQueryResult } from '../../../interface/user.interface';
+import runMiddleware from '../../../components/back/middleware/run-middleware';
+import { ILoginQueryResult } from '../../../interface/request-response/user.interface';
 import UserForBack from '../../../business/user/user-for-back';
-import Secret from '../../../tools/secret';
-import { SecretType } from '../../../interface/tool.interface';
+import Secret, {
+  SecretType,
+} from '../../../tools/secret';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {

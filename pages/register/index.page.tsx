@@ -22,7 +22,7 @@ import type { NextPage } from 'next';
 import {
   ExistenceCheckType,
   ISignUpParams,
-} from '../../interface/user.interface';
+} from '../../interface/request-response/user.interface';
 import { IUniformObject } from '../../interface/base.interface';
 import {
   FormItem,

@@ -1,13 +1,11 @@
-import { Component } from 'react';
+import React, {
+  Component,
+} from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import style from './empty.module.scss';
 import type { NextPage } from 'next';
-
-interface IEmptyProps {
-  tips?: string;
-  cover?: boolean;
-}
+import { IEmptyProps } from './empty.interface';
 
 /**
  * content empty layout component

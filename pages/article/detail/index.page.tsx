@@ -7,7 +7,7 @@ import { MarkdownReader } from '../../../components/front/markdown-editor';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 import { getArticleDetail } from '../../../tools/clientRequest/modules/article';
-import { IArticleDetailPageParams } from '../../../interface/article.interface';
+import { IArticleDetailPageParams } from '../../../interface/request-response/article.interface';
 
 interface IArticleDetailProps {
   pageData: {

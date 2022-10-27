@@ -2,7 +2,11 @@ import {
   NextApiRequest,
   NextApiResponse,
 } from 'next';
-import { IUniformObject } from './base.interface';
+import { IUniformObject } from '../base.interface';
+
+export interface IResponseBase {
+  status: number;
+}
 
 export interface ExtendedNextApiRequest extends NextApiRequest {
   userFromToken?: {

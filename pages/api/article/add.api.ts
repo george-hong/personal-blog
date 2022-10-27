@@ -1,5 +1,5 @@
 import DataBase from '../../../components/back/database';
-import runMiddleware from '../../../components/back/middleware/runMiddleware';
+import runMiddleware from '../../../components/back/middleware/run-middleware';
 import { timeStampFromJsToDb } from '../../../libs/time-util';
 
 export default runMiddleware(middleware => {

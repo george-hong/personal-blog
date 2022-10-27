@@ -7,8 +7,8 @@ import { KEYUTIL, KJUR, RSAKey } from 'jsrsasign';
 import {
   isString,
   splitStringByByteLength,
-} from '../libs/base-type-utils';
-import RSAString from './rsa';
+} from '../../libs/base-type-utils';
+import RSAString from '../rsa';
 import {
   IDecodeResult,
   IRSADecodeOptions,
@@ -17,7 +17,7 @@ import {
   ISecretDecodeOptions,
   ISecretEncodeOptions,
   SecretType,
-} from '../interface/tool.interface';
+} from './secret.interface';
 
 const secretEncodeOptions = {
   type: SecretType.Base64,

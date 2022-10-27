@@ -7,7 +7,7 @@ import {
   ILoginResponse,
   IGetPublicKeyResponse,
   ISignUpResponse,
-} from '../../../interface/user.interface';
+} from '../../../interface/request-response/user.interface';
 
 export function requestToCheckExistence(params: IExistenceVerificationParams) {
   const { field, value } = params;

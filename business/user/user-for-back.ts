@@ -3,7 +3,7 @@ import User from './user';
 import {
   ILoginQueryResult,
   IUserBaseInfo,
-} from '../../interface/user.interface';
+} from '../../interface/request-response/user.interface';
 import PROJECT_CONFIG from '../../config/project';
 import { AVATARS_DIR } from '../../config/constant';
 

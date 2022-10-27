@@ -1,9 +1,13 @@
 import jwt from 'jsonwebtoken';
-import { ITokenParseResult, ITokenQueryInfo, NextFunction } from '../middleware.interface';
+import {
+  ITokenParseResult,
+  ITokenQueryInfo,
+  NextFunction,
+} from '../middleware.interface';
 import {
   ExtendedNextApiRequest,
   ExtendedNextApiResponse,
-} from '../../../../interface/sever.interface';
+} from '../../../../interface/request-response/base.interface';
 import DataBase from '../../database';
 
 const DEFAULT_ERROR_CODE = 503;

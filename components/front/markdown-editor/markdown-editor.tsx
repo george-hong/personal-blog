@@ -1,17 +1,15 @@
-import { menu } from '@milkdown/plugin-menu'
+import React from 'react';
+import { menu } from '@milkdown/plugin-menu';
 import { history } from '@milkdown/plugin-history';
-import { listener, listenerCtx } from '@milkdown/plugin-listener';
+import {
+  listener,
+  listenerCtx,
+} from '@milkdown/plugin-listener';
 import { Ctx } from '@milkdown/ctx';
 import style from './markdown-editor.module.scss';
 import dynamic from 'next/dynamic';
 import type { NextPage } from 'next';
-
-interface IMarkdownEditorOptions {
-  menu?: boolean;
-  content?: string;
-  cover?: boolean;
-  onUpdate?: (content: string) => void;
-}
+import { IMarkdownEditorOptions } from './markdown.interface';
 
 const MarkdownBase = dynamic(() => import('./markdown-base'), { ssr: false })
 const configHandler = function(onUpdate?: (content: string) => void) {

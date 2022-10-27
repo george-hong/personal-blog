@@ -1,5 +1,5 @@
 import User from './user';
-import { ILoginResponse, IUserBaseInfo } from '../../interface/user.interface';
+import { ILoginResponse, IUserBaseInfo } from '../../interface/request-response/user.interface';
 import {
   TOKEN_FIELD,
   USER_BASE_INFO_FIELD,

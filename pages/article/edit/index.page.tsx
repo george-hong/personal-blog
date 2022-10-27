@@ -21,12 +21,12 @@ import { encodeQuotationMarks } from '../../../tools/methods';
 import {
   getArticleDetail,
   requestToAddArticle,
-  requestToEditArticle
+  requestToEditArticle,
 } from '../../../tools/clientRequest/modules/article';
 import {
   IArticleAddParams,
   IArticleEditParams,
-} from '../../../interface/article.interface';
+} from '../../../interface/request-response/article.interface';
 
 
 interface IArticleEditPageParams {

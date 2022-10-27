@@ -1,7 +1,8 @@
 import { IUserClassOptions } from '../../interface/user-class.interface';
-import Secret from '../../tools/secret';
-import { SecretType } from '../../interface/tool.interface';
-import { ISignUpParams } from '../../interface/user.interface';
+import Secret, {
+  SecretType,
+} from '../../tools/secret';
+import { ISignUpParams } from '../../interface/request-response/user.interface';
 
 // This class is creating for deal user relative logical.
 class User {

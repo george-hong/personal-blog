@@ -1,26 +1,21 @@
-import React, { ReactNode, useRef } from 'react';
+import React, {
+  ReactNode,
+  useRef,
+} from 'react';
 import Container from '@mui/material/Container';
 import Header from './header';
 import Footer from './footer';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {
+  createTheme,
+  ThemeProvider,
+} from '@mui/material/styles';
 import style from './layout.module.scss';
 import type { NextPage } from 'next';
 import Notice, {
-  NoticeType,
   INoticeMethods,
+  NoticeType,
 } from '../notice';
-
-interface ILayoutProps {
-  children: ReactNode;
-  className?: string;
-  contentClassName?: string;
-  sinkIntoHeader?: boolean;
-  containerStyle?: object;
-  footer?: ReactNode | null | true;
-  notContainer?: boolean;
-  autoHideHeader?: boolean;
-  onHeaderVisibilityChange?: (visibility: boolean) => void;
-}
+import { ILayoutProps } from './layout.interface';
 
 // Extend the type of material's theme colors.
 declare module '@mui/material/styles/createPalette' {

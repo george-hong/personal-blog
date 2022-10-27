@@ -13,11 +13,13 @@ import {
   requestToLogin,
 } from '../../../tools/clientRequest/modules/user';
 import Form from '../form';
-import Secret from '../../../tools/secret';
+import Secret, {
+  SecretType,
+} from '../../../tools/secret';
+import UserForFront from '../../../business/user/user-for-front';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
-import { ILoginParams } from '../../../interface/user.interface';
-import { SecretType } from '../../../interface/tool.interface';
+import { ILoginParams } from '../../../interface/request-response/user.interface';
 import {
   FormItem,
   FormItemType,
@@ -25,7 +27,6 @@ import {
   TriggerType,
 } from '../form/form.interface';
 import { ILoginDialogProps } from './login-dialog.interface';
-import UserForFront from '../../../business/user/user-for-front';
 
 const getRegisterFormConfig = (): Array<FormItem> => {
   return [

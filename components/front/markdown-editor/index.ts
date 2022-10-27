@@ -6,7 +6,9 @@ export {
   MarkdownEditor,
 }
 
-export default {
+const Markdown = {
   Reader: MarkdownEditor,
   Editor: MarkdownEditor,
-};
+}
+
+export default Markdown;

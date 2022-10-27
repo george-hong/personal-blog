@@ -1,8 +1,8 @@
-import Middleware from './index';
+import Middleware from './middleware';
 import {
   ExtendedNextApiRequest,
   ExtendedNextApiResponse,
-} from '../../../interface/sever.interface';
+} from '../../../interface/request-response/base.interface';
 
 export interface NextFunction {
   (): void;
