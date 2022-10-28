@@ -1,10 +1,7 @@
 import { ForwardedRef } from 'react';
 
 export enum NoticeType {
-  info = 'info',
-  success = 'success',
-  warning = 'warning',
-  error = 'error',
+  info = 'info', success = 'success', warning = 'warning', error = 'error',
 }
 
 export interface INoticeProps {

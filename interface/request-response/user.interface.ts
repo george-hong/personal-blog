@@ -1,8 +1,7 @@
 import { IResponseBase } from './base.interface';
 
 export enum ExistenceCheckType {
-  account = 'account',
-  nickName = 'nickName',
+  account = 'account', nickName = 'nickName',
 }
 
 export interface IExistenceVerificationParams {

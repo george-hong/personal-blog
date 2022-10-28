@@ -5,7 +5,7 @@ export const encodeQuotationMarks = (source: string, transformDouble = false): s
 };
 
 export const decodeQuotationMarks = (source: string, transformDouble = false): string => {
-  const result = source.replace(/&#39/g, "'");
+  const result = source.replace(/&#39/g, '\'');
   if (transformDouble) return result.replace(/&#34/g, '"');
   return result;
 };

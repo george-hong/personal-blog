@@ -11,6 +11,6 @@ export default runMiddleware(middleware => {
       .catch(error => {
         res.throw(error);
       })
-      .finally(next)
+      .finally(next);
   });
 });

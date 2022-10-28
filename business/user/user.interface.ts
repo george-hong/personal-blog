@@ -1,4 +1,4 @@
 export interface IUserAvatarConfig {
-  alt?: string;
+  alt: string;
   src?: string;
 }

@@ -21,7 +21,7 @@ class Middleware {
         if (this.res.writableEnded) return resolve();
         handler(this.req, this.res, resolve);
       });
-    })
+    });
     return this;
   }
 

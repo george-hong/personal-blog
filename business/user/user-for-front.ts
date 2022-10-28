@@ -1,5 +1,8 @@
 import User from './user';
-import { ILoginResponse, IUserBaseInfo } from '../../interface/request-response/user.interface';
+import {
+  ILoginResponse,
+  IUserBaseInfo,
+} from '../../interface/request-response/user.interface';
 import {
   TOKEN_FIELD,
   USER_BASE_INFO_FIELD,
@@ -30,7 +33,7 @@ class UserForFront extends User {
     return {
       alt: nickName,
       src: avatar,
-    }
+    };
   }
 
   static removeUserBaseInfoFromLocal(): void {

@@ -8,5 +8,5 @@ export {
 
 export default {
   Front: UserForFront,
-  Back: UserForBack
+  Back: UserForBack,
 };

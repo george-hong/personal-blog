@@ -11,5 +11,5 @@ export const clientRequest = new Request({
     if (!options.headers) options.headers = {};
     if (token) options.headers.token = token;
     return options;
-  }
+  },
 });

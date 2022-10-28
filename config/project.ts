@@ -13,7 +13,7 @@ const PROJECT_CONFIG = {
   PROTOCOL,
   HOST,
   PORT,
-  CLIENT_BASE_URL: `${PROTOCOL ? PROTOCOL + '://' : ''}${HOST}${PORT ? ':' + PORT : ''}`,
+  CLIENT_BASE_URL: `${ PROTOCOL ? PROTOCOL + '://' : '' }${ HOST }${ PORT ? ':' + PORT : '' }`,
 };
 
 export const DB_CONFIG = {
@@ -21,6 +21,6 @@ export const DB_CONFIG = {
   USER: DB_USER,
   PASSWORD: DB_PASSWORD,
   DATABASE: DB_DATABASE,
-}
+};
 
 export default PROJECT_CONFIG;

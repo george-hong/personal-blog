@@ -14,7 +14,10 @@ class User {
 
   public encodeAndSetPassword(password: string, key?: string): this {
     const tempPassword = Secret.encode(password, { type: SecretType.SHA256 });
-    this.userOptions.password = Secret.encode(tempPassword, { type: SecretType.RSA, key });
+    this.userOptions.password = Secret.encode(tempPassword, {
+      type: SecretType.RSA,
+      key,
+    });
     return this;
   }
 
@@ -28,10 +31,7 @@ class User {
   }
 
   public getDecodedPassword() {
-    const decodeResult = (
-      this.userOptions.password &&
-      Secret.decode(this.userOptions.password, { type: SecretType.RSA })
-    ) ?? null;
+    const decodeResult = (this.userOptions.password && Secret.decode(this.userOptions.password, { type: SecretType.RSA })) ?? null;
     return (decodeResult && decodeResult.payload) ?? '';
   }
 }

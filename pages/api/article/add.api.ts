@@ -7,13 +7,13 @@ export default runMiddleware(middleware => {
     const { body = {}, userFromToken } = req;
     if (!userFromToken || userFromToken.id === undefined) return res.throw('请先登录');
     new DataBase()
-      .query(`INSERT INTO article (title, content, authorId, createTime) VALUES ('${body.title}', '${body.content}', ${userFromToken.id}, '${timeStampFromJsToDb()}');`)
+      .query(`INSERT INTO article (title, content, authorId, createTime) VALUES ('${ body.title }', '${ body.content }', ${ userFromToken.id }, '${ timeStampFromJsToDb() }');`)
       .then((result) => {
         res.supply({ id: (result as { insertId?: string }).insertId });
       })
       .catch(error => {
-       res.throw(error);
+        res.throw(error);
       })
-      .finally(next)
-  })
+      .finally(next);
+  });
 });

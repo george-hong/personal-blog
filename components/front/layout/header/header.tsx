@@ -15,18 +15,20 @@ import style from './header.module.scss';
 import { IUserBaseInfo } from '../../../../interface/request-response/user.interface';
 import UserForFront from '../../../../business/user/user-for-front';
 import UserOperation from '../../user-operation';
-import { IHeaderProps, IHeaderRefProps } from './header.interface';
+import {
+  IHeaderProps,
+  IHeaderRefProps,
+} from './header.interface';
 
 const menuLinkContrast = {
-  Home: '/',
-  About: '/article/edit',
-  List: '/article/list',
-}
+  '/': '首页',
+  '/article/list': '文章列表',
+};
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
   const { visibility, onLogin, onLogout } = props;
-  let className = `${style.header} ground-glass`;
-  if (!visibility) className += ` ${style['hide-menu']}`;
+  let className = `${ style.header } ground-glass`;
+  if (!visibility) className += ` ${ style['hide-menu'] }`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [userBaseInfo, setUserBaseInfo] = useState<IUserBaseInfo | null>(null);
   const [isSet, setIsSet] = useState<boolean>(false);
@@ -51,50 +53,50 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
     userBaseInfo ?
       (
         <UserOperation
-          userBaseInfo={userBaseInfo}
-          onLogout={logoutFromHeader}
+          userBaseInfo={ userBaseInfo }
+          onLogout={ logoutFromHeader }
         />
       ) : (
         <Typography
-          classes={{ root: 'cursor-point' }}
+          classes={ { root: 'cursor-point' } }
           component="h3"
-          sx={{ color: 'primary.main' }}
-          onClick={() => setDialogVisible(true)}
+          sx={ { color: 'primary.main' } }
+          onClick={ () => setDialogVisible(true) }
         >
           登录/注册
         </Typography>
       )
-  )
+  );
 
   return (
     <Fragment>
       <header
-        className={className}
-        ref={ref}
+        className={ className }
+        ref={ ref }
       >
-        <Container classes={{ root: style['content-container'] }}>
+        <Container classes={ { root: style['content-container'] } }>
           <Grid container>
-            <Grid item xs={8}>
+            <Grid item xs={ 8 }>
               {
                 Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
-                  const [menu, link] = menuAndLink;
+                  const [link, menu] = menuAndLink;
                   return (
                     <h3
-                      className={style['header-link']}
-                      key={menu}
+                      className={ style['header-link'] }
+                      key={ menu }
                     >
-                      <Link href={link}>
+                      <Link href={ link }>
                         { menu }
                       </Link>
                     </h3>
-                  )
+                  );
                 })
               }
             </Grid>
             <Grid
               className="content-to-right"
               item
-              xs={4}
+              xs={ 4 }
             >
               {
                 !isRegisterPage && headerRightPart
@@ -104,12 +106,12 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
         </Container>
       </header>
       <LoginDialog
-        visible={dialogVisible}
-        onClose={() => setDialogVisible(false)}
-        onLogin={loginFromHeader}
+        visible={ dialogVisible }
+        onClose={ () => setDialogVisible(false) }
+        onLogin={ loginFromHeader }
       />
     </Fragment>
-  )
+  );
 });
 
 HeaderRef.displayName = 'HeaderRef';
@@ -152,17 +154,17 @@ const Header: NextPage<IHeaderProps> = (props) => {
       isSetEvent = false;
       if (timer) clearTimeout(timer);
       window.removeEventListener('scroll', scrollHandler);
-    }
+    };
   });
 
   return (
     <HeaderRef
-      ref={ref}
-      visibility={visibility}
-      onLogin={onLogin}
-      onLogout={onLogout}
+      ref={ ref }
+      visibility={ visibility }
+      onLogin={ onLogin }
+      onLogout={ onLogout }
     />
-  )
-}
+  );
+};
 
 export default Header;

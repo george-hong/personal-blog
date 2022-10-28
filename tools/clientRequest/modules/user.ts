@@ -24,9 +24,7 @@ export function requestToGetRSAPublicKey() {
 
 export function requestToSignUp(params: ISignUpParams) {
   const {
-    account,
-    password,
-    nickName,
+    account, password, nickName,
   } = params;
   const requestParams = {
     account,
@@ -38,8 +36,7 @@ export function requestToSignUp(params: ISignUpParams) {
 
 export function requestToLogin(params: ILoginParams) {
   const {
-    account,
-    password,
+    account, password,
   } = params;
   const requestParams = {
     account,

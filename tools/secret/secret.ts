@@ -3,7 +3,11 @@
  */
 import cloneDeep from 'lodash.clonedeep';
 import sha256 from 'crypto-js/sha256';
-import { KEYUTIL, KJUR, RSAKey } from 'jsrsasign';
+import {
+  KEYUTIL,
+  KJUR,
+  RSAKey,
+} from 'jsrsasign';
 import {
   isString,
   splitStringByByteLength,
@@ -35,7 +39,7 @@ function encode(payload: string | object, options?: Partial<ISecretEncodeOptions
   const realOptions = Object.assign(cloneDeep(secretEncodeOptions), options) as ISecretEncodeOptions;
   const { type } = realOptions;
   let encodedStr;
-  switch(type) {
+  switch (type) {
     case SecretType.SHA256:
       encodedStr = Secret.encodeBySHA256(payload);
       break;
@@ -73,10 +77,10 @@ class Secret {
   static encode = encode;
 
   static decode<T>(str: string, options?: Partial<ISecretDecodeOptions>): IDecodeResult<T> | IDecodeResult<string> {
-    const realOptions = Object.assign(cloneDeep(secretDecodeOptions), options) as ISecretDecodeOptions
+    const realOptions = Object.assign(cloneDeep(secretDecodeOptions), options) as ISecretDecodeOptions;
     const { type } = realOptions;
     let decodeResult;
-    switch(type) {
+    switch (type) {
       case SecretType.RSA:
         decodeResult = this.decodeByRSA(str);
         break;
@@ -99,7 +103,7 @@ class Secret {
   static decodeByBase64<T>(str: string): IDecodeResult<T> {
     const decodeResult: IDecodeResult<T> = {
       success: false,
-    }
+    };
     try {
       const cache: unknown = JSON.parse(decodeURI(atob(str)));
       decodeResult.payload = (cache as ISecretCache<T>).payload;
@@ -114,37 +118,34 @@ class Secret {
     const cache: ISecretCache<string | object> = {
       payload: payload,
     };
-    return sha256(JSON.stringify(cache)).toString();
+    return sha256(JSON.stringify(cache))
+      .toString();
   }
 
   static encodeByRSA(payload: string, options: IRSAEncodeOptions = {}): string {
     const { key } = options;
     const RSAPublicKey = KEYUTIL.getKey(key ?? this.RSAPublicKey) as RSAKey;
-    return (
-      splitStringByByteLength(payload, 117)
-        .map(str => KJUR.crypto.Cipher.encrypt(str, RSAPublicKey, ALG_NAME))
-        .join(this.RSASplitString)
-    );
+    return (splitStringByByteLength(payload, 117)
+      .map(str => KJUR.crypto.Cipher.encrypt(str, RSAPublicKey, ALG_NAME))
+      .join(this.RSASplitString));
   }
 
   static decodeByRSA(str: string, options: IRSADecodeOptions = {}): IDecodeResult<string> {
     const decodeResult: IDecodeResult<string> = {
       success: false,
-    }
+    };
     const { key } = options;
     const RSAPrivateKey = KEYUTIL.getKey(key ?? this.RSAPrivateKey) as RSAKey;
     try {
-      decodeResult.payload = (
-        str
-          .split(this.RSASplitString)
-          .map(secretString => {
-            return KJUR.crypto.Cipher.decrypt(secretString, RSAPrivateKey, ALG_NAME);
-          })
-          .join()
-      );
+      decodeResult.payload = (str
+        .split(this.RSASplitString)
+        .map(secretString => {
+          return KJUR.crypto.Cipher.decrypt(secretString, RSAPrivateKey, ALG_NAME);
+        })
+        .join());
       decodeResult.success = true;
     } catch (error) {
-      throw(error)
+      throw(error);
       // Do not need to do anything.
     }
     return decodeResult;

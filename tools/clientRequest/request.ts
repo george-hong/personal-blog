@@ -1,19 +1,26 @@
-type methodType = 'get' | 'post';
+type methodType =
+  'get'
+  | 'post';
+
 interface IFetchOptions extends RequestInit {
   headers?: {
     token?: string;
   }
 }
+
 interface IRequestOptions {
   baseURL?: string;
   beforeSend?: (fetchOptions: IFetchOptions) => IFetchOptions;
 }
+
 interface IParams {
   [key: string]: number | string | boolean;
 }
+
 interface IConfig {
   headers?: { [key: string]: string };
 }
+
 interface IURLAndParams {
   url: string;
   params?: IParams | string;
@@ -22,7 +29,10 @@ interface IURLAndParams {
 const CONNECTOR_OF_GET = '?';
 const CONNECTOR_OF_KEY_VALUE = '=';
 const CONNECTOR_OF_PARAMS = '&';
-const ABSOLUTE_PREFIX = ['http://', 'https://'];
+const ABSOLUTE_PREFIX = [
+  'http://',
+  'https://',
+];
 
 class Request {
   /**
@@ -43,16 +53,19 @@ class Request {
   }
 
   private serializeParams(params: IParams): string {
-    return Object.entries(params).map(keyAndValue => keyAndValue.join(CONNECTOR_OF_KEY_VALUE)).join(CONNECTOR_OF_PARAMS);
+    return Object.entries(params)
+                 .map(keyAndValue => keyAndValue.join(CONNECTOR_OF_KEY_VALUE))
+                 .join(CONNECTOR_OF_PARAMS);
   }
 
   private getUrlAndParamsByMethod(method: methodType, url: string, params?: IParams): IURLAndParams {
     const { baseURL } = this.options;
     const result: IURLAndParams = { url: (baseURL && !Request.isAbsoluteURL(url)) ? baseURL + url : url };
     if (method === 'get' && params) {
-      const connector = url.endsWith(CONNECTOR_OF_GET) ? '' :
+      const connector = url.endsWith(CONNECTOR_OF_GET) ?
+        '' :
         url.includes(CONNECTOR_OF_GET) ? CONNECTOR_OF_PARAMS : CONNECTOR_OF_GET;
-      result.url += `${connector}${this.serializeParams(params)}`;
+      result.url += `${ connector }${ this.serializeParams(params) }`;
     } else if (method === 'post' && params) {
       result.params = JSON.stringify(params);
     }
@@ -63,8 +76,7 @@ class Request {
     return new Promise<T>((resolve, reject) => {
       const { url: urlParsed, params: paramsParsed } = this.getUrlAndParamsByMethod(method, url, params);
       const headers = {
-        'Content-Type': 'application/json',
-        ...config?.headers,
+        'Content-Type': 'application/json', ...config?.headers,
       };
       const fetchOptions: RequestInit = {
         method: method,
@@ -78,10 +90,9 @@ class Request {
         .then((response) => response.json())
         .then((response) => {
           const { status } = response;
-          if (status === 200) resolve(response as T);
-          else reject(response);
-        })
-    })
+          if (status === 200) resolve(response as T); else reject(response);
+        });
+    });
   }
 
   public get<T>(url: string, params?: IParams, config?: IConfig) {

@@ -18,7 +18,7 @@ const runMiddleware = (configMiddleware: ConfigMiddleware) => {
     configMiddleware(middleware);
     // Run all middleware.
     await middleware.run();
-  }
+  };
 };
 
 export default runMiddleware;

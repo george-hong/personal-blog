@@ -1,4 +1,7 @@
-import { clientRequest, serverRequest } from '../index';
+import {
+  clientRequest,
+  serverRequest,
+} from '../index';
 import {
   IArticleListPageParams,
   IArticleDetailPageParams,

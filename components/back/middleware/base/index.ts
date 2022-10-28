@@ -16,22 +16,25 @@ const DEFAULT_ERROR_MESSAGE = 'Internal error';
 class Base {
   static setRequest(req: ExtendedNextApiRequest, res: ExtendedNextApiResponse, next: NextFunction): void {
     res.supply = function (response: unknown) {
-      res.status(200).json({
-        status: 200,
-        data: response,
-      });
-    }
+      res.status(200)
+         .json({
+           status: 200,
+           data: response,
+         });
+    };
     res.throw = function (messageOrProps, code?) {
       const errorCode = code ?? DEFAULT_ERROR_CODE;
-      const responseProps = !messageOrProps ? {} :
+      const responseProps = !messageOrProps ?
+        {} :
         typeof messageOrProps === 'string' ? { message: messageOrProps } : messageOrProps;
       const { message, ...otherResponse } = responseProps;
-      res.status(errorCode).json({
-        ...otherResponse,
-        message: message ?? DEFAULT_ERROR_MESSAGE,
-        status: errorCode,
-      });
-    }
+      res.status(errorCode)
+         .json({
+           ...otherResponse,
+           message: message ?? DEFAULT_ERROR_MESSAGE,
+           status: errorCode,
+         });
+    };
     next();
   }
 
@@ -40,7 +43,7 @@ class Base {
       const payload = jwt.decode(req.headers.token as string);
       const db = new DataBase();
       if (payload && (payload as ITokenParseResult).id === undefined) return;
-      db.query<Array<ITokenQueryInfo>>(`SELECT privateKey FROM user WHERE id = ${(payload as ITokenParseResult).id}`)
+      db.query<Array<ITokenQueryInfo>>(`SELECT privateKey FROM user WHERE id = ${ (payload as ITokenParseResult).id }`)
         .then(result => {
           const resultOfVerify = jwt.verify(req.headers.token as string, result[0].privateKey) as ITokenParseResult;
           req.userFromToken = { id: resultOfVerify.id };

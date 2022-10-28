@@ -6,17 +6,24 @@ export enum FormItemType {
 }
 
 export enum TriggerType {
-  onChange = 'onChange',
-  onFocus = 'onFocus',
-  onBlur = 'onBlur',
+  onChange = 'onChange', onFocus = 'onFocus', onBlur = 'onBlur',
 }
 
-type GridValue = 'auto' | number | boolean;
-export type ValueType = string | number | boolean;
+type GridValue =
+  'auto'
+  | number
+  | boolean;
+export type ValueType =
+  string
+  | number
+  | boolean;
 type ChangeHandler = (event?: React.ChangeEvent<HTMLInputElement>) => void;
 type FocusHandler = (event?: React.FocusEvent) => void;
 type BlurHandler = (event?: Event) => void;
-export type EventType = React.ChangeEvent<HTMLInputElement> | FocusEvent | Event;
+export type EventType =
+  React.ChangeEvent<HTMLInputElement>
+  | FocusEvent
+  | Event;
 
 export interface IEvents {
   [TriggerType.onChange]: Array<ChangeHandler>;
@@ -47,11 +54,7 @@ interface IFormItemCommon {
   inputType?: string;
   rules?: Array<IRule>;
   grid?: {
-    xl?: GridValue;
-    lg?: GridValue;
-    md?: GridValue;
-    sm?: GridValue;
-    xs?: GridValue;
+    xl?: GridValue; lg?: GridValue; md?: GridValue; sm?: GridValue; xs?: GridValue;
   };
   trigger?: Array<TriggerType>;
   autoComplete?: string;
@@ -75,7 +78,9 @@ interface IFormItemChanged {
 }
 
 export type FormItem = IInputForm;
-type FormItemChanged = IInputForm & IFormItemChanged;
+type FormItemChanged =
+  IInputForm
+  & IFormItemChanged;
 
 export interface FormConfigChangedObject {
   [key: string]: FormItemChanged;

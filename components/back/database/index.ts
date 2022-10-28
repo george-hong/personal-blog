@@ -10,7 +10,7 @@ class DataBase {
       host: DB_CONFIG.HOST,
       user: DB_CONFIG.USER,
       password: DB_CONFIG.PASSWORD,
-      database: DB_CONFIG.DATABASE
+      database: DB_CONFIG.DATABASE,
     });
 
     this.connection.connect();
@@ -21,7 +21,7 @@ class DataBase {
       this.connection.query(sqlSentence, function (error, result: T, fields) {
         if (error) return reject(error);
         resolve(result);
-      })
+      });
     });
   }
 }

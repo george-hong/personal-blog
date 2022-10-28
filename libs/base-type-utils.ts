@@ -2,12 +2,12 @@ export function isString(value: unknown): boolean {
   return typeof value === 'string';
 }
 
-export function getStringByteLength (str: unknown): number {
+export function getStringByteLength(str: unknown): number {
   let result = 0;
   if (!isString(str)) return result;
   let length = (str as string).length;
   let index = 0;
-  for( ; index < length; index++) {
+  for (; index < length; index++) {
     const charCode = (str as string).charCodeAt(index);
     if (charCode <= 0x007f) {
       result += 1;
@@ -22,7 +22,7 @@ export function getStringByteLength (str: unknown): number {
   return result;
 }
 
-export function splitStringByByteLength (str: unknown, maxSpacePerGroup: number): Array<string> {
+export function splitStringByByteLength(str: unknown, maxSpacePerGroup: number): Array<string> {
   const result: Array<string> = [];
   const space = maxSpacePerGroup > 3 ? Math.floor(maxSpacePerGroup) : 4;
   const targetString = (isString(str) ? str : String(str)) as string;
@@ -30,7 +30,7 @@ export function splitStringByByteLength (str: unknown, maxSpacePerGroup: number)
   let currentLength = 0;
   let index = 0;
   let length = targetString.length;
-  for( ; index < length; index++) {
+  for (; index < length; index++) {
     const isLastChar = index === length - 1;
     const charByteLength = getStringByteLength(targetString[index]);
     const isSumBiggerThanSpace = (currentLength + charByteLength) > space;
@@ -38,7 +38,7 @@ export function splitStringByByteLength (str: unknown, maxSpacePerGroup: number)
       result.push(targetString.slice(previousPosition, index));
       result.push(targetString.slice(index, index + 1));
     } else if (isLastChar) {
-      result.push(targetString.slice(previousPosition, index + 1))
+      result.push(targetString.slice(previousPosition, index + 1));
     } else if (isSumBiggerThanSpace) {
       result.push(targetString.slice(previousPosition, index));
       previousPosition = index;
