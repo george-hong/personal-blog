@@ -62,8 +62,7 @@ class Request {
     const { baseURL } = this.options;
     const result: IURLAndParams = { url: (baseURL && !Request.isAbsoluteURL(url)) ? baseURL + url : url };
     if (method === 'get' && params) {
-      const connector = url.endsWith(CONNECTOR_OF_GET) ?
-        '' :
+      const connector = url.endsWith(CONNECTOR_OF_GET) ? '' :
         url.includes(CONNECTOR_OF_GET) ? CONNECTOR_OF_PARAMS : CONNECTOR_OF_GET;
       result.url += `${ connector }${ this.serializeParams(params) }`;
     } else if (method === 'post' && params) {

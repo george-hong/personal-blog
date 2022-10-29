@@ -1,5 +1,5 @@
 import DataBase from '../../../components/back/database';
-import runMiddleware from '../../../components/back/middleware/run-middleware';
+import { runMiddleware } from '../../../components/back/middleware';
 import { ILoginQueryResult } from '../../../interface/request-response/user.interface';
 import UserForBack from '../../../business/user/user-for-back';
 import Secret, {

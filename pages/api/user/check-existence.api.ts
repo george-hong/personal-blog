@@ -1,5 +1,5 @@
 import DataBase from '../../../components/back/database';
-import runMiddleware from '../../../components/back/middleware/run-middleware';
+import { runMiddleware } from '../../../components/back/middleware';
 import { ExistenceCheckType } from '../../../interface/request-response/user.interface';
 
 export default runMiddleware(middleware => {

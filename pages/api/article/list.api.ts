@@ -1,5 +1,5 @@
 import DataBase from '../../../components/back/database';
-import runMiddleware from '../../../components/back/middleware/run-middleware';
+import { runMiddleware } from '../../../components/back/middleware';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {

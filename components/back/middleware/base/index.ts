@@ -24,8 +24,7 @@ class Base {
     };
     res.throw = function (messageOrProps, code?) {
       const errorCode = code ?? DEFAULT_ERROR_CODE;
-      const responseProps = !messageOrProps ?
-        {} :
+      const responseProps = !messageOrProps ? {} :
         typeof messageOrProps === 'string' ? { message: messageOrProps } : messageOrProps;
       const { message, ...otherResponse } = responseProps;
       res.status(errorCode)

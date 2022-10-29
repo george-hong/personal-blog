@@ -22,7 +22,7 @@ import {
 
 const menuLinkContrast = {
   '/': '首页',
-  '/article/list': '文章列表',
+  '/article/list': '文章',
 };
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
