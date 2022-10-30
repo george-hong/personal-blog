@@ -18,12 +18,14 @@ export interface IArticleDetailPageParams {
   }
 }
 
+export interface IArticleDetail {
+  id: number;
+  title: string;
+  content: string;
+}
+
 export interface IArticleDetailResponse extends IResponseBase {
-  data: [
-    {
-      id: number; title: string; content: string;
-    }
-  ];
+  data: Array<IArticleDetail>;
 }
 
 export interface IArticleAddParams {

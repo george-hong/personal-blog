@@ -10,22 +10,21 @@ import {
   IArticleAddParams,
   IArticleEditParams,
   IArticleEditResponse,
+  IArticleDetail,
 } from '../../../interface/request-response/article.interface';
 import { encodeQuotationMarks } from '../../methods';
 
-export async function getArticleList(props: IArticleListPageParams) {
+export async function getArticleList(props: IArticleListPageParams): Promise<Array<IArticleDetail>> {
   const { pageNo, pageSize } = props.query;
   let result;
-  try {
-    result = await serverRequest.get<IArticleListResponse>(`/api/article/list`);
-    result = result.data;
-  } catch (error) {
-    result = error;
-  }
-  return { props: { pageData: result } };
+  result = await serverRequest.get<IArticleListResponse>(`/api/article/list`);
+  result = result.data;
+  // TODO: add try catch and fix types;
+  // @ts-ignore
+  return result;
 }
 
-export async function getArticleDetail(props: IArticleDetailPageParams) {
+export async function getArticleDetail(props: IArticleDetailPageParams): Promise<IArticleDetail> {
   const id = props.query.id;
   let result;
   let error;
@@ -37,7 +36,9 @@ export async function getArticleDetail(props: IArticleDetailPageParams) {
   } catch (err) {
     error = err;
   }
-  return { props: { pageData: error || result } };
+  // TODO: fix types;
+  // @ts-ignore
+  return error || result;
 }
 
 export function requestToAddArticle(params: IArticleAddParams) {

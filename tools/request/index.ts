@@ -13,3 +13,5 @@ export const clientRequest = new Request({
     return options;
   },
 });
+
+export default Request;

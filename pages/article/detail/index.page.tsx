@@ -1,40 +1,28 @@
-import React, { ReactNode, Fragment } from 'react';
-import Head from 'next/head';
+import React, { ReactNode } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Layout from '../../../components/front/layout';
 import { MarkdownReader } from '../../../components/front/markdown-editor';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
-import { getArticleDetail } from '../../../tools/clientRequest/modules/article';
-import { IArticleDetailPageParams } from '../../../interface/request-response/article.interface';
-
-interface IArticleDetailProps {
-  pageData: {
-    content: string;
-    title: string;
-  };
-}
-
-export async function getServerSideProps(props: IArticleDetailPageParams) {
-  return await getArticleDetail(props);
-}
+import { getArticleDetailPageData } from './assets';
+import Meta from '../../../components/front/meta';
+import { IPageBaseData } from '../../../interface/request-response/base.interface';
+import { IArticleDetailPageData } from './detail.interface';
 
 const transformToCoverClass = (className: string, cover?: boolean) => {
   return `${className}${cover ? ` ${style['cover-with-content']}` : ''}`;
 }
 
-const ArticleDetail: NextPage<IArticleDetailProps, ReactNode> = (props) => {
+const ArticleDetail: NextPage<IPageBaseData<IArticleDetailPageData>, ReactNode> = (props) => {
   const isUseCover = false;
-  const { content, title } = props.pageData;
+  const { pageData, meta } = props;
+  // TODO: fix types
+  // @ts-ignore
+  const { content, title } = pageData;
 
   return (
-    <Fragment>
-      <Head>
-        <title>article detail</title>
-        <meta name="personal-blog" content="文章详情"/>
-      </Head>
-
+    <Meta {...meta}>
       <Layout contentClassName={transformToCoverClass(style['article-detail-page'], isUseCover)}>
         <Box>
           <Typography
@@ -51,8 +39,10 @@ const ArticleDetail: NextPage<IArticleDetailProps, ReactNode> = (props) => {
           />
         </Box>
       </Layout>
-    </Fragment>
+    </Meta>
   )
 };
+
+export const getServerSideProps = getArticleDetailPageData;
 
 export default ArticleDetail;

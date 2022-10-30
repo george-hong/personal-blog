@@ -15,7 +15,8 @@ import {
   requestToCheckExistence,
   requestToGetRSAPublicKey,
   requestToSignUp,
-} from '../../tools/clientRequest/modules/user';
+} from '../../tools/request/modules/user';
+import { getRegisterPageData } from './assets';
 import User from '../../business/user/user';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
@@ -34,12 +35,8 @@ import {
   INoticeMethods,
   NoticeType,
 } from '../../components/front/notice/notice.interface';
-
-interface IRegisterPageParams {
-  query: {
-    id?: string;
-  }
-}
+import { IPageBaseData } from '../../interface/request-response/base.interface';
+import { IRegisterPageData } from './register.interface';
 
 const getRegisterFormConfig = (): Array<FormItem> => {
   return [
@@ -160,7 +157,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
   ]
 };
 
-const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
+const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (props) => {
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
   const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
@@ -239,5 +236,7 @@ const RegisterPage: NextPage<IRegisterPageParams, ReactNode> = (props) => {
     </Fragment>
   )
 };
+
+export const getServeSideProps = getRegisterPageData;
 
 export default RegisterPage;

@@ -1,13 +1,13 @@
 import React, {
-  useState,
+  Component,
   useRef,
+  useState,
 } from 'react';
-import type { NextPage } from 'next'
-import { Component } from 'react';
-import Head from 'next/head'
+import type { NextPage } from 'next';
 import Router from 'next/router';
 import style from './index.module.scss';
 import Layout from '../../../components/front/layout';
+import Meta from '../../../components/front/meta';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
@@ -19,35 +19,20 @@ import Notice, {
 } from '../../../components/front/notice';
 import { encodeQuotationMarks } from '../../../tools/methods';
 import {
-  getArticleDetail,
   requestToAddArticle,
   requestToEditArticle,
-} from '../../../tools/clientRequest/modules/article';
+} from '../../../tools/request/modules/article';
 import {
   IArticleAddParams,
   IArticleEditParams,
 } from '../../../interface/request-response/article.interface';
-
-
-interface IArticleEditPageParams {
-  query: {
-    id?: string;
-  }
-}
-interface IArticleInfo {
-  id: number;
-  content: string;
-  title: string;
-}
-interface IArticleEditProps {
-  pageData?: IArticleInfo;
-}
-
-export async function getServerSideProps(props: IArticleEditPageParams) {
-  const id = props.query.id;
-  if (id === undefined) return { props: {} };
-  return await getArticleDetail(props);
-}
+import { IEditArticleResponse } from '../../../interface/request-response/user.interface';
+import {
+  IArticleEditPageData,
+  IArticleInfo,
+} from './edit.interface';
+import { getArticleEditPageData } from './assets';
+import { IPageBaseData } from '../../../interface/request-response/base.interface';
 
 const saveArticle = (title: string, content: string, pageData?: IArticleInfo) => {
   const params: Partial<IArticleInfo> = {
@@ -63,7 +48,7 @@ const saveArticle = (title: string, content: string, pageData?: IArticleInfo) =>
     requestToEditArticle(params as IArticleEditParams) :
     requestToAddArticle(params as IArticleAddParams);
   requestMethod
-    .then(result => {
+    .then((result: IEditArticleResponse) => {
       Router.push(`/article/detail?id=${result.data.id}`);
     })
     .catch(error => {
@@ -75,8 +60,8 @@ const transformToCoverClass = (className: string, cover?: boolean) => {
   return `${className}${cover ? ` ${style['cover-with-content']}` : ''}`;
 }
 
-const ArticleEdit: NextPage<IArticleEditProps, Component> = (props) => {
-  const { pageData } = props;
+const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (props) => {
+  const { pageData, meta } = props;
   const [inputContent, setInputContent] = useState(pageData?.content ?? '');
   const [title, setTitle] = useState(pageData?.title ?? '');
   const noticeRef = useRef<INoticeMethods>(null);
@@ -91,51 +76,50 @@ const ArticleEdit: NextPage<IArticleEditProps, Component> = (props) => {
   }
 
   return (
-    <Layout
-      contentClassName={transformToCoverClass(style['edit-page-layout'], isUseCover)}
-      footer={null}
-    >
-      <Head>
-        <title>article detail</title>
-        <meta name="编辑文章" content="编辑文章"/>
-      </Head>
-
-      <Box
-        className={transformToCoverClass(style['article-edit-page'], isUseCover)}
-        sx={{ pb: 2 }}
+    <Meta {...meta}>
+      <Layout
+        contentClassName={transformToCoverClass(style['edit-page-layout'], isUseCover)}
+        footer={null}
       >
-        <Box className={style['inner-box']}>
-          <Box className={style['article-layout']}>
-            <TextField
-              sx={{ flex: 1, margin: 2, ml: 0 }}
-              label="title"
-              variant="outlined"
-              size="small"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <ButtonGroup
-              sx={{ mt: 2, mb: 2 }}
-              variant="contained"
-              disableElevation
-            >
-              <Button variant="outlined">保存草稿</Button>
-              <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? '更新' : '发布' }</Button>
-            </ButtonGroup>
-          </Box>
-          <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
-            <MarkdownEditor
-              cover={isUseCover}
-              content={inputContent}
-              onUpdate={setInputContent}
-            />
+        <Box
+          className={transformToCoverClass(style['article-edit-page'], isUseCover)}
+          sx={{ pb: 2 }}
+        >
+          <Box className={style['inner-box']}>
+            <Box className={style['article-layout']}>
+              <TextField
+                sx={{ flex: 1, margin: 2, ml: 0 }}
+                label="title"
+                variant="outlined"
+                size="small"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <ButtonGroup
+                sx={{ mt: 2, mb: 2 }}
+                variant="contained"
+                disableElevation
+              >
+                <Button variant="outlined">保存草稿</Button>
+                <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? '更新' : '发布' }</Button>
+              </ButtonGroup>
+            </Box>
+            <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
+              <MarkdownEditor
+                cover={isUseCover}
+                content={inputContent}
+                onUpdate={setInputContent}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
 
-      <Notice ref={noticeRef} />
-    </Layout>
+        <Notice ref={noticeRef} />
+      </Layout>
+    </Meta>
   )
 };
+
+export const getServerSideProps = getArticleEditPageData;
 
 export default ArticleEdit;

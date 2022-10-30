@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import {
   requestToGetRSAPublicKey,
   requestToLogin,
-} from '../../../tools/clientRequest/modules/user';
+} from '../../../tools/request/modules/user';
 import Form from '../form';
 import Secret, {
   SecretType,
@@ -169,14 +169,12 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
           登录
         </Button>
         <Link href={registerPath}>
-          <a>
-            <Typography
-              component="span"
-              sx={{ fontSize: 12, color: 'primary.main' }}
-            >
-              前往注册
-            </Typography>
-          </a>
+          <Typography
+            component="span"
+            sx={{ fontSize: 12, color: 'primary.main' }}
+          >
+            前往注册
+          </Typography>
         </Link>
       </Box>
     </Dialog>
