@@ -237,6 +237,6 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
   )
 };
 
-export const getServeSideProps = getRegisterPageData;
+export const getServerSideProps = getRegisterPageData;
 
 export default RegisterPage;

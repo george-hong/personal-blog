@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80030
 File Encoding         : 65001
 
-Date: 2022-10-25 01:27:27
+Date: 2022-10-30 23:17:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,7 +27,7 @@ CREATE TABLE `article` (
   `createTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of article
@@ -46,6 +46,7 @@ INSERT INTO `article` VALUES ('47', '213', '123\n', '1', '2022-10-24 23:59:04', 
 INSERT INTO `article` VALUES ('48', '123', '8895\n', '1', '2022-10-25 00:03:29', null);
 INSERT INTO `article` VALUES ('49', '123', '995\n', '1', '2022-10-25 01:05:31', null);
 INSERT INTO `article` VALUES ('50', '789', '565777\n', '11', '2022-10-25 01:25:56', '2022-10-25 01:25:56');
+INSERT INTO `article` VALUES ('51', 'addarticle', '.then(result => {\n\n&#x20;     Router.push(`/article/detail?id=${result.data.id}`);kk\n\n&#x20;   })\n\n&#x20;   .catch(error => {\n\n&#x20;     console.log(&#39error&#39, error);\n\n&#x20;   });\n', '11', '2022-10-25 22:36:12', '2022-10-25 22:36:12');
 
 -- ----------------------------
 -- Table structure for user
@@ -61,7 +62,7 @@ CREATE TABLE `user` (
   `createTime` bigint unsigned NOT NULL,
   `updateTime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
@@ -71,6 +72,9 @@ INSERT INTO `user` VALUES ('5', 'admin', null, '45499e4ca39017d2c4a753927362c628
 INSERT INTO `user` VALUES ('6', 'admin3', null, 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', null, '88888', '1665499362920', '2022-10-21 23:20:18');
 INSERT INTO `user` VALUES ('7', 'admin7', null, '12345678', null, '1666454122902', '1666454122902', null);
 INSERT INTO `user` VALUES ('8', 'admin8', null, '12345678', null, '1666454198446', '1666454198446', null);
-INSERT INTO `user` VALUES ('11', 'usertest', 'usertest', '75e44c02f418661b05d1dd668b20a152fe8502b5749e459b249a8735afa3f670', null, '1666457271459', '1666457271459', '2022-10-23 15:29:34');
+INSERT INTO `user` VALUES ('11', 'usertest', 'usertest', '75e44c02f418661b05d1dd668b20a152fe8502b5749e459b249a8735afa3f670', 'coder.jpg', '1666457271459', '1666457271459', '2022-10-27 21:36:26');
 INSERT INTO `user` VALUES ('12', 'usertest2', null, '6dbe461b11491d6d976c3de5f525707ef7573c08f0b0e07fb4c9bc4f6c97bfbb', null, '1666503175313', '1666503175313', null);
 INSERT INTO `user` VALUES ('13', 'usertest9', null, '75e44c02f418661b05d1dd668b20a152fe8502b5749e459b249a8735afa3f670', null, '1666506609846', '1666506609846', null);
+INSERT INTO `user` VALUES ('14', 'newaccount', null, '45499e4ca39017d2c4a753927362c628aaf52814c256b0521f30330225783244', null, '1666880459182', '1666880459182', null);
+INSERT INTO `user` VALUES ('15', 'usertest3', 'undefined', '45499e4ca39017d2c4a753927362c628aaf52814c256b0521f30330225783244', null, '1666881080031', '1666881080031', null);
+INSERT INTO `user` VALUES ('16', 'usertest6', 'test6', '45499e4ca39017d2c4a753927362c628aaf52814c256b0521f30330225783244', null, '1666881479029', '1666881479029', null);
