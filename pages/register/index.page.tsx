@@ -37,6 +37,7 @@ import {
 } from '../../components/front/notice/notice.interface';
 import { IPageBaseData } from '../../interface/request-response/base.interface';
 import { IRegisterPageData } from './register.interface';
+import { getParamsObjFromURL } from '../../libs/url-utils';
 
 const getRegisterFormConfig = (): Array<FormItem> => {
   return [
@@ -165,13 +166,8 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
   const router = useRouter();
   let urlParams;
   let backUrl: string;
-  // TODO: Extract url parse tool.
   try {
-    urlParams = router.asPath.split('?')[1].split('&').reduce((total, keyValueString) => {
-      const [key, value] = keyValueString.split('=');
-      total[key] = value;
-      return total;
-    }, {} as IUniformObject<string>);
+    urlParams = getParamsObjFromURL(router.asPath);
   } catch (error) {
     urlParams = {};
   }

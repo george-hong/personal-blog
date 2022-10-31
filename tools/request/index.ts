@@ -9,7 +9,10 @@ export const clientRequest = new Request({
     const token = localStorage.getItem(TOKEN_FIELD);
     if (!options) options = {};
     if (!options.headers) options.headers = {};
-    if (token) options.headers.token = token;
+    if (token) options.headers = {
+      ...options.headers,
+      token,
+    };
     return options;
   },
 });

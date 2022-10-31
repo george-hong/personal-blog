@@ -2,15 +2,9 @@ type methodType =
   'get'
   | 'post';
 
-interface IFetchOptions extends RequestInit {
-  headers?: {
-    token?: string;
-  }
-}
-
 interface IRequestOptions {
   baseURL?: string;
-  beforeSend?: (fetchOptions: IFetchOptions) => IFetchOptions;
+  beforeSend?: (fetchOptions: RequestInit) => RequestInit;
 }
 
 interface IParams {
@@ -81,8 +75,6 @@ class Request {
         method: method,
         headers,
       };
-      // TODO: fix type
-      // @ts-ignore
       const realOptions = this.options.beforeSend ? this.options.beforeSend(fetchOptions) : fetchOptions;
       if (paramsParsed) fetchOptions.body = paramsParsed as string;
       fetch(urlParsed, realOptions)

@@ -1,6 +1,6 @@
 import DataBase from '../../../components/back/database';
 import { runMiddleware } from '../../../components/back/middleware';
-import { timeStampFromJsToDb } from '../../../libs/time-util';
+import { timeStampFromJsToDb } from '../../../libs/time-utils';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
