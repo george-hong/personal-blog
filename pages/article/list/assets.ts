@@ -1,13 +1,12 @@
 import {
   getArticleList,
 } from '../../../tools/request/modules/article';
-import { IPageBaseDataBeforeSend } from '../../../interface/request-response/base.interface';
 import { ArticleListPageData } from './list.interface';
 import { IArticleListPageParams } from '../../../interface/request-response/article.interface';
+import PageData from '../../../components/back/page-data';
 
-const getArticleListPageData = async (props: IArticleListPageParams): Promise<IPageBaseDataBeforeSend<ArticleListPageData>> => {
+const getArticleListPageData = PageData.tryToGetPageData<IArticleListPageParams, ArticleListPageData>(async (props) => {
   let articleList;
-  // TODO: refine error handle.
   articleList = await getArticleList(props);
   return {
     props: {
@@ -19,6 +18,8 @@ const getArticleListPageData = async (props: IArticleListPageParams): Promise<IP
       pageData: articleList,
     },
   };
-};
+});
 
-export { getArticleListPageData };
+export {
+  getArticleListPageData
+};

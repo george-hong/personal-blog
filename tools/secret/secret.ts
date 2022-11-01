@@ -12,7 +12,7 @@ import {
   isString,
   splitStringByByteLength,
 } from '../../libs/base-type-utils';
-import RSAString from '../rsa';
+import RSAString from './rsa';
 import {
   IDecodeResult,
   IRSADecodeOptions,
