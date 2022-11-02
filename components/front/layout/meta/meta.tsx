@@ -1,6 +1,5 @@
 import React, {
   Component,
-  Fragment,
 } from 'react';
 import Head from 'next/head';
 import type { NextPage } from 'next';
@@ -11,10 +10,10 @@ import { IMetaProps } from './meta.interface';
  */
 const Meta: NextPage<IMetaProps, Component> = (props) => {
   const {
-    children, title, keywords, description, metaInfo,
+    title, keywords, description, metaInfo,
   } = props;
 
-  return (<Fragment>
+  return (
     <Head>
       {
         !!title && (<title>{ title }</title>)
@@ -40,8 +39,7 @@ const Meta: NextPage<IMetaProps, Component> = (props) => {
         !!metaInfo && metaInfo
       }
     </Head>
-    { children }
-  </Fragment>);
+  );
 };
 
 export default Meta;

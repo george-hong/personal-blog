@@ -1,10 +1,8 @@
 import React, {
-  Fragment,
   ReactNode,
   useRef,
   useState,
 } from 'react';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -24,7 +22,6 @@ import {
   ExistenceCheckType,
   ISignUpParams,
 } from '../../interface/request-response/user.interface';
-import { IUniformObject } from '../../interface/base.interface';
 import {
   FormItem,
   FormItemType,
@@ -159,6 +156,7 @@ const getRegisterFormConfig = (): Array<FormItem> => {
 };
 
 const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (props) => {
+  const { meta, error } = props;
   const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
   const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
@@ -206,30 +204,27 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
   };
 
   return (
-    <Fragment>
-      <Head>
-        <title>注册</title>
-        <meta name="personal-blog" content="注册"/>
-      </Head>
-
-      <Layout contentClassName={style.register}>
-        <Box sx={{ pt: 2, pb: 2 }}>
-          <Form
-            config={formConfig}
-            ref={formRef}
-          />
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{ mt: 2, mb: 1 }}
-            onClick={() => startToSignUp(backUrl)}
-          >
-            注册
-          </Button>
-        </Box>
-        <Notice ref={noticeRef} />
-      </Layout>
-    </Fragment>
+    <Layout
+      meta={meta}
+      error={error}
+      contentClassName={style.register}
+    >
+      <Box sx={{ pt: 2, pb: 2 }}>
+        <Form
+          config={formConfig}
+          ref={formRef}
+        />
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{ mt: 2, mb: 1 }}
+          onClick={() => startToSignUp(backUrl)}
+        >
+          注册
+        </Button>
+      </Box>
+      <Notice ref={noticeRef} />
+    </Layout>
   )
 };
 

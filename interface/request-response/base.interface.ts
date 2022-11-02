@@ -26,6 +26,7 @@ export interface IPageBaseData<T> {
     description?: string;
   };
   pageData?: T;
+  error?: unknown;
 }
 
 export interface IPageBaseDataBeforeSend<T> {

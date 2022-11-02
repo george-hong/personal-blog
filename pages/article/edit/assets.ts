@@ -6,19 +6,16 @@ import {
 import { getArticleDetail } from '../../../tools/request/modules/article';
 
 const getArticleEditPageData = async (props: IArticleEditPageParams): Promise<IPageBaseDataBeforeSend<IArticleEditPageData>> => {
-  let pageData;
   const id = props.query.id;
-  if (id) pageData = await getArticleDetail(props);
-
-
-  return {
+  const result: IPageBaseDataBeforeSend<IArticleEditPageData> = {
     props: {
       meta: {
         title: '文章编辑',
       },
-      pageData,
     },
-  };
+  }
+  if (id) result.props.pageData = await getArticleDetail(props);
+  return result;
 };
 
 export { getArticleEditPageData };

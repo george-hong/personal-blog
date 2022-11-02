@@ -5,6 +5,7 @@ import React, {
 import Container from '@mui/material/Container';
 import Header from './header';
 import Footer from './footer';
+import Meta from './meta';
 import {
   createTheme,
   ThemeProvider,
@@ -40,8 +41,16 @@ const theme = createTheme({
   }
 });
 
-const getContent = (children: ReactNode, notContainer = false, contentClassName?: string) => {
+const getContent = (error: unknown, children: ReactNode, notContainer = false, contentClassName?: string) => {
   let className = style.main;
+  if (error) {
+    // TODO: Refine page error.
+    return (
+      <div>
+        { String(error) }
+      </div>
+    )
+  }
   if (contentClassName) className += ` ${contentClassName}`;
   if (notContainer) {
     return (
@@ -67,6 +76,12 @@ const getContent = (children: ReactNode, notContainer = false, contentClassName?
  * @param {boolean} [props.middle] Make the content at the center of container.
  * @param {boolean} [props.autoHideHeader] Auto hide header.
  * @param {boolean} [props.onHeaderVisibilityChange] The callback of header's visibility change.
+ * @param {Object} [props.meta] The SEO config of current page.
+ * @param {string} [props.meta.title] The page title.
+ * @param {string} [props.meta.keywords] The page keywords.
+ * @param {string} [props.meta.description] The page description.
+ * @param {ReactElement} [props.meta.metaInfo] The extension of page head.
+ * @param {*} [props.error] The error info of current page.
  * @constructor
  */
 const Layout: NextPage<ILayoutProps> = (props) => {
@@ -80,8 +95,10 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     onHeaderVisibilityChange,
     className: userClassName,
     contentClassName,
+    meta,
+    error,
   } = props;
-  const content = children ? getContent(children, notContainer, contentClassName) : null;
+  const content = children ? getContent(error, children, notContainer, contentClassName) : null;
   const noticeRef = useRef<INoticeMethods>(null);
   const showNotice = (message: string) => {
     noticeRef.current?.notice(message, { type: NoticeType.success });
@@ -92,6 +109,7 @@ const Layout: NextPage<ILayoutProps> = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
+      <Meta {...meta}/>
       <div
         className={className}
         style={containerStyle}

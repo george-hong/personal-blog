@@ -7,7 +7,6 @@ import type { NextPage } from 'next';
 import Router from 'next/router';
 import style from './index.module.scss';
 import Layout from '../../../components/front/layout';
-import Meta from '../../../components/front/meta';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
@@ -61,7 +60,7 @@ const transformToCoverClass = (className: string, cover?: boolean) => {
 }
 
 const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (props) => {
-  const { pageData, meta } = props;
+  const { pageData, meta, error } = props;
   const [inputContent, setInputContent] = useState(pageData?.content ?? '');
   const [title, setTitle] = useState(pageData?.title ?? '');
   const noticeRef = useRef<INoticeMethods>(null);
@@ -76,47 +75,47 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
   }
 
   return (
-    <Meta {...meta}>
-      <Layout
-        contentClassName={transformToCoverClass(style['edit-page-layout'], isUseCover)}
-        footer={null}
+    <Layout
+      meta={meta}
+      error={error}
+      contentClassName={transformToCoverClass(style['edit-page-layout'], isUseCover)}
+      footer={null}
+    >
+      <Box
+        className={transformToCoverClass(style['article-edit-page'], isUseCover)}
+        sx={{ pb: 2 }}
       >
-        <Box
-          className={transformToCoverClass(style['article-edit-page'], isUseCover)}
-          sx={{ pb: 2 }}
-        >
-          <Box className={style['inner-box']}>
-            <Box className={style['article-layout']}>
-              <TextField
-                sx={{ flex: 1, margin: 2, ml: 0 }}
-                label="title"
-                variant="outlined"
-                size="small"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <ButtonGroup
-                sx={{ mt: 2, mb: 2 }}
-                variant="contained"
-                disableElevation
-              >
-                <Button variant="outlined">保存草稿</Button>
-                <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? '更新' : '发布' }</Button>
-              </ButtonGroup>
-            </Box>
-            <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
-              <MarkdownEditor
-                cover={isUseCover}
-                content={inputContent}
-                onUpdate={setInputContent}
-              />
-            </Box>
+        <Box className={style['inner-box']}>
+          <Box className={style['article-layout']}>
+            <TextField
+              sx={{ flex: 1, margin: 2, ml: 0 }}
+              label="title"
+              variant="outlined"
+              size="small"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <ButtonGroup
+              sx={{ mt: 2, mb: 2 }}
+              variant="contained"
+              disableElevation
+            >
+              <Button variant="outlined">保存草稿</Button>
+              <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? '更新' : '发布' }</Button>
+            </ButtonGroup>
+          </Box>
+          <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
+            <MarkdownEditor
+              cover={isUseCover}
+              content={inputContent}
+              onUpdate={setInputContent}
+            />
           </Box>
         </Box>
+      </Box>
 
-        <Notice ref={noticeRef} />
-      </Layout>
-    </Meta>
+      <Notice ref={noticeRef} />
+    </Layout>
   )
 };
 

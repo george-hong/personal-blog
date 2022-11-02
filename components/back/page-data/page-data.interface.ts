@@ -6,5 +6,6 @@ export interface IPageDataTryResult<T> {
       description?: string
     },
     pageData?: T;
+    error?: unknown;
   }
 }

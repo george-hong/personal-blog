@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 import Link from 'next/link';
 import Layout from '../../../components/front/layout';
 import Empty from '../../../components/front/empty';
-import Meta from '../../../components/front/meta';
 import ListMenu from './components/list-menu';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
@@ -60,32 +59,32 @@ const generateCardItem = (articleInfo: IArticleInfo) => {
 
 
 const ArticleList: NextPage<IPageBaseData<ArticleListPageData>, ReactNode> = (props) => {
-  const { pageData, meta } = props;
+  const { pageData, meta, error } = props;
   const [headerVisibility, setHeaderVisibility] = useState<boolean>(true);
   let className = style['list-page'];
   if (!pageData?.length) className += ' full-vertical';
 
   return (
-    <Meta {...meta}>
-      <Layout
-        autoHideHeader
-        onHeaderVisibilityChange={setHeaderVisibility}
+    <Layout
+      meta={meta}
+      error={error}
+      autoHideHeader
+      onHeaderVisibilityChange={setHeaderVisibility}
+    >
+      <Box
+        className={className}
+        sx={{ pb: 2 }}
       >
-        <Box
-          className={className}
-          sx={{ pb: 2 }}
-        >
-          <ListMenu top={!headerVisibility} />
-          <Box className={style['article-list-container']}>
-            <Box className={style['article-list-inner-container']}>
-              {
-                pageData?.length ? pageData.map((articleInfo) => generateCardItem(articleInfo)) : <Empty cover />
-              }
-            </Box>
+        <ListMenu top={!headerVisibility} />
+        <Box className={style['article-list-container']}>
+          <Box className={style['article-list-inner-container']}>
+            {
+              pageData?.length ? pageData.map((articleInfo) => generateCardItem(articleInfo)) : <Empty cover />
+            }
           </Box>
         </Box>
-      </Layout>
-    </Meta>
+      </Box>
+    </Layout>
   )
 };
 

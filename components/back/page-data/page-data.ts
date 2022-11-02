@@ -12,7 +12,8 @@ class PageData {
           props: {
             meta: {
               title: WEBSITE_TITLE,
-            }
+            },
+            error,
           }
         }
       }
