@@ -1,11 +1,12 @@
 import { IPageBaseDataBeforeSend } from '../../../interface/request-response/base.interface';
+import PageData from '../../../components/back/page-data';
+import { getArticleDetail } from '../../../tools/request/modules/article';
 import {
   IArticleEditPageData,
   IArticleEditPageParams,
 } from './edit.interface';
-import { getArticleDetail } from '../../../tools/request/modules/article';
 
-const getArticleEditPageData = async (props: IArticleEditPageParams): Promise<IPageBaseDataBeforeSend<IArticleEditPageData>> => {
+const getArticleEditPageData = PageData.tryToGetPageData<IArticleEditPageParams, IArticleEditPageData>(async (props ) => {
   const id = props.query.id;
   const result: IPageBaseDataBeforeSend<IArticleEditPageData> = {
     props: {
@@ -16,6 +17,6 @@ const getArticleEditPageData = async (props: IArticleEditPageParams): Promise<IP
   }
   if (id) result.props.pageData = await getArticleDetail(props);
   return result;
-};
+});
 
 export { getArticleEditPageData };

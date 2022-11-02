@@ -1,9 +1,9 @@
 import {
   getArticleList,
 } from '../../../tools/request/modules/article';
+import PageData from '../../../components/back/page-data';
 import { ArticleListPageData } from './list.interface';
 import { IArticleListPageParams } from '../../../interface/request-response/article.interface';
-import PageData from '../../../components/back/page-data';
 
 const getArticleListPageData = PageData.tryToGetPageData<IArticleListPageParams, ArticleListPageData>(async (props) => {
   let articleList;

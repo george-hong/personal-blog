@@ -43,15 +43,15 @@ const theme = createTheme({
 
 const getContent = (error: unknown, children: ReactNode, notContainer = false, contentClassName?: string) => {
   let className = style.main;
+  if (contentClassName) className += ` ${contentClassName}`;
   if (error) {
     // TODO: Refine page error.
     return (
-      <div>
+      <Container classes={{ root: className }}>
         { String(error) }
-      </div>
+      </Container>
     )
   }
-  if (contentClassName) className += ` ${contentClassName}`;
   if (notContainer) {
     return (
       <div className={className}>

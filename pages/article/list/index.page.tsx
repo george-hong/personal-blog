@@ -71,19 +71,23 @@ const ArticleList: NextPage<IPageBaseData<ArticleListPageData>, ReactNode> = (pr
       autoHideHeader
       onHeaderVisibilityChange={setHeaderVisibility}
     >
-      <Box
-        className={className}
-        sx={{ pb: 2 }}
-      >
-        <ListMenu top={!headerVisibility} />
-        <Box className={style['article-list-container']}>
-          <Box className={style['article-list-inner-container']}>
-            {
-              pageData?.length ? pageData.map((articleInfo) => generateCardItem(articleInfo)) : <Empty cover />
-            }
+      {
+        pageData && (
+          <Box
+            className={className}
+            sx={{ pb: 2 }}
+          >
+            <ListMenu top={!headerVisibility} />
+            <Box className={style['article-list-container']}>
+              <Box className={style['article-list-inner-container']}>
+                {
+                  pageData.length ? pageData.map((articleInfo) => generateCardItem(articleInfo)) : <Empty cover />
+                }
+              </Box>
+            </Box>
           </Box>
-        </Box>
-      </Box>
+        )
+      }
     </Layout>
   )
 };

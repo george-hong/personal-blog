@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, Fragment } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Layout from '../../../components/front/layout';
@@ -16,9 +16,6 @@ const transformToCoverClass = (className: string, cover?: boolean) => {
 const ArticleDetail: NextPage<IPageBaseData<IArticleDetailPageData>, ReactNode> = (props) => {
   const isUseCover = false;
   const { pageData, meta, error } = props;
-  // TODO: fix types
-  // @ts-ignore
-  const { content, title } = pageData;
 
   return (
     <Layout
@@ -26,20 +23,26 @@ const ArticleDetail: NextPage<IPageBaseData<IArticleDetailPageData>, ReactNode> 
       error={error}
       contentClassName={transformToCoverClass(style['article-detail-page'], isUseCover)}
     >
-      <Box>
-        <Typography
-          variant="h1"
-          sx={{ pt: 1, pb: 1, fontSize: 30, fontWeight: 600 }}
-        >
-          {title}
-        </Typography>
-      </Box>
-      <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
-        <MarkdownReader
-          cover={isUseCover}
-          content={content}
-        />
-      </Box>
+      {
+        pageData && (
+          <Fragment>
+            <Box>
+              <Typography
+                variant="h1"
+                sx={{ pt: 1, pb: 1, fontSize: 30, fontWeight: 600 }}
+              >
+                {pageData.title}
+              </Typography>
+            </Box>
+            <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
+              <MarkdownReader
+                cover={isUseCover}
+                content={pageData.content}
+              />
+            </Box>
+          </Fragment>
+        )
+      }
     </Layout>
   )
 };

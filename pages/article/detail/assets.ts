@@ -1,13 +1,12 @@
 import { getArticleDetail } from '../../../tools/request/modules/article';
-import { IPageBaseDataBeforeSend } from '../../../interface/request-response/base.interface';
+import PageData from '../../../components/back/page-data';
 import {
   IArticleDetail,
   IArticleDetailPageParams,
 } from '../../../interface/request-response/article.interface';
 
-const getArticleDetailPageData = async (props: IArticleDetailPageParams): Promise<IPageBaseDataBeforeSend<IArticleDetail>> => {
+const getArticleDetailPageData = PageData.tryToGetPageData<IArticleDetailPageParams, IArticleDetail>(async (props) => {
   let articleDetail;
-  // TODO: refine error handle.
   articleDetail = await getArticleDetail(props);
   return {
     props: {
@@ -19,6 +18,6 @@ const getArticleDetailPageData = async (props: IArticleDetailPageParams): Promis
       pageData: articleDetail,
     },
   };
-};
+});
 
 export { getArticleDetailPageData };

@@ -15,30 +15,22 @@ import {
 import { encodeQuotationMarks } from '../../methods';
 
 export async function getArticleList(props: IArticleListPageParams): Promise<Array<IArticleDetail>> {
+  // TODO: Support paging.
   const { pageNo, pageSize } = props.query;
   let result;
   result = await serverRequest.get<IArticleListResponse>(`/api/article/list`);
   result = result.data;
-  // TODO: add try catch and fix types;
-  // @ts-ignore
   return result;
 }
 
 export async function getArticleDetail(props: IArticleDetailPageParams): Promise<IArticleDetail> {
   const id = props.query.id;
   let result;
-  let error;
   const params: { id?: string } = {};
   if (id !== undefined) params.id = id;
-  try {
-    result = await serverRequest.get<IArticleDetailResponse>(`/api/article/detail`, params);
-    result = result.data[0];
-  } catch (err) {
-    error = err;
-  }
-  // TODO: fix types;
-  // @ts-ignore
-  return error || result;
+  result = await serverRequest.get<IArticleDetailResponse>(`/api/article/detail`, params);
+  result = result.data[0];
+  return result;
 }
 
 export function requestToAddArticle(params: IArticleAddParams) {
