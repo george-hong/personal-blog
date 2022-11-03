@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import EditIcon from '@mui/icons-material/Edit';
 import LoginDialog from '../../login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
@@ -35,6 +37,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   const router = useRouter();
   const { asPath } = router;
   const isRegisterPage = asPath.startsWith('/register');
+  const isEditPage = asPath.startsWith('/article/edit');
 
   useEffect(() => {
     setUserBaseInfo(UserForFront.getUserBaseInfoFromLocal());
@@ -49,23 +52,45 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
     setUserBaseInfo(null);
     onLogout && onLogout();
   };
+  const clickWritingButton = () => {
+    userBaseInfo ? router.push('/article/edit') : setDialogVisible(true);
+  };
   const headerRightPart = isSet && (
-    userBaseInfo ?
-      (
-        <UserOperation
-          userBaseInfo={ userBaseInfo }
-          onLogout={ logoutFromHeader }
-        />
-      ) : (
-        <Typography
-          classes={ { root: 'cursor-point' } }
-          component="h3"
-          sx={ { color: 'primary.main' } }
-          onClick={ () => setDialogVisible(true) }
-        >
-          登录/注册
-        </Typography>
-      )
+    <Fragment>
+      {
+        !isEditPage && (
+          <Button
+            sx={{ mr: 2 }}
+            variant="contained"
+            onClick={clickWritingButton}
+          >
+            <EditIcon
+              sx={{ mr: 1 }}
+              fontSize="small"
+            />
+            创作
+          </Button>
+        )
+      }
+      {
+        userBaseInfo ?
+          (
+            <UserOperation
+              userBaseInfo={ userBaseInfo }
+              onLogout={ logoutFromHeader }
+            />
+          ) : (
+            <Typography
+              classes={ { root: 'cursor-point' } }
+              component="h3"
+              sx={ { color: 'primary.main' } }
+              onClick={ () => setDialogVisible(true) }
+            >
+              登录/注册
+            </Typography>
+          )
+      }
+    </Fragment>
   );
 
   return (
@@ -94,7 +119,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               }
             </Grid>
             <Grid
-              className="content-to-right"
+              className={`content-to-right ${style['header-right']}`}
               item
               xs={ 4 }
             >
