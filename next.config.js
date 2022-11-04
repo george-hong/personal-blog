@@ -1,3 +1,4 @@
+const { i18n } = require('./next-i18next.config');
 /** @type {import('next').NextConfig} */
 
 const path = require('path');
@@ -19,6 +20,7 @@ const nextConfig = {
     'api.ts',
     'api.js',
   ],
+  i18n,
 }
 
 module.exports = nextConfig

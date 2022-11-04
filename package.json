@@ -21,19 +21,21 @@
     "@milkdown/react": "^6.3.2",
     "@milkdown/theme-nord": "^6.3.2",
     "@mui/icons-material": "^5.10.2",
-    "@mui/lab": "^5.0.0-alpha.102",
     "@mui/material": "^5.10.2",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.6",
+    "i18next": "^22.0.4",
     "jsonwebtoken": "^8.5.1",
     "jsrsasign": "^10.5.27",
     "lodash.clonedeep": "^4.5.0",
     "marked": "^4.1.0",
     "mysql": "^2.18.1",
     "next": "^13.0.0",
+    "next-i18next": "^12.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hot-toast": "^2.4.0"
+    "react-hot-toast": "^2.4.0",
+    "react-i18next": "^12.0.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",

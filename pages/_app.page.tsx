@@ -1,3 +1,5 @@
+import React from 'react';
+import { appWithTranslation } from 'next-i18next';
 import '../styles/reset.scss';
 import '../styles/globals.scss';
 import '../styles/fonts.scss';
@@ -11,4 +13,4 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return <Component {...pageProps} />
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

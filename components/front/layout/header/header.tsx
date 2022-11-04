@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
+import { useTranslation } from 'next-i18next'
 import LoginDialog from '../../login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
@@ -22,13 +23,13 @@ import {
   IHeaderRefProps,
 } from './header.interface';
 
-const menuLinkContrast = {
-  '/': '首页',
-  '/article/list': '文章',
-};
-
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
   const { visibility, onLogin, onLogout } = props;
+  const { t } = useTranslation('common');
+  const menuLinkContrast = {
+    '/': t('home'),
+    '/article/list': t('article'),
+  };
   let className = `${ style.header } ground-glass`;
   if (!visibility) className += ` ${ style['hide-menu'] }`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
@@ -68,7 +69,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={{ mr: 1 }}
               fontSize="small"
             />
-            创作
+            {t('writing')}
           </Button>
         )
       }
@@ -86,7 +87,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={ { color: 'primary.main' } }
               onClick={ () => setDialogVisible(true) }
             >
-              登录/注册
+              {t('login/singIn')}
             </Typography>
           )
       }

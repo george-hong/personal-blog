@@ -1,12 +1,14 @@
 import React from 'react';
 import Layout from '../components/front/layout';
 import { getHomePageData } from './assets';
+import { useTranslation } from 'next-i18next';
 import type { NextPage } from 'next';
 import style from './index.module.scss';
 import { IPageBaseData } from '../interface/request-response/base.interface';
 import { IHomePageData } from './home.interface';
 
 const Home: NextPage<IPageBaseData<IHomePageData>> = (props) => {
+  const { t } = useTranslation('common');
   const { pageData, meta, error } = props;
   return (
     <Layout
