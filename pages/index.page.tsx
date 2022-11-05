@@ -23,7 +23,7 @@ const Home: NextPage<IPageBaseData<IHomePageData>> = (props) => {
       <div className={style['home-page']}>
         <div className={style['opacity-area']}>
           <article className={style['main-article']}>
-            {commonT('title')}{headerT('article')}
+            <span>{headerT('article')}</span>
           </article>
         </div>
         <div style={{height: 2000}}>

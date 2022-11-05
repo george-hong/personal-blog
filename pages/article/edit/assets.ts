@@ -3,10 +3,13 @@ import PageData from '../../../components/server/page-data';
 import { getArticleDetail } from '../../../tools/request/modules/article';
 import {
   IArticleEditPageData,
-  IArticleEditPageParams,
+  ArticleEditLocaleEnum,
 } from './edit.interface';
+import { IArticleEditPageParams } from '../../../interface/request-response/article.interface';
 
-const getArticleEditPageData = PageData.tryToGetPageData<IArticleEditPageParams, IArticleEditPageData>(async (props ) => {
+const getArticleEditPageData = PageData.tryToGetPageData<IArticleEditPageParams, IArticleEditPageData>(
+  Object.values(ArticleEditLocaleEnum),
+  async (props ) => {
   const id = props.query.id;
   const result: IPageBaseDataBeforeSend<IArticleEditPageData> = {
     props: {

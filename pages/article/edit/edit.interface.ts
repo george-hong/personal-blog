@@ -4,14 +4,12 @@ export interface IArticleEditPageData {
   content: string;
 }
 
-export interface IArticleEditPageParams {
-  query: {
-    id?: string;
-  }
-}
-
 export interface IArticleInfo {
   id: number;
   content: string;
   title: string;
+}
+
+export enum ArticleEditLocaleEnum {
+  Article= 'article',
 }

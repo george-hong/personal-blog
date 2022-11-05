@@ -9,3 +9,9 @@ export interface IPageDataTryResult<T> {
     error?: unknown;
   }
 }
+
+export interface IPageBase {
+  locale?: string;
+}
+
+export type TranslationModules = Array<string>;

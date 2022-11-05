@@ -1,6 +1,9 @@
-import { IResponseBase } from './base.interface';
+import {
+  IRequestWithLocale,
+  IResponseBase,
+} from './base.interface';
 
-export interface IArticleListPageParams {
+export interface IArticleListPageParams extends IRequestWithLocale {
   query: {
     pageNo?: number; pageSize?: number;
   }
@@ -12,11 +15,18 @@ export interface IArticleListResponse extends IResponseBase {
   }>;
 }
 
-export interface IArticleDetailPageParams {
+export interface IArticleDetailPageParams extends IRequestWithLocale {
   query: {
     id?: string;
   }
 }
+
+export interface IArticleEditPageParams extends IRequestWithLocale {
+  query: {
+    id?: string;
+  }
+}
+
 
 export interface IArticleDetail {
   id: number;

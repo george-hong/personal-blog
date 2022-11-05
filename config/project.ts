@@ -23,4 +23,6 @@ export const DB_CONFIG = {
   DATABASE: DB_DATABASE,
 };
 
+export const DEFAULT_LANGUAGE = 'zh';
+
 export default PROJECT_CONFIG;

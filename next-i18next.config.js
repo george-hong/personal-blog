@@ -13,5 +13,5 @@ module.exports = {
     locales: ['zh', 'en'],
   },
   // If true, locale will be update when page refreshed.
-  reloadOnPrerender: process.env.NODE_ENV === 'development',
+  // reloadOnPrerender: process.env.NODE_ENV === 'development',
 };

@@ -3,3 +3,7 @@ export interface IArticleDetailPageData {
   title: string;
   content: string;
 }
+
+export enum ArticleDetailLocaleEnum {
+  Article= 'article',
+}

@@ -8,6 +8,10 @@ export interface IResponseBase {
   status: number;
 }
 
+export interface IRequestWithLocale {
+  locale?: string;
+}
+
 export interface ExtendedNextApiRequest extends NextApiRequest {
   userFromToken?: {
     id: number;

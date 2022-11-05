@@ -4,20 +4,24 @@ import {
   IArticleDetail,
   IArticleDetailPageParams,
 } from '../../../interface/request-response/article.interface';
+import { ArticleDetailLocaleEnum } from './detail.interface';
 
-const getArticleDetailPageData = PageData.tryToGetPageData<IArticleDetailPageParams, IArticleDetail>(async (props) => {
-  let articleDetail;
-  articleDetail = await getArticleDetail(props);
-  return {
-    props: {
-      meta: {
-        title: articleDetail.title,
-        keywords: articleDetail.title,
-        description: articleDetail.content.slice(0, 60),
+const getArticleDetailPageData = PageData.tryToGetPageData<IArticleDetailPageParams, IArticleDetail>(
+  Object.values(ArticleDetailLocaleEnum),
+  async (props) => {
+    let articleDetail;
+    articleDetail = await getArticleDetail(props);
+    return {
+      props: {
+        meta: {
+          title: articleDetail.title,
+          keywords: articleDetail.title,
+          description: articleDetail.content.slice(0, 60),
+        },
+        pageData: articleDetail,
       },
-      pageData: articleDetail,
-    },
-  };
-});
+    };
+  }
+);
 
 export { getArticleDetailPageData };
