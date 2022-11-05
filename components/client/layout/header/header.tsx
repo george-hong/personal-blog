@@ -11,24 +11,26 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
-import { useTranslation } from 'next-i18next'
+import Translation from '../../../../tools/translation';
 import LoginDialog from '../../login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
 import { IUserBaseInfo } from '../../../../interface/request-response/user.interface';
-import UserForFront from '../../../../business/user/user-for-front';
+import UserForClient from '../../../../business/user/user-for-client';
 import UserOperation from '../../user-operation';
 import {
   IHeaderProps,
   IHeaderRefProps,
+  HeaderLocaleEnum
 } from './header.interface';
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
   const { visibility, onLogin, onLogout } = props;
-  const { t } = useTranslation('common');
+  const translation = new Translation(Object.values(HeaderLocaleEnum));
+  const TForHeader = translation.getModule(HeaderLocaleEnum.Header);
   const menuLinkContrast = {
-    '/': t('home'),
-    '/article/list': t('article'),
+    '/': TForHeader('home'),
+    '/article/list': TForHeader('article'),
   };
   let className = `${ style.header } ground-glass`;
   if (!visibility) className += ` ${ style['hide-menu'] }`;
@@ -41,7 +43,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   const isEditPage = asPath.startsWith('/article/edit');
 
   useEffect(() => {
-    setUserBaseInfo(UserForFront.getUserBaseInfoFromLocal());
+    setUserBaseInfo(UserForClient.getUserBaseInfoFromLocal());
     setIsSet(true);
   }, [isSet]);
 
@@ -69,7 +71,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={{ mr: 1 }}
               fontSize="small"
             />
-            {t('writing')}
+            {TForHeader('writing')}
           </Button>
         )
       }
@@ -87,7 +89,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={ { color: 'primary.main' } }
               onClick={ () => setDialogVisible(true) }
             >
-              {t('login/singIn')}
+              {TForHeader('login/signIn')}
             </Typography>
           )
       }

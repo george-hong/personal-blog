@@ -1,4 +1,4 @@
-import { runMiddleware } from '../../../../components/back/middleware';
+import { runMiddleware } from '../../../../components/server/middleware';
 import Secret from '../../../../tools/secret';
 
 export default runMiddleware(middleware => {

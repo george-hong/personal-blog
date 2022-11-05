@@ -16,7 +16,7 @@ import Form from '../form';
 import Secret, {
   SecretType,
 } from '../../../tools/secret';
-import UserForFront from '../../../business/user/user-for-front';
+import UserForClient from '../../../business/user/user-for-client';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
 import { ILoginParams } from '../../../interface/request-response/user.interface';
@@ -105,7 +105,7 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
         return requestToLogin(loginParams);
       })
       .then(result => {
-        const user = new UserForFront({ account: loginParams.account });
+        const user = new UserForClient({ account: loginParams.account });
         user.saveLoginInfoToLocal(result);
         // Close login dialog.
         onClose();

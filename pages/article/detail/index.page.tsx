@@ -1,8 +1,8 @@
 import React, { ReactNode, Fragment } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Layout from '../../../components/front/layout';
-import { MarkdownReader } from '../../../components/front/markdown-editor';
+import Layout from '../../../components/client/layout';
+import { MarkdownReader } from '../../../components/client/markdown-editor';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 import { getArticleDetailPageData } from './assets';

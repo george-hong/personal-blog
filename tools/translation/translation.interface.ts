@@ -1,0 +1,1 @@
+export type TranslationModule = string | Array<string>;

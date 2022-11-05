@@ -1,12 +1,12 @@
-import UserForFront from './user-for-front';
-import UserForBack from './user-for-back';
+import UserForClient from './user-for-client';
+import UserForServer from './user-for-server';
 
 export {
-  UserForFront,
-  UserForBack,
+  UserForClient,
+  UserForServer,
 };
 
 export default {
-  Front: UserForFront,
-  Back: UserForBack,
+  Click: UserForClient,
+  Server: UserForServer,
 };

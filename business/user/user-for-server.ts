@@ -7,7 +7,7 @@ import {
 import PROJECT_CONFIG from '../../config/project';
 import { AVATARS_DIR } from '../../config/constant';
 
-class UserForBack extends User {
+class UserForServer extends User {
   static generateUserInfoByLoginResult(accountInfo: ILoginQueryResult): IUserBaseInfo {
     const { id, privateKey, nickName, avatar } = accountInfo;
     const token = jwt.sign({ id }, privateKey, { expiresIn: '1h' });
@@ -21,4 +21,4 @@ class UserForBack extends User {
   }
 }
 
-export default UserForBack;
+export default UserForServer;

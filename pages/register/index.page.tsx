@@ -6,9 +6,9 @@ import React, {
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Layout from '../../components/front/layout';
-import Notice from '../../components/front/notice';
-import Form from '../../components/front/form';
+import Layout from '../../components/client/layout';
+import Notice from '../../components/client/notice';
+import Form from '../../components/client/form';
 import {
   requestToCheckExistence,
   requestToGetRSAPublicKey,
@@ -27,11 +27,11 @@ import {
   FormItemType,
   IFormMethods,
   TriggerType,
-} from '../../components/front/form/form.interface';
+} from '../../components/client/form/form.interface';
 import {
   INoticeMethods,
   NoticeType,
-} from '../../components/front/notice/notice.interface';
+} from '../../components/client/notice/notice.interface';
 import { IPageBaseData } from '../../interface/request-response/base.interface';
 import { IRegisterPageData } from './register.interface';
 import { getParamsObjFromURL } from '../../libs/url-utils';

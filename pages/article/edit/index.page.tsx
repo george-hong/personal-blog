@@ -6,16 +6,16 @@ import React, {
 import type { NextPage } from 'next';
 import Router from 'next/router';
 import style from './index.module.scss';
-import Layout from '../../../components/front/layout';
+import Layout from '../../../components/client/layout';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import { MarkdownEditor } from '../../../components/front/markdown-editor';
+import { MarkdownEditor } from '../../../components/client/markdown-editor';
 import Notice, {
   INoticeMethods,
   NoticeType,
-} from '../../../components/front/notice';
+} from '../../../components/client/notice';
 import { encodeQuotationMarks } from '../../../tools/methods';
 import {
   requestToAddArticle,

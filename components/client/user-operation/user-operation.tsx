@@ -8,7 +8,7 @@ import Logout from '@mui/icons-material/Logout';
 import style from './user-operation.module.scss';
 import type { NextPage } from 'next';
 import { IUserOperationProps } from './user-operation.ineterface';
-import UserForFront from '../../../business/user/user-for-front';
+import UserForClient from '../../../business/user/user-for-client';
 
 /**
  * user operation component
@@ -28,7 +28,7 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
     setAnchorEl(null);
   };
   const logout = () => {
-    UserForFront.removeUserBaseInfoFromLocal();
+    UserForClient.removeUserBaseInfoFromLocal();
     onLogout && onLogout();
   };
 
@@ -36,7 +36,7 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
     <Box className={style['user-operation']}>
       <Avatar
         onClick={handleClick}
-        {...UserForFront.getUserAvatarConfig(userBaseInfo)}
+        {...UserForClient.getUserAvatarConfig(userBaseInfo)}
       />
       <Menu
         anchorEl={anchorEl}

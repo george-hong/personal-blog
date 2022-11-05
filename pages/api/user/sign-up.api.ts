@@ -1,5 +1,5 @@
-import DataBase from '../../../components/back/database';
-import { runMiddleware } from '../../../components/back/middleware';
+import DataBase from '../../../components/server/database';
+import { runMiddleware } from '../../../components/server/middleware';
 import User from '../../../business/user/user';
 
 export default runMiddleware(middleware => {

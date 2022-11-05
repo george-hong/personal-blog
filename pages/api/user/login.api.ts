@@ -1,7 +1,7 @@
-import DataBase from '../../../components/back/database';
-import { runMiddleware } from '../../../components/back/middleware';
+import DataBase from '../../../components/server/database';
+import { runMiddleware } from '../../../components/server/middleware';
 import { ILoginQueryResult } from '../../../interface/request-response/user.interface';
-import UserForBack from '../../../business/user/user-for-back';
+import { UserForServer } from '../../../business/user';
 import Secret, {
   SecretType,
 } from '../../../tools/secret';
@@ -16,7 +16,7 @@ export default runMiddleware(middleware => {
         const matchedAccount = result[0];
         const decodeResult = Secret.decode(body.password, { type: SecretType.RSA });
         if (matchedAccount && decodeResult.success && matchedAccount.password === decodeResult.payload) {
-          const userInfo = UserForBack.generateUserInfoByLoginResult(matchedAccount);
+          const userInfo = UserForServer.generateUserInfoByLoginResult(matchedAccount);
           res.supply(userInfo);
           next();
         } else if (matchedAccount) {

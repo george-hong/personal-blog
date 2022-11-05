@@ -1,7 +1,7 @@
 import {
   getArticleList,
 } from '../../../tools/request/modules/article';
-import PageData from '../../../components/back/page-data';
+import PageData from '../../../components/server/page-data';
 import { ArticleListPageData } from './list.interface';
 import { IArticleListPageParams } from '../../../interface/request-response/article.interface';
 

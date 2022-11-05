@@ -1,5 +1,5 @@
 import { IPageBaseDataBeforeSend } from '../../../interface/request-response/base.interface';
-import PageData from '../../../components/back/page-data';
+import PageData from '../../../components/server/page-data';
 import { getArticleDetail } from '../../../tools/request/modules/article';
 import {
   IArticleEditPageData,

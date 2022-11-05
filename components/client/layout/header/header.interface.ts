@@ -14,3 +14,7 @@ export interface IHeaderProps {
   onLogout?: () => void;
   onVisibilityChange?: (visibility: boolean) => void;
 }
+
+export enum HeaderLocaleEnum {
+  Header = 'header',
+}

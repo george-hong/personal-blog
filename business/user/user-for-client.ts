@@ -9,7 +9,7 @@ import {
 } from '../../config/constant';
 import { IUserAvatarConfig } from './user.interface';
 
-class UserForFront extends User {
+class UserForClient extends User {
   static checkIsLogin(): boolean {
     let isLogin = false;
     const hasToken = !!localStorage.getItem(TOKEN_FIELD);
@@ -48,4 +48,4 @@ class UserForFront extends User {
   }
 }
 
-export default UserForFront;
+export default UserForClient;
