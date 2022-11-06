@@ -1,3 +1,24 @@
 {
-  "title": "Blog of George Hong"
+  "account": "账号",
+  "pleaseInputAccount": "请填写账号",
+  "accountNeeds5ChartsAtLeast": "账号需要至少5个字符",
+  "userNameRepeated": "用户名重复",
+  "networkErrorInputAgain": "网络异常，请再次输入",
+  "password": "密码",
+  "pleaseInputPasswordAgain": "请填写密码",
+  "passwordNeeds8ChartsAtLeast": "密码需要至少8个字符",
+  "passwordShouldNotLongThan30Charts": "密码最长为30个字符",
+  "repetitivePassword": "重复密码",
+  "pleaseRepetitivePasswordAgain": "请再次填写密码",
+  "twoPasswordsNotMatch": "两次密码输入不一致",
+  "nickName": "昵称",
+  "pleaseInputNickName": "请填写昵称",
+  "nickNameNeeds2ChartsAtLeast": "昵称需要至少2个字符",
+  "nickNameShouldNotLongThan20Charts": "昵称最长为20个字符",
+  "nickNameAlreadyExists": "昵称已存在",
+  "networkErrorPleaseTryAgain": "网络异常，请再次输入",
+  "registerSuccessRedirectLater": "注册成功，即将跳转",
+  "pleaseTryAgainAfterModified": "请按照提示修改后重试",
+  "networkError": "网络异常",
+  "register": "注册"
 }

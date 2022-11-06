@@ -33,25 +33,30 @@ import {
   NoticeType,
 } from '../../components/client/notice/notice.interface';
 import { IPageBaseData } from '../../interface/request-response/base.interface';
-import { IRegisterPageData } from './register.interface';
+import {
+  IRegisterPageData,
+  RegisterLocaleEnum,
+} from './register.interface';
 import { getParamsObjFromURL } from '../../libs/url-utils';
+import Translation from '../../tools/translation';
 
-const getRegisterFormConfig = (): Array<FormItem> => {
+// TODO: fix types
+const getRegisterFormConfig = (registerT): Array<FormItem> => {
   return [
     {
       type: FormItemType.Input,
       key: 'account',
-      label: '账号',
+      label: registerT('account'),
       value: '',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: '请填写账号',
+          message: registerT('pleaseInputAccount'),
         },
         {
           minLength: 5,
-          message: '账号需要至少5个字符',
+          message: registerT('accountNeeds5ChartsAtLeast'),
         },
         {
           custom(account, values, resolve, reject) {
@@ -60,11 +65,11 @@ const getRegisterFormConfig = (): Array<FormItem> => {
             requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
-                  reject('用户名重复');
+                  reject(registerT('userNameRepeated'));
                 } else resolve();
               })
               .catch(error => {
-                reject('网络异常，请再次输入');
+                reject(registerT('networkErrorInputAgain'));
               });
           },
         },
@@ -74,65 +79,65 @@ const getRegisterFormConfig = (): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'password',
-      label: '密码',
+      label: registerT('password'),
       value: '',
       inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: '请填写密码',
+          message: registerT('pleaseInputPasswordAgain'),
         },
         {
           minLength: 8,
-          message: '密码需要至少8个字符',
+          message: registerT('passwordNeeds8ChartsAtLeast'),
         },
         {
           maxLength: 30,
-          message: '密码最长为30个字符',
+          message: registerT('passwordShouldNotLongThan30Charts'),
         }
       ]
     },
     {
       type: FormItemType.Input,
       key: 'passwordRepeat',
-      label: '重复密码',
+      label: registerT('repetitivePassword'),
       value: '',
       inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: '请再次填写密码',
+          message: registerT('pleaseRepetitivePasswordAgain'),
         },
         {
           custom: (value, values, resolve, reject) => {
             if (value === values.password) resolve();
             else reject();
           },
-          message: '两次密码输入不一致',
+          message: registerT('twoPasswordsNotMatch'),
         },
       ]
     },
     {
       type: FormItemType.Input,
       key: 'nickName',
-      label: '昵称',
+      label: registerT('nickName'),
       value: '',
       inputType: 'text',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: '请填写昵称',
+          message: registerT('pleaseInputNickName'),
         },
         {
           minLength: 2,
-          message: '昵称需要至少2个字符',
+          message: registerT('nickNameNeeds2ChartsAtLeast'),
         },
         {
           maxLength: 20,
-          message: '昵称最长为20个字符',
+          message: registerT('nickNameShouldNotLongThan20Charts'),
         },
         {
           custom(nickName, values, resolve, reject) {
@@ -141,11 +146,11 @@ const getRegisterFormConfig = (): Array<FormItem> => {
             requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
-                  reject('昵称重复');
+                  reject(registerT('nickNameAlreadyExists'));
                 } else resolve();
               })
               .catch(error => {
-                reject('网络异常，请再次输入');
+                reject(registerT('networkErrorPleaseTryAgain'));
               });
           },
         }
@@ -157,7 +162,9 @@ const getRegisterFormConfig = (): Array<FormItem> => {
 
 const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (props) => {
   const { meta, error } = props;
-  const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
+  const translation = new Translation(Object.values(RegisterLocaleEnum));
+  const registerT = translation.getModule(RegisterLocaleEnum.Register);
+  const [formConfig, setFormConfig] = useState(getRegisterFormConfig(registerT));
   const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
@@ -193,13 +200,13 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
         return requestToSignUp(user.generateSignUpParams());
       })
       .then(() => {
-        showNotice('注册成功，即将跳转', NoticeType.success);
+        showNotice(registerT('registerSuccessRedirectLater'), NoticeType.success);
         backUrl && setTimeout(() => {
           router.push(backUrl);
         }, 2000);
       })
       .catch(keysOfError => {
-        showNotice(validationSuccess ? '请按照提示修改后重试' : '网络异常', NoticeType.error);
+        showNotice(validationSuccess ? registerT('pleaseTryAgainAfterModified') : registerT('networkError'), NoticeType.error);
       });
   };
 
@@ -220,7 +227,7 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
           sx={{ mt: 2, mb: 1 }}
           onClick={() => startToSignUp(backUrl)}
         >
-          注册
+          { registerT('register') }
         </Button>
       </Box>
       <Notice ref={noticeRef} />
