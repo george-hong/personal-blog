@@ -17,6 +17,8 @@ import Secret, {
   SecretType,
 } from '../../../tools/secret';
 import UserForClient from '../../../business/user/user-for-client';
+import useTranslation, { DefaultTranslationEnum } from '../../../tools/translation';
+import type { ITranslation } from '../../../tools/translation';
 import style from './login-dialog.module.scss';
 import type { NextPage } from 'next';
 import { ILoginParams } from '../../../interface/request-response/user.interface';
@@ -28,17 +30,17 @@ import {
 } from '../form/form.interface';
 import { ILoginDialogProps } from './login-dialog.interface';
 
-const getRegisterFormConfig = (): Array<FormItem> => {
+const getRegisterFormConfig = (t: ITranslation): Array<FormItem> => {
   return [
     {
       type: FormItemType.Input,
       key: 'account',
-      label: '账号',
+      label: t('account'),
       value: '',
       rules: [
         {
           required: true,
-          message: '请填写账号',
+          message: t('pleaseInputAccount'),
         },
       ],
       grid: {
@@ -49,13 +51,13 @@ const getRegisterFormConfig = (): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'password',
-      label: '密码',
+      label: t('password'),
       value: '',
       inputType: 'password',
       rules: [
         {
           required: true,
-          message: '请填写密码',
+          message: t('pleaseInputPassword'),
         },
       ],
       grid: {
@@ -74,7 +76,8 @@ const getRegisterFormConfig = (): Array<FormItem> => {
  */
 const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
   const { visible, onClose, onLogin } = props;
-  const [formConfig, setFormConfig] = useState(getRegisterFormConfig());
+  const { t } = useTranslation(DefaultTranslationEnum.Base);
+  const [formConfig, setFormConfig] = useState(getRegisterFormConfig(t));
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
@@ -137,7 +140,7 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
         <Grid container>
           <Grid item xs={6}>
             <Typography component="span">
-              登录
+              { t('signIn') }
             </Typography>
           </Grid>
           <Grid
@@ -166,14 +169,14 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
           sx={{ mt: 2, mb: 1 }}
           onClick={startToLogin}
         >
-          登录
+          { t('signIn') }
         </Button>
         <Link href={registerPath}>
           <Typography
             component="span"
             sx={{ fontSize: 12, color: 'primary.main' }}
           >
-            前往注册
+            { t('goToSignUp') }
           </Typography>
         </Link>
       </Box>

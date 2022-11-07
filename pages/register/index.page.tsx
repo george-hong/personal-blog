@@ -38,25 +38,25 @@ import {
   RegisterLocaleEnum,
 } from './register.interface';
 import { getParamsObjFromURL } from '../../libs/url-utils';
-import Translation from '../../tools/translation';
+import useTranslation from '../../tools/translation';
+import type { ITranslation } from '../../tools/translation';
 
-// TODO: fix types
-const getRegisterFormConfig = (registerT): Array<FormItem> => {
+const getRegisterFormConfig = (t: ITranslation): Array<FormItem> => {
   return [
     {
       type: FormItemType.Input,
       key: 'account',
-      label: registerT('account'),
+      label: t('account'),
       value: '',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: registerT('pleaseInputAccount'),
+          message: t('pleaseInputAccount'),
         },
         {
           minLength: 5,
-          message: registerT('accountNeeds5ChartsAtLeast'),
+          message: t('accountNeeds5ChartsAtLeast'),
         },
         {
           custom(account, values, resolve, reject) {
@@ -65,11 +65,11 @@ const getRegisterFormConfig = (registerT): Array<FormItem> => {
             requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
-                  reject(registerT('userNameRepeated'));
+                  reject(t('userNameRepeated'));
                 } else resolve();
               })
               .catch(error => {
-                reject(registerT('networkErrorInputAgain'));
+                reject(t('networkErrorInputAgain'));
               });
           },
         },
@@ -79,65 +79,65 @@ const getRegisterFormConfig = (registerT): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'password',
-      label: registerT('password'),
+      label: t('password'),
       value: '',
       inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: registerT('pleaseInputPasswordAgain'),
+          message: t('pleaseInputPasswordAgain'),
         },
         {
           minLength: 8,
-          message: registerT('passwordNeeds8ChartsAtLeast'),
+          message: t('passwordNeeds8ChartsAtLeast'),
         },
         {
           maxLength: 30,
-          message: registerT('passwordShouldNotLongThan30Charts'),
+          message: t('passwordShouldNotLongThan30Charts'),
         }
       ]
     },
     {
       type: FormItemType.Input,
       key: 'passwordRepeat',
-      label: registerT('repetitivePassword'),
+      label: t('repetitivePassword'),
       value: '',
       inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: registerT('pleaseRepetitivePasswordAgain'),
+          message: t('pleaseRepetitivePasswordAgain'),
         },
         {
           custom: (value, values, resolve, reject) => {
             if (value === values.password) resolve();
             else reject();
           },
-          message: registerT('twoPasswordsNotMatch'),
+          message: t('twoPasswordsNotMatch'),
         },
       ]
     },
     {
       type: FormItemType.Input,
       key: 'nickName',
-      label: registerT('nickName'),
+      label: t('nickName'),
       value: '',
       inputType: 'text',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: registerT('pleaseInputNickName'),
+          message: t('pleaseInputNickName'),
         },
         {
           minLength: 2,
-          message: registerT('nickNameNeeds2ChartsAtLeast'),
+          message: t('nickNameNeeds2ChartsAtLeast'),
         },
         {
           maxLength: 20,
-          message: registerT('nickNameShouldNotLongThan20Charts'),
+          message: t('nickNameShouldNotLongThan20Charts'),
         },
         {
           custom(nickName, values, resolve, reject) {
@@ -146,11 +146,11 @@ const getRegisterFormConfig = (registerT): Array<FormItem> => {
             requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
-                  reject(registerT('nickNameAlreadyExists'));
+                  reject(t('nickNameAlreadyExists'));
                 } else resolve();
               })
               .catch(error => {
-                reject(registerT('networkErrorPleaseTryAgain'));
+                reject(t('networkErrorPleaseTryAgain'));
               });
           },
         }
@@ -162,9 +162,8 @@ const getRegisterFormConfig = (registerT): Array<FormItem> => {
 
 const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (props) => {
   const { meta, error } = props;
-  const translation = new Translation(Object.values(RegisterLocaleEnum));
-  const registerT = translation.getModule(RegisterLocaleEnum.Register);
-  const [formConfig, setFormConfig] = useState(getRegisterFormConfig(registerT));
+  const { t } = useTranslation(RegisterLocaleEnum.Register);
+  const [formConfig, setFormConfig] = useState(getRegisterFormConfig(t));
   const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
@@ -200,13 +199,13 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
         return requestToSignUp(user.generateSignUpParams());
       })
       .then(() => {
-        showNotice(registerT('registerSuccessRedirectLater'), NoticeType.success);
+        showNotice(t('registerSuccessRedirectLater'), NoticeType.success);
         backUrl && setTimeout(() => {
           router.push(backUrl);
         }, 2000);
       })
       .catch(keysOfError => {
-        showNotice(validationSuccess ? registerT('pleaseTryAgainAfterModified') : registerT('networkError'), NoticeType.error);
+        showNotice(validationSuccess ? t('pleaseTryAgainAfterModified') : t('networkError'), NoticeType.error);
       });
   };
 
@@ -227,7 +226,7 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
           sx={{ mt: 2, mb: 1 }}
           onClick={() => startToSignUp(backUrl)}
         >
-          { registerT('register') }
+          { t('register') }
         </Button>
       </Box>
       <Notice ref={noticeRef} />

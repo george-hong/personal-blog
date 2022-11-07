@@ -2,5 +2,13 @@
   "home": "Home",
   "article": "Article",
   "writing": "writing",
-  "login/signIn": "login/sign in"
+  "login/signIn": "login/sign in",
+  "pleaseTryAntherSearch": "Please try another search",
+  "account": "account",
+  "pleaseInputAccount": "please input account",
+  "password": "password",
+  "pleaseInputPassword": "please input password",
+  "signIn": "sign in",
+  "goToSignUp": "go to sign up",
+  "signOut": "sign out"
 }

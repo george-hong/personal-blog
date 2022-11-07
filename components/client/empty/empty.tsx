@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import style from './empty.module.scss';
 import type { NextPage } from 'next';
 import { IEmptyProps } from './empty.interface';
+import useTranslation, { DefaultTranslationEnum } from '../../../tools/translation';
 
 /**
  * content empty layout component
@@ -15,6 +16,7 @@ import { IEmptyProps } from './empty.interface';
  */
 const Empty: NextPage<IEmptyProps, Component> = (props) => {
   const { tips, cover = false } = props;
+  const { t } = useTranslation(DefaultTranslationEnum.Base);
   let className = style.empty;
   if (cover) className += ` ${style.cover}`
 
@@ -32,7 +34,7 @@ const Empty: NextPage<IEmptyProps, Component> = (props) => {
         color="text.secondary"
         className="single-line"
       >
-        { tips ?? 'Please try another search' }
+        { tips ?? t('pleaseTryAntherSearch') }
       </Typography>
     </Box>
   );

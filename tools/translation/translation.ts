@@ -1,18 +1,12 @@
-import { useTranslation } from 'next-i18next';
-import { TranslationModule } from './translation.interface';
+import { useTranslation as useTranslationFormI18n } from 'next-i18next';
 
-class Translation {
-  private translation;
-
-  constructor(translationModule: TranslationModule) {
-    this.translation = useTranslation(translationModule);
-  }
-
-  getModule(moduleName: string) {
-    return (field: string) => {
-      return this.translation.t(`${moduleName}:${field}`);
+function useTranslation(moduleName: string) {
+  const translation = useTranslationFormI18n(moduleName);
+  return {
+    t(field: string): string {
+      return translation.t(`${moduleName}:${field}`);
     }
   }
 }
 
-export default Translation;
+export default useTranslation;

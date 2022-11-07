@@ -1,5 +1,9 @@
-import Translation from './translation';
+import useTranslation from './translation';
 import { DefaultTranslationEnum } from './translation.interface';
+import type { ITranslation } from './translation.interface';
 
-export { DefaultTranslationEnum };
-export default Translation;
+export {
+  DefaultTranslationEnum,
+  ITranslation,
+};
+export default useTranslation;

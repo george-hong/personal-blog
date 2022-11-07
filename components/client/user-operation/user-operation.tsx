@@ -9,6 +9,7 @@ import style from './user-operation.module.scss';
 import type { NextPage } from 'next';
 import { IUserOperationProps } from './user-operation.ineterface';
 import UserForClient from '../../../business/user/user-for-client';
+import useTranslation, { DefaultTranslationEnum } from '../../../tools/translation';
 
 /**
  * user operation component
@@ -19,6 +20,7 @@ import UserForClient from '../../../business/user/user-for-client';
  */
 const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
   const { userBaseInfo, onLogout } = props;
+  const { t } = useTranslation(DefaultTranslationEnum.Base);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLDivElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -78,7 +80,7 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          退出
+          { t('signOut') }
         </MenuItem>
       </Menu>
     </Box>

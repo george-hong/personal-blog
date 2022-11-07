@@ -21,12 +21,14 @@ import {
   requestToAddArticle,
   requestToEditArticle,
 } from '../../../tools/request/modules/article';
+import useTranslation from '../../../tools/translation';
 import {
   IArticleAddParams,
   IArticleEditParams,
 } from '../../../interface/request-response/article.interface';
 import { IEditArticleResponse } from '../../../interface/request-response/user.interface';
 import {
+  ArticleEditLocaleEnum,
   IArticleEditPageData,
   IArticleInfo,
 } from './edit.interface';
@@ -63,12 +65,13 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
   const { pageData, meta, error } = props;
   const [inputContent, setInputContent] = useState(pageData?.content ?? '');
   const [title, setTitle] = useState(pageData?.title ?? '');
+  const { t } = useTranslation(ArticleEditLocaleEnum.Article)
   const noticeRef = useRef<INoticeMethods>(null);
   const isUseCover = true;
   const isEdit = pageData?.id !== undefined;
   const saveIfValid = (title: string, content: string, pageData?: IArticleInfo) => {
     if (!title || !content) {
-      noticeRef.current?.notice('请输入标题和内容', { type: NoticeType.error });
+      noticeRef.current?.notice(t('pleaseInputTitleAndContent'), { type: NoticeType.error });
       return;
     }
     saveArticle(title, inputContent, pageData);
@@ -100,8 +103,8 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
               variant="contained"
               disableElevation
             >
-              <Button variant="outlined">保存草稿</Button>
-              <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? '更新' : '发布' }</Button>
+              <Button variant="outlined">{ t('saveDraft') }</Button>
+              <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? t('update') : t('publish') }</Button>
             </ButtonGroup>
           </Box>
           <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>

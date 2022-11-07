@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
-import Translation, { DefaultTranslationEnum } from '../../../../tools/translation';
+import useTranslation, { DefaultTranslationEnum } from '../../../../tools/translation';
 import LoginDialog from '../../login-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
@@ -25,11 +25,10 @@ import {
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
   const { visibility, onLogin, onLogout } = props;
-  const translation = new Translation(Object.values(DefaultTranslationEnum));
-  const BaseT = translation.getModule(DefaultTranslationEnum.Base);
+  const { t } = useTranslation(DefaultTranslationEnum.Base);
   const menuLinkContrast = {
-    '/': BaseT('home'),
-    '/article/list': BaseT('article'),
+    '/': t('home'),
+    '/article/list': t('article'),
   };
   let className = `${ style.header } ground-glass`;
   if (!visibility) className += ` ${ style['hide-menu'] }`;
@@ -70,7 +69,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={{ mr: 1 }}
               fontSize="small"
             />
-            {BaseT('writing')}
+            {t('writing')}
           </Button>
         )
       }
@@ -88,7 +87,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={ { color: 'primary.main' } }
               onClick={ () => setDialogVisible(true) }
             >
-              {BaseT('login/signIn')}
+              {t('login/signIn')}
             </Typography>
           )
       }
