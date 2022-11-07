@@ -2,13 +2,13 @@ import {
   IRequestWithLocale,
 } from '../../interface/request-response/base.interface';
 import {
-  IRegisterPageData,
-  RegisterLocaleEnum,
-} from './register.interface';
+  ISignUpPageData,
+  SignUpLocaleEnum,
+} from './sign-up.interface';
 import PageData from '../../components/server/page-data';
 
-const getRegisterPageData = PageData.tryToGetPageData<IRequestWithLocale, IRegisterPageData>(
-  Object.values(RegisterLocaleEnum),
+const getSignUpPageData = PageData.tryToGetPageData<IRequestWithLocale, ISignUpPageData>(
+  Object.values(SignUpLocaleEnum),
   async () => {
     return {
       props: {
@@ -23,4 +23,4 @@ const getRegisterPageData = PageData.tryToGetPageData<IRequestWithLocale, IRegis
   }
 );
 
-export { getRegisterPageData };
+export { getSignUpPageData };

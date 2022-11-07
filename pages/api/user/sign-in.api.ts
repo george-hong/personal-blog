@@ -1,6 +1,6 @@
 import DataBase from '../../../components/server/database';
 import { runMiddleware } from '../../../components/server/middleware';
-import { ILoginQueryResult } from '../../../interface/request-response/user.interface';
+import { ISignInQueryResult } from '../../../interface/request-response/user.interface';
 import { UserForServer } from '../../../business/user';
 import Secret, {
   SecretType,
@@ -11,12 +11,12 @@ export default runMiddleware(middleware => {
     const { body = {} } = req;
     const db = new DataBase();
     db
-      .query<Array<ILoginQueryResult>>(`SELECT password, privateKey, nickName, avatar, id FROM user WHERE account = '${ body.account }';`)
+      .query<Array<ISignInQueryResult>>(`SELECT password, privateKey, nickName, avatar, id FROM user WHERE account = '${ body.account }';`)
       .then((result) => {
         const matchedAccount = result[0];
         const decodeResult = Secret.decode(body.password, { type: SecretType.RSA });
         if (matchedAccount && decodeResult.success && matchedAccount.password === decodeResult.payload) {
-          const userInfo = UserForServer.generateUserInfoByLoginResult(matchedAccount);
+          const userInfo = UserForServer.generateUserInfoBySignInResult(matchedAccount);
           res.supply(userInfo);
           next();
         } else if (matchedAccount) {

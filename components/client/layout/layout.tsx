@@ -117,8 +117,8 @@ const Layout: NextPage<ILayoutProps> = (props) => {
         <Header
           autoHide={autoHideHeader}
           onVisibilityChange={onHeaderVisibilityChange}
-          onLogin={() => showNotice('登录成功')}
-          onLogout={() => showNotice('已退出登录')}
+          onSignIn={() => showNotice('登录成功')}
+          onSignOut={() => showNotice('已退出登录')}
         />
         <Notice ref={noticeRef} />
         {

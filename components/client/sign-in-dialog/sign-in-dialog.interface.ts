@@ -1,7 +1,7 @@
 import { IUserBaseInfo } from '../../../interface/request-response/user.interface';
 
-export interface ILoginDialogProps {
+export interface ISignInDialogProps {
   visible: boolean;
   onClose: () => unknown;
-  onLogin?: (userBaseInfo: IUserBaseInfo) => void;
+  onSignIn?: (userBaseInfo: IUserBaseInfo) => void;
 }

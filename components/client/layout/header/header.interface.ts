@@ -3,14 +3,14 @@ import { IUserBaseInfo } from '../../../../interface/request-response/user.inter
 
 export interface IHeaderRefProps {
   visibility?: boolean;
-  onLogin?: (userBaseInfo: IUserBaseInfo) => void;
-  onLogout?: () => void;
+  onSignIn?: (userBaseInfo: IUserBaseInfo) => void;
+  onSignOut?: () => void;
   ref: ForwardedRef<HTMLHeadElement>;
 }
 
 export interface IHeaderProps {
   autoHide?: boolean;
-  onLogin?: (userBaseInfo: IUserBaseInfo) => void;
-  onLogout?: () => void;
+  onSignIn?: (userBaseInfo: IUserBaseInfo) => void;
+  onSignOut?: () => void;
   onVisibilityChange?: (visibility: boolean) => void;
 }

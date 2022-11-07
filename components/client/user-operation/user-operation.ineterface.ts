@@ -2,5 +2,5 @@ import { IUserBaseInfo } from '../../../interface/request-response/user.interfac
 
 export interface IUserOperationProps {
   userBaseInfo: IUserBaseInfo;
-  onLogout?: () => void;
+  onSignOut?: () => void;
 }

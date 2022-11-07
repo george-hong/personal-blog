@@ -5,11 +5,11 @@ import Container from '@mui/material/Container';
 import Layout from '../../components/client/layout';
 import type { NextPage } from 'next';
 
-interface ILoginProps {
+interface ISignInProps {
 
 }
 
-const LoginPage: NextPage<ILoginProps, ReactNode> = (props) => {
+const SignInPage: NextPage<ISignInProps, ReactNode> = (props) => {
 
   return (
     <>
@@ -27,4 +27,4 @@ const LoginPage: NextPage<ILoginProps, ReactNode> = (props) => {
   )
 };
 
-export default LoginPage;
+export default SignInPage;

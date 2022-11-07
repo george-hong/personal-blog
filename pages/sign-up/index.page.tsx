@@ -14,7 +14,7 @@ import {
   requestToGetRSAPublicKey,
   requestToSignUp,
 } from '../../tools/request/modules/user';
-import { getRegisterPageData } from './assets';
+import { getSignUpPageData } from './assets';
 import User from '../../business/user/user';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
@@ -34,14 +34,14 @@ import {
 } from '../../components/client/notice/notice.interface';
 import { IPageBaseData } from '../../interface/request-response/base.interface';
 import {
-  IRegisterPageData,
-  RegisterLocaleEnum,
-} from './register.interface';
+  ISignUpPageData,
+  SignUpLocaleEnum,
+} from './sign-up.interface';
 import { getParamsObjFromURL } from '../../libs/url-utils';
 import useTranslation from '../../tools/translation';
 import type { ITranslation } from '../../tools/translation';
 
-const getRegisterFormConfig = (t: ITranslation): Array<FormItem> => {
+const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
   return [
     {
       type: FormItemType.Input,
@@ -160,10 +160,10 @@ const getRegisterFormConfig = (t: ITranslation): Array<FormItem> => {
   ]
 };
 
-const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (props) => {
+const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) => {
   const { meta, error } = props;
-  const { t } = useTranslation(RegisterLocaleEnum.Register);
-  const [formConfig, setFormConfig] = useState(getRegisterFormConfig(t));
+  const { t } = useTranslation(SignUpLocaleEnum.SignUp);
+  const [formConfig, setFormConfig] = useState(getSignUpFormConfig(t));
   const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
@@ -199,7 +199,7 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
         return requestToSignUp(user.generateSignUpParams());
       })
       .then(() => {
-        showNotice(t('registerSuccessRedirectLater'), NoticeType.success);
+        showNotice(t('signUpSuccessRedirectLater'), NoticeType.success);
         backUrl && setTimeout(() => {
           router.push(backUrl);
         }, 2000);
@@ -213,7 +213,7 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
     <Layout
       meta={meta}
       error={error}
-      contentClassName={style.register}
+      contentClassName={style['sign-up']}
     >
       <Box sx={{ pt: 2, pb: 2 }}>
         <Form
@@ -226,7 +226,7 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
           sx={{ mt: 2, mb: 1 }}
           onClick={() => startToSignUp(backUrl)}
         >
-          { t('register') }
+          { t('signUp') }
         </Button>
       </Box>
       <Notice ref={noticeRef} />
@@ -234,6 +234,6 @@ const RegisterPage: NextPage<IPageBaseData<IRegisterPageData>, ReactNode> = (pro
   )
 };
 
-export const getServerSideProps = getRegisterPageData;
+export const getServerSideProps = getSignUpPageData;
 
-export default RegisterPage;
+export default SignUpPage;

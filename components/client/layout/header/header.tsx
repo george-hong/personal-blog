@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import useTranslation, { DefaultTranslationEnum } from '../../../../tools/translation';
-import LoginDialog from '../../login-dialog';
+import SignInDialog from '../../sign-in-dialog';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
 import { IUserBaseInfo } from '../../../../interface/request-response/user.interface';
@@ -24,7 +24,7 @@ import {
 } from './header.interface';
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
-  const { visibility, onLogin, onLogout } = props;
+  const { visibility, onSignIn, onSignOut } = props;
   const { t } = useTranslation(DefaultTranslationEnum.Base);
   const menuLinkContrast = {
     '/': t('home'),
@@ -37,7 +37,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   const [isSet, setIsSet] = useState<boolean>(false);
   const router = useRouter();
   const { asPath } = router;
-  const isRegisterPage = asPath.startsWith('/register');
+  const isSignUpPage = asPath.startsWith('/sign-up');
   const isEditPage = asPath.startsWith('/article/edit');
 
   useEffect(() => {
@@ -45,13 +45,13 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
     setIsSet(true);
   }, [isSet]);
 
-  const loginFromHeader = (userBaseInfo: IUserBaseInfo) => {
+  const signInFromHeader = (userBaseInfo: IUserBaseInfo) => {
     setUserBaseInfo(userBaseInfo);
-    onLogin && onLogin(userBaseInfo);
+    onSignIn && onSignIn(userBaseInfo);
   };
-  const logoutFromHeader = () => {
+  const signOutFromHeader = () => {
     setUserBaseInfo(null);
-    onLogout && onLogout();
+    onSignOut && onSignOut();
   };
   const clickWritingButton = () => {
     userBaseInfo ? router.push('/article/edit') : setDialogVisible(true);
@@ -78,7 +78,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
           (
             <UserOperation
               userBaseInfo={ userBaseInfo }
-              onLogout={ logoutFromHeader }
+              onSignOut={ signOutFromHeader }
             />
           ) : (
             <Typography
@@ -87,7 +87,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={ { color: 'primary.main' } }
               onClick={ () => setDialogVisible(true) }
             >
-              {t('login/signIn')}
+              {t('signIn/signUp')}
             </Typography>
           )
       }
@@ -125,16 +125,16 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               xs={ 4 }
             >
               {
-                !isRegisterPage && headerRightPart
+                !isSignUpPage && headerRightPart
               }
             </Grid>
           </Grid>
         </Container>
       </header>
-      <LoginDialog
+      <SignInDialog
         visible={ dialogVisible }
         onClose={ () => setDialogVisible(false) }
-        onLogin={ loginFromHeader }
+        onSignIn={ signInFromHeader }
       />
     </Fragment>
   );
@@ -147,11 +147,11 @@ HeaderRef.displayName = 'HeaderRef';
  * @param {Object} props component props
  * @param {boolean} [props.autoHide] Auto hide the header.
  * @param {Function} [props.onVisibilityChange] The callback of visibility changes.
- * @param {Function} [props.onLogin] The callback of user login.
- * @param {Function} [props.onLogout] The callback of user logout.
+ * @param {Function} [props.onSignIn] The callback of user sign in.
+ * @param {Function} [props.onSignOut] The callback of user sign out.
  */
 const Header: NextPage<IHeaderProps> = (props) => {
-  const { autoHide = false, onVisibilityChange, onLogin, onLogout } = props;
+  const { autoHide = false, onVisibilityChange, onSignIn, onSignOut } = props;
   const [visibility, setVisibility] = useState<boolean>(true);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
@@ -187,8 +187,8 @@ const Header: NextPage<IHeaderProps> = (props) => {
     <HeaderRef
       ref={ ref }
       visibility={ visibility }
-      onLogin={ onLogin }
-      onLogout={ onLogout }
+      onSignIn={ onSignIn }
+      onSignOut={ onSignOut }
     />
   );
 };

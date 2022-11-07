@@ -15,11 +15,11 @@ import useTranslation, { DefaultTranslationEnum } from '../../../tools/translati
  * user operation component
  * @param {Object} [props] user operation options
  * @param {Object} [props.userBaseInfo] The base info of local user.
- * @param {Function} [props.onLogout] The callback of user logout.
+ * @param {Function} [props.onSignOut] The callback of user sign out.
  * @constructor
  */
 const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
-  const { userBaseInfo, onLogout } = props;
+  const { userBaseInfo, onSignOut } = props;
   const { t } = useTranslation(DefaultTranslationEnum.Base);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLDivElement>(null);
   const open = Boolean(anchorEl);
@@ -29,9 +29,9 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const logout = () => {
+  const signOut = () => {
     UserForClient.removeUserBaseInfoFromLocal();
-    onLogout && onLogout();
+    onSignOut && onSignOut();
   };
 
   return (
@@ -76,7 +76,7 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={logout}>
+        <MenuItem onClick={signOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

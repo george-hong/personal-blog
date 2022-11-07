@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import {
   requestToGetRSAPublicKey,
-  requestToLogin,
+  requestToSignIn,
 } from '../../../tools/request/modules/user';
 import Form from '../form';
 import Secret, {
@@ -19,18 +19,18 @@ import Secret, {
 import UserForClient from '../../../business/user/user-for-client';
 import useTranslation, { DefaultTranslationEnum } from '../../../tools/translation';
 import type { ITranslation } from '../../../tools/translation';
-import style from './login-dialog.module.scss';
+import style from './sign-in-dialog.module.scss';
 import type { NextPage } from 'next';
-import { ILoginParams } from '../../../interface/request-response/user.interface';
+import { ISignInParams } from '../../../interface/request-response/user.interface';
 import {
   FormItem,
   FormItemType,
   IFormMethods,
   TriggerType,
 } from '../form/form.interface';
-import { ILoginDialogProps } from './login-dialog.interface';
+import { ISignInDialogProps } from './sign-in-dialog.interface';
 
-const getRegisterFormConfig = (t: ITranslation): Array<FormItem> => {
+const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
   return [
     {
       type: FormItemType.Input,
@@ -68,51 +68,51 @@ const getRegisterFormConfig = (t: ITranslation): Array<FormItem> => {
 };
 
 /**
- * login dialog component
+ * sign in dialog component
  * @param {object} [props] component options
  * @param {string} [props.visible] Dialog visibility.
  * @param {function} [props.onClose] The function to close dialog.
  * @constructor
  */
-const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
-  const { visible, onClose, onLogin } = props;
+const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
+  const { visible, onClose, onSignIn } = props;
   const { t } = useTranslation(DefaultTranslationEnum.Base);
-  const [formConfig, setFormConfig] = useState(getRegisterFormConfig(t));
+  const [formConfig, setFormConfig] = useState(getSignUpFormConfig(t));
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
   const { asPath } = router;
-  const registerPath = `/register?back=${asPath}`;
+  const signUpPath = `/sign-up?back=${asPath}`;
 
-  const startToLogin = () => {
-    let loginParams: ILoginParams;
-    formRef.current?.validate<ILoginParams>()
+  const startToSignIn = () => {
+    let signInParams: ISignInParams;
+    formRef.current?.validate<ISignInParams>()
       .then((values) => {
-        // Record login parameters.
-        loginParams = values;
+        // Record sign in parameters.
+        signInParams = values;
         if (publicKey) return Promise.resolve({ data: { content: publicKey } });
         return requestToGetRSAPublicKey();
       })
       .then(publicKeyInfo => {
-        // Encode login info.
+        // Encode sign in info.
         const key = publicKeyInfo.data.content;
         setPublicKey(key);
-        loginParams.password = Secret.encode(loginParams.password, { type: SecretType.SHA256 });
-        loginParams.password = Secret.encode(
-          loginParams.password,
+        signInParams.password = Secret.encode(signInParams.password, { type: SecretType.SHA256 });
+        signInParams.password = Secret.encode(
+          signInParams.password,
           {
             type: SecretType.RSA,
             key,
           }
         );
-        return requestToLogin(loginParams);
+        return requestToSignIn(signInParams);
       })
       .then(result => {
-        const user = new UserForClient({ account: loginParams.account });
-        user.saveLoginInfoToLocal(result);
-        // Close login dialog.
+        const user = new UserForClient({ account: signInParams.account });
+        user.saveSignInInfoToLocal(result);
+        // Close sign in dialog.
         onClose();
-        onLogin && onLogin(result.data);
+        onSignIn && onSignIn(result.data);
       })
       .catch(error => {
         const { message, field } = error;
@@ -134,7 +134,7 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
       onClose={onClose}
     >
       <Box
-        className={style['login-dialog']}
+        className={style['sign-in-dialog']}
         sx={{ padding: 3 }}
       >
         <Grid container>
@@ -167,11 +167,11 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
           variant="contained"
           fullWidth
           sx={{ mt: 2, mb: 1 }}
-          onClick={startToLogin}
+          onClick={startToSignIn}
         >
           { t('signIn') }
         </Button>
-        <Link href={registerPath}>
+        <Link href={signUpPath}>
           <Typography
             component="span"
             sx={{ fontSize: 12, color: 'primary.main' }}
@@ -184,4 +184,4 @@ const LoginDialog: NextPage<ILoginDialogProps, Component> = (props) => {
   );
 };
 
-export default LoginDialog;
+export default SignInDialog;

@@ -15,16 +15,16 @@ export interface ISignUpParams {
   nickName: string;
 }
 
-export interface ISignUpResponse extends IResponseBase {
+export interface ISignInResponse extends IResponseBase {
   data: IUserBaseInfo;
 }
 
-export interface ILoginParams {
+export interface ISignInParams {
   account: string;
   password: string;
 }
 
-export interface ILoginQueryResult {
+export interface ISignInQueryResult {
   id: number;
   password: string;
   privateKey: string;
@@ -51,12 +51,8 @@ export interface IGetPublicKeyResponse extends IResponseBase {
   };
 }
 
-export interface IRegisterResponse extends IResponseBase {
+export interface ISignUpResponse extends IResponseBase {
   data: {
     existence: boolean;
   }
-}
-
-export interface ILoginResponse extends IResponseBase {
-  data: IUserBaseInfo;
 }

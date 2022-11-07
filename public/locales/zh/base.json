@@ -2,7 +2,7 @@
   "home": "首页",
   "article": "文章",
   "writing": "创作",
-  "login/signIn": "登录/注册",
+  "signIn/signUp": "登录/注册",
   "pleaseTryAntherSearch": "请尝试其他搜索条件",
   "account": "账号",
   "pleaseInputAccount": "请填写账号",

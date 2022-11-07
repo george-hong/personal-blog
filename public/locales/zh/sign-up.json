@@ -17,8 +17,8 @@
   "nickNameShouldNotLongThan20Charts": "昵称最长为20个字符",
   "nickNameAlreadyExists": "昵称已存在",
   "networkErrorPleaseTryAgain": "网络异常，请再次输入",
-  "registerSuccessRedirectLater": "注册成功，即将跳转",
+  "signUpSuccessRedirectLater": "注册成功，即将跳转",
   "pleaseTryAgainAfterModified": "请按照提示修改后重试",
   "networkError": "网络异常",
-  "register": "注册"
+  "signUp": "注册"
 }

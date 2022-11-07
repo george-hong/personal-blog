@@ -2,11 +2,10 @@ import { clientRequest } from '../index';
 import {
   IExistenceVerificationParams,
   ISignUpParams,
-  ILoginParams,
-  IRegisterResponse,
-  ILoginResponse,
-  IGetPublicKeyResponse,
+  ISignInParams,
   ISignUpResponse,
+  ISignInResponse,
+  IGetPublicKeyResponse,
 } from '../../../interface/request-response/user.interface';
 
 export function requestToCheckExistence(params: IExistenceVerificationParams) {
@@ -15,7 +14,7 @@ export function requestToCheckExistence(params: IExistenceVerificationParams) {
     field,
     value,
   };
-  return clientRequest.get<IRegisterResponse>('/api/user/check-existence', requestParams);
+  return clientRequest.get<ISignUpResponse>('/api/user/check-existence', requestParams);
 }
 
 export function requestToGetRSAPublicKey() {
@@ -31,10 +30,10 @@ export function requestToSignUp(params: ISignUpParams) {
     password,
     nickName,
   };
-  return clientRequest.post<ISignUpResponse>('/api/user/sign-up', requestParams);
+  return clientRequest.post<ISignInResponse>('/api/user/sign-up', requestParams);
 }
 
-export function requestToLogin(params: ILoginParams) {
+export function requestToSignIn(params: ISignInParams) {
   const {
     account, password,
   } = params;
@@ -42,5 +41,5 @@ export function requestToLogin(params: ILoginParams) {
     account,
     password,
   };
-  return clientRequest.post<ILoginResponse>('/api/user/login', requestParams);
+  return clientRequest.post<ISignInResponse>('/api/user/sign-in', requestParams);
 }

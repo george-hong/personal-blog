@@ -1,6 +1,6 @@
 import User from './user';
 import {
-  ILoginResponse,
+  ISignInResponse,
   IUserBaseInfo,
 } from '../../interface/request-response/user.interface';
 import {
@@ -10,17 +10,17 @@ import {
 import { IUserAvatarConfig } from './user.interface';
 
 class UserForClient extends User {
-  static checkIsLogin(): boolean {
-    let isLogin = false;
+  static checkIsSignIn(): boolean {
+    let isSignIn = false;
     const hasToken = !!localStorage.getItem(TOKEN_FIELD);
     let userBaseInfo;
     try {
       userBaseInfo = JSON.parse(localStorage.getItem(USER_BASE_INFO_FIELD) as string);
     } catch (err) {
-      // If occur when parsing, that means login fail.
+      // If occur when parsing, that means sign in fail.
     }
-    if (hasToken && userBaseInfo) isLogin = true;
-    return isLogin;
+    if (hasToken && userBaseInfo) isSignIn = true;
+    return isSignIn;
   }
 
   static getUserBaseInfoFromLocal(): IUserBaseInfo | null {
@@ -41,8 +41,8 @@ class UserForClient extends User {
     localStorage.removeItem(USER_BASE_INFO_FIELD);
   }
 
-  public saveLoginInfoToLocal(loginResponse: ILoginResponse): void {
-    const { token, ...userBaseInfo } = loginResponse.data;
+  public saveSignInInfoToLocal(signInResponse: ISignInResponse): void {
+    const { token, ...userBaseInfo } = signInResponse.data;
     localStorage.setItem(TOKEN_FIELD, token);
     localStorage.setItem(USER_BASE_INFO_FIELD, JSON.stringify(userBaseInfo));
   }

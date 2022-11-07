@@ -2,7 +2,7 @@
   "home": "Home",
   "article": "Article",
   "writing": "writing",
-  "login/signIn": "login/sign in",
+  "signIn/signUp": "sign in/sign up",
   "pleaseTryAntherSearch": "Please try another search",
   "account": "account",
   "pleaseInputAccount": "please input account",
