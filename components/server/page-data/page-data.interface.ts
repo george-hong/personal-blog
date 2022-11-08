@@ -1,3 +1,5 @@
+import type { GetServerSideProps as GetNextServerSideProps } from 'next';
+
 export interface IPageDataTryResult<T> {
   props: {
     meta: {
@@ -15,3 +17,7 @@ export interface IPageBase {
 }
 
 export type TranslationModules = Array<string>;
+
+export interface ILocale {
+  [moduleName: string]: { [field: string]: string }
+}

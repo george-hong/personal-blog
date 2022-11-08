@@ -6,13 +6,14 @@ import PageData, {
 
 const getHomePageData = PageData.tryToGetPageData<IPageBase, IHomePageData>(
   Object.values(HomePageLocaleEnum),
-  async (props) => {
+  async (props, locales) => {
+    const locale = locales[HomePageLocaleEnum.HomePage];
     return {
       props: {
         meta: {
-          title: '洪长俊的博客',
-          keywords: '前端开发 JavaScript Canvas',
-          description: '洪长俊的博客，提供优质前端开发内容，包含JavaScript、Canvas。',
+          title: locale.title,
+          keywords: locale.keywords,
+          description: locale.description,
         },
         pageData: {},
       },
