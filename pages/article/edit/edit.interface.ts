@@ -11,5 +11,5 @@ export interface IArticleInfo {
 }
 
 export enum ArticleEditLocaleEnum {
-  Article= 'article',
+  ArticleEdit= 'article-edit',
 }

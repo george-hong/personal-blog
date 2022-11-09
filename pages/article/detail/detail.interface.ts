@@ -5,5 +5,5 @@ export interface IArticleDetailPageData {
 }
 
 export enum ArticleDetailLocaleEnum {
-  Article= 'article',
+  ArticleDetail= 'article-detail',
 }

@@ -6,14 +6,14 @@ import PageData, {
 
 const getHomePageData = PageData.tryToGetPageData<IPageBase, IHomePageData>(
   Object.values(HomePageLocaleEnum),
-  async (props, locales) => {
-    const locale = locales[HomePageLocaleEnum.HomePage];
+  async (props, locale) => {
+    const translation = locale[HomePageLocaleEnum.HomePage];
     return {
       props: {
         meta: {
-          title: locale.title,
-          keywords: locale.keywords,
-          description: locale.description,
+          title: translation.title,
+          keywords: translation.keywords,
+          description: translation.description,
         },
         pageData: {},
       },

@@ -1,3 +1,5 @@
+import { IUniformObject } from '../interface/base.interface';
+
 export function isString(value: unknown): boolean {
   return typeof value === 'string';
 }
@@ -48,4 +50,15 @@ export function splitStringByByteLength(str: unknown, maxSpacePerGroup: number):
     }
   }
   return result;
+}
+
+export function replaceTemplate(template: unknown, replacements: IUniformObject<string>): string {
+  let result = '';
+  if (isString(template)) {
+    const regExp = /{{\s*(\w+)\s*}}/g;
+    result = (template as string).replace(regExp, (matched, word) => {
+      return replacements[word] || '';
+    })
+  }
+  return result
 }

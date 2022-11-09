@@ -7,14 +7,15 @@ import { IArticleListPageParams } from '../../../interface/request-response/arti
 
 const getArticleListPageData = PageData.tryToGetPageData<IArticleListPageParams, ArticleListPageData>(
   Object.values(ArticleListLocaleEnum),
-  async (props) => {
+  async (props, locale) => {
     let articleList;
+    const translation = locale[ArticleListLocaleEnum.ArticleList];
     articleList = await getArticleList(props);
     return {
       props: {
         meta: {
-          title: '文章列表',
-          keywords: '文章列表',
+          title: translation.title,
+          keywords: translation.keywords,
           description: articleList.slice(0, 3).map(article => article.title).join(';'),
         },
         pageData: articleList,

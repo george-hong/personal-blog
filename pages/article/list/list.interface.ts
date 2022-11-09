@@ -3,5 +3,5 @@ import { IArticleDetail } from '../../../interface/request-response/article.inte
 export type ArticleListPageData = Array<IArticleDetail>
 
 export enum ArticleListLocaleEnum {
-  Article= 'article',
+  ArticleList = 'article-list',
 }

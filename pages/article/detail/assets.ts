@@ -5,17 +5,19 @@ import {
   IArticleDetailPageParams,
 } from '../../../interface/request-response/article.interface';
 import { ArticleDetailLocaleEnum } from './detail.interface';
+import { replaceTemplate } from '../../../libs/base-type-utils';
 
 const getArticleDetailPageData = PageData.tryToGetPageData<IArticleDetailPageParams, IArticleDetail>(
   Object.values(ArticleDetailLocaleEnum),
-  async (props) => {
+  async (props, locale) => {
     let articleDetail;
+    const translation = locale[ArticleDetailLocaleEnum.ArticleDetail];
     articleDetail = await getArticleDetail(props);
     return {
       props: {
         meta: {
-          title: articleDetail.title,
-          keywords: articleDetail.title,
+          title: replaceTemplate(translation.title, { title: articleDetail.title }),
+          // keywords: articleDetail.title,
           description: articleDetail.content.slice(0, 60),
         },
         pageData: articleDetail,

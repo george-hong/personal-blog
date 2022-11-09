@@ -1,4 +1,7 @@
 {
+  "title": "sign up - Blog of George Hong",
+  "keywords": "sign up, get account",
+  "description": "Sign up, get high quantity frontend news, interact with the owner of blog.",
   "account": "Account",
   "pleaseInputAccount": "please input account.",
   "accountNeeds5ChartsAtLeast": "account needs 5 charts at least",

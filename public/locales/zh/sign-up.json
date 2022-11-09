@@ -1,4 +1,7 @@
 {
+  "title": "注册 - 爱吃生菜的博客",
+  "keywords": "注册， 注册账号",
+  "description": "注册账号，获取前端资讯，与博主互动。",
   "account": "账号",
   "pleaseInputAccount": "请填写账号",
   "accountNeeds5ChartsAtLeast": "账号需要至少5个字符",

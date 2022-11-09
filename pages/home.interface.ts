@@ -3,5 +3,5 @@ export interface IHomePageData {
 }
 
 export enum HomePageLocaleEnum {
-  HomePage = 'home-page',
+  HomePage = 'home',
 }

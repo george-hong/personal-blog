@@ -6,4 +6,4 @@ export const USER_BASE_INFO_FIELD = 'user-base-info';
 export const AVATARS_DIR = '/avatars';
 
 // SEO
-export const WEBSITE_TITLE = '洪长俊的博客';
+export const WEBSITE_TITLE = '爱吃生菜的博客';

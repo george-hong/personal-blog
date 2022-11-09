@@ -9,12 +9,14 @@ import { IArticleEditPageParams } from '../../../interface/request-response/arti
 
 const getArticleEditPageData = PageData.tryToGetPageData<IArticleEditPageParams, IArticleEditPageData>(
   Object.values(ArticleEditLocaleEnum),
-  async (props ) => {
+  async (props, locale ) => {
   const id = props.query.id;
+  const translation = locale[ArticleEditLocaleEnum.ArticleEdit];
   const result: IPageBaseDataBeforeSend<IArticleEditPageData> = {
     props: {
       meta: {
-        title: '文章编辑',
+        title: translation.title,
+        keywords: translation.keywords,
       },
     },
   }
