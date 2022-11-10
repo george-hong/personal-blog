@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import useTranslation, { DefaultTranslationEnum } from '../../../../tools/translation';
 import SignInDialog from '../../sign-in-dialog';
+import LanguageSwitcher from '../../language-switcher';
 import type { NextPage } from 'next';
 import style from './header.module.scss';
 import { IUserBaseInfo } from '../../../../interface/request-response/user.interface';
@@ -56,6 +57,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   const clickWritingButton = () => {
     userBaseInfo ? router.push('/article/edit') : setDialogVisible(true);
   };
+
   const headerRightPart = isSet && (
     <Fragment>
       {
@@ -102,7 +104,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
       >
         <Container classes={ { root: style['content-container'] } }>
           <Grid container>
-            <Grid item xs={ 8 }>
+            <Grid item xs={ 6 }>
               {
                 Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
                   const [link, menu] = menuAndLink;
@@ -122,8 +124,9 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
             <Grid
               className={`content-to-right ${style['header-right']}`}
               item
-              xs={ 4 }
+              xs={ 6 }
             >
+              <LanguageSwitcher className={style['language-switcher']} />
               {
                 !isSignUpPage && headerRightPart
               }

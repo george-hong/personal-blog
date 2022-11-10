@@ -12,13 +12,13 @@ class DataBase {
       password: DB_CONFIG.PASSWORD,
       database: DB_CONFIG.DATABASE,
     });
-
-    this.connection.connect();
   }
 
   public query<T>(sqlSentence: string) {
     return new Promise<T>((resolve, reject) => {
-      this.connection.query(sqlSentence, function (error, result: T, fields) {
+      this.connection.connect();
+      this.connection.query(sqlSentence, (error, result: T, fields) => {
+        this.connection.end();
         if (error) return reject(error);
         resolve(result);
       });
