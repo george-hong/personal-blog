@@ -1,11 +1,14 @@
 import { ReactNode } from 'react';
 
-export interface IUserOperationProps {
+export interface IMenus {
+  [key: string]: {
+    content: ReactNode,
+    onClick?: (event: unknown) => void;
+  }
+}
+
+export interface IUserPopoverMenuProps {
   children: ReactNode;
-  menus: {
-    [key: string]: {
-      content: ReactNode,
-      onClick?: (event: unknown) => void;
-    }
-  };
+  menus: IMenus;
+  className?: string;
 }

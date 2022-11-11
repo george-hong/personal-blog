@@ -2,16 +2,17 @@ import React, { Component, Fragment } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import type { NextPage } from 'next';
-import { IUserOperationProps } from './user-operation.ineterface';
+import { IUserPopoverMenuProps } from './user-operation.ineterface';
 
 /**
  * popover menu component
  * @param {Object} [props] user operation options
  * @param {ReactNode} [props.children] The content always show.
  * @param {Object} [props.menus] The config of menus.
+ * @param {string} [props.className] The class name of container.
  */
-const PopoverMenu: NextPage<IUserOperationProps, Component> = (props) => {
-  const { children, menus } = props;
+const PopoverMenu: NextPage<IUserPopoverMenuProps, Component> = (props) => {
+  const { className, children, menus } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLDivElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -23,7 +24,9 @@ const PopoverMenu: NextPage<IUserOperationProps, Component> = (props) => {
 
   return (
     <Fragment>
-      <div onClick={handleClick}>
+      <div
+        className={className}
+        onClick={handleClick}>
         { children }
       </div>
       <Menu

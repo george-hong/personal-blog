@@ -23,6 +23,17 @@ export const DB_CONFIG = {
   DATABASE: DB_DATABASE,
 };
 
+// The default language should belong to available languages.
 export const DEFAULT_LANGUAGE = 'zh';
+
+// To support new language, you should add translation on public locale dir accordingly.
+export const AVAILABLE_LANGUAGES_CONFIG = {
+  zh: {
+    description: '中文',
+  },
+  en: {
+    description: 'English',
+  },
+}
 
 export default PROJECT_CONFIG;
