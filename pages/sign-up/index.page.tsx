@@ -163,11 +163,11 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
 const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) => {
   const { meta, error } = props;
   const { t } = useTranslation(SignUpLocaleEnum.SignUp);
-  const [formConfig, setFormConfig] = useState(getSignUpFormConfig(t));
   const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
+  const formConfig = getSignUpFormConfig(t);
   let urlParams;
   let backUrl: string;
   try {

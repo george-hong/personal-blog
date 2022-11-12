@@ -76,11 +76,12 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
  */
 const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
   const { visible, onClose, onSignIn } = props;
+  const router = useRouter();
   const { t } = useTranslation(DefaultTranslationEnum.Base);
-  const [formConfig, setFormConfig] = useState(getSignUpFormConfig(t));
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
-  const router = useRouter();
+  // Fix: FormConfig will not use newest language when use 'useState'.
+  const formConfig = getSignUpFormConfig(t);
   const { asPath } = router;
   const signUpPath = `/sign-up?back=${asPath}`;
 

@@ -185,7 +185,8 @@ const generateFormItemByType = (
  * @param {string} config[].label - Field name.
  * @param {string} config[].value - Field default value.
  * @param {string} [config[].inputType = 'text'] - Input type.
- * @param {string[]} [config[].trigger[] = ['onChange', 'onBlur']] - Timing of Field validation triggered, excepted 'onChange'、'onBlur'、'OnFocus'.
+ * @param {string[]} [config[].trigger[] = ['onChange', 'onBlur']] - Timing of Field validation triggered, excepted
+ *   'onChange'、'onBlur'、'OnFocus'.
  * @param {Object} [config[].grid] - Field layout.
  * @param {number} [config[].grid.xs] - Field layout at size xs.
  * @param {number} [config[].grid.sm] - Field layout at size sm.
