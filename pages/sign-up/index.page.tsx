@@ -40,6 +40,10 @@ import {
 import { getParamsObjFromURL } from '../../libs/url-utils';
 import useTranslation from '../../tools/translation';
 import type { ITranslation } from '../../tools/translation';
+import {
+  KeyEvent,
+  KeyEnum,
+} from '../../tools/class/event';
 
 const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
   return [
@@ -215,7 +219,10 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
       error={error}
       contentClassName={style['sign-up']}
     >
-      <Box sx={{ pt: 2, pb: 2 }}>
+      <Box
+        sx={{ pt: 2, pb: 2 }}
+        onKeyDown={KeyEvent.getKeyListener<HTMLDivElement>(KeyEnum.Enter, () => startToSignUp(backUrl))}
+      >
         <Form
           config={formConfig}
           ref={formRef}

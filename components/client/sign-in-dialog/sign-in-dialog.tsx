@@ -18,6 +18,7 @@ import Secret, {
 } from '../../../tools/secret';
 import UserForClient from '../../../business/user/user-for-client';
 import useTranslation, { DefaultTranslationEnum } from '../../../tools/translation';
+import { KeyEvent, KeyEnum } from '../../../tools/class/event';
 import type { ITranslation } from '../../../tools/translation';
 import style from './sign-in-dialog.module.scss';
 import type { NextPage } from 'next';
@@ -137,6 +138,7 @@ const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
       <Box
         className={style['sign-in-dialog']}
         sx={{ padding: 3 }}
+        onKeyUp={KeyEvent.getKeyListener<HTMLDivElement>(KeyEnum.Enter, startToSignIn)}
       >
         <Grid container>
           <Grid item xs={6}>

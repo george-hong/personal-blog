@@ -65,7 +65,7 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
   const { pageData, meta, error } = props;
   const [inputContent, setInputContent] = useState(pageData?.content ?? '');
   const [title, setTitle] = useState(pageData?.title ?? '');
-  const { t } = useTranslation(ArticleEditLocaleEnum.Article)
+  const { t } = useTranslation(ArticleEditLocaleEnum.ArticleEdit)
   const noticeRef = useRef<INoticeMethods>(null);
   const isUseCover = true;
   const isEdit = pageData?.id !== undefined;
