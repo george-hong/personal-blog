@@ -104,6 +104,8 @@ const setValueInfo = (
 const generateFormItemByType = (
   key: string,
   formChangedObject: FormConfigChangedObject,
+  // Form label will not update automatically when the locale changed using 'useState'. Thereby we offer the source object.
+  clonedFormChangedObject: FormConfigChangedObject,
   setFormChangedObject: ISetFormConfigChangedObject
 ) => {
   const formConfigItemChanged = formChangedObject[key];
@@ -112,10 +114,10 @@ const generateFormItemByType = (
     grid,
     rules,
     valueInfo,
-    label,
     trigger = [TriggerType.onChange, TriggerType.onBlur],
     autoComplete,
   } = formConfigItemChanged;
+  const { label } = clonedFormChangedObject[key];
   const events: IEvents = {
     onChange: [
       (event) => {
@@ -271,7 +273,7 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
       {
         config.map(formConfig => {
           const { key } = formConfig;
-          return generateFormItemByType(key, formChangedObject, setFormChangedObject);
+          return generateFormItemByType(key, formChangedObject, configObject, setFormChangedObject);
         })
       }
     </Grid>
