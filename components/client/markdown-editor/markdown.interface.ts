@@ -4,7 +4,8 @@ export interface IMarkdownBaseOptions {
   content?: string;
   className?: string;
   editable?: boolean;
-  config?: (context: Ctx) => void;
+  onUpdate?: (content: string) => void;
+  onMounted?: () => void;
   plugins?: Array<any>;
 }
 
@@ -13,6 +14,7 @@ export interface IMarkdownEditorOptions {
   content?: string;
   cover?: boolean;
   onUpdate?: (content: string) => void;
+  onMounted?: () => void;
 }
 
 export interface IMarkdownReaderOptions {

@@ -9,6 +9,9 @@ import {
   ReactEditor,
   useEditor,
 } from '@milkdown/react';
+import {
+  listenerCtx,
+} from '@milkdown/plugin-listener';
 import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
 import style from './markdown-base.module.scss';
@@ -21,6 +24,8 @@ import { IMarkdownBaseOptions } from './markdown.interface';
  * @param {string} [props.content] Initial content when editor created.
  * @param {string} [props.className] Extend class for editor.
  * @param {boolean} [props.editable = false] Is editor editable.
+ * @param {Function} [props.onUpdate] The update handler.
+ * @param {Function} [props.onMounted] The component mounted handler.
  * @constructor
  */
 const MarkdownBase: NextPage<IMarkdownBaseOptions> = (props) => {
@@ -29,8 +34,9 @@ const MarkdownBase: NextPage<IMarkdownBaseOptions> = (props) => {
     content,
     className: extendClass,
     editable = false,
-    config,
     plugins,
+    onUpdate,
+    onMounted,
   } = props;
   let className = style[`markdown-container`];
   if (extendClass) className += ` ${extendClass}`;
@@ -42,7 +48,13 @@ const MarkdownBase: NextPage<IMarkdownBaseOptions> = (props) => {
         context.set(rootCtx, root)
         context.set(editorViewOptionsCtx, { editable: () => editable });
         if (content) context.set(defaultValueCtx, content);
-        config && config(context);
+        context.get(listenerCtx)
+               .markdownUpdated((ctx, doc) => {
+                 onUpdate && onUpdate(doc);
+               })
+               .mounted(() => {
+                 onMounted && onMounted();
+               });
       })
       .use(nord)
       .use(nodes);
