@@ -1,9 +1,6 @@
 import React from 'react';
 import { menu } from '@milkdown/plugin-menu';
 import { history } from '@milkdown/plugin-history';
-import {
-  listener,
-} from '@milkdown/plugin-listener';
 import style from './markdown-editor.module.scss';
 import dynamic from 'next/dynamic';
 import type { NextPage } from 'next';
@@ -22,7 +19,7 @@ const MarkdownBase = dynamic(() => import('./markdown-base'), { ssr: false })
  */
 const MarkdownEditor: NextPage<IMarkdownEditorOptions> = (props) => {
   const { content, cover, onUpdate, onMounted } = props;
-  const plugins = [menu, history, listener];
+  const plugins = [menu, history];
   let className = style[`markdown-editor`];
   if (cover) className += ` ${style.cover}`;
 

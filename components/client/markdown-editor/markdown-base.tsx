@@ -10,6 +10,7 @@ import {
   useEditor,
 } from '@milkdown/react';
 import {
+  listener,
   listenerCtx,
 } from '@milkdown/plugin-listener';
 import { nord } from '@milkdown/theme-nord';
@@ -57,7 +58,8 @@ const MarkdownBase: NextPage<IMarkdownBaseOptions> = (props) => {
                });
       })
       .use(nord)
-      .use(nodes);
+      .use(nodes)
+      .use(listener);
     plugins && plugins.forEach(plugin => markdownEditor.use(plugin));
     return markdownEditor;
   });

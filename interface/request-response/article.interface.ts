@@ -32,6 +32,11 @@ export interface IArticleDetail {
   id: number;
   title: string;
   content: string;
+  authorId: number;
+  createTime: string;
+  updateTime: string;
+  nickName: string;
+  avatar: string;
 }
 
 export interface IArticleDetailResponse extends IResponseBase {
