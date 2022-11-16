@@ -63,9 +63,9 @@ const transformToCoverClass = (className: string, cover?: boolean) => {
 
 const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (props) => {
   const { pageData, meta, error } = props;
-  const [inputContent, setInputContent] = useState(pageData?.content ?? '');
-  const [title, setTitle] = useState(pageData?.title ?? '');
-  const { t } = useTranslation(ArticleEditLocaleEnum.ArticleEdit)
+  const [inputContent, setInputContent] = useState<string>(pageData?.content ?? '');
+  const [title, setTitle] = useState<string>(pageData?.title ?? '');
+  const { t } = useTranslation(ArticleEditLocaleEnum.ArticleEdit);
   const noticeRef = useRef<INoticeMethods>(null);
   const isUseCover = true;
   const isEdit = pageData?.id !== undefined;
@@ -92,7 +92,7 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
           <Box className={style['article-layout']}>
             <TextField
               sx={{ flex: 1, margin: 2, ml: 0 }}
-              label="title"
+              label={t('title-label')}
               variant="outlined"
               size="small"
               value={title}

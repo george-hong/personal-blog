@@ -1,5 +1,3 @@
-import { Ctx } from '@milkdown/core';
-
 export interface IMarkdownBaseOptions {
   content?: string;
   className?: string;

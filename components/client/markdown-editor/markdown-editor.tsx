@@ -11,14 +11,14 @@ import { IMarkdownEditorOptions } from './markdown.interface';
 
 const MarkdownBase = dynamic(() => import('./markdown-base'), { ssr: false })
 /**
- *
+ * @constructor
  * @param {Object} [props] component options
- * @param {string} [props.content] Initial content when editor created.
+ * @param {String} [props.content] Initial content when editor created.
  * @param {boolean} [props.cover = false] Is the editor cover it's container.
  * @param {Function} [props.onUpdate] The update handler.
  * @param {Function} [props.onMounted] The component mounted handler.
  * @return component
- * @constructor
+ *
  */
 const MarkdownEditor: NextPage<IMarkdownEditorOptions> = (props) => {
   const { content, cover, onUpdate, onMounted } = props;

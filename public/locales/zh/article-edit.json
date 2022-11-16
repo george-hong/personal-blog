@@ -1,4 +1,9 @@
 {
   "title": "文章编辑 - 爱吃生菜的博客",
-  "keywords": "文章， 文章编辑， 文章更新， markdown, md"
+  "keywords": "文章， 文章编辑， 文章更新， markdown, md",
+  "saveDraft": "保存草稿",
+  "update": "更新",
+  "publish": "发表",
+  "title-label": "标题",
+  "pleaseInputTitleAndContent": "请输入标题和内容"
 }
