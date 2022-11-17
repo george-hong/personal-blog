@@ -18,6 +18,7 @@ export async function getArticleList(props: IArticleListPageParams): Promise<Arr
   // TODO: Support paging.
   const { pageNo, pageSize } = props.query;
   let result;
+  // throw('123');
   result = await serverRequest.get<IArticleListResponse>(`/api/article/list`);
   result = result.data;
   return result;

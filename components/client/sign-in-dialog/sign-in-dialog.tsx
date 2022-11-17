@@ -36,12 +36,12 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'account',
-      label: t('account'),
+      label: t('Account'),
       value: '',
       rules: [
         {
           required: true,
-          message: t('pleaseInputAccount'),
+          message: t('please input account'),
         },
       ],
       grid: {
@@ -52,13 +52,13 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'password',
-      label: t('password'),
+      label: t('Password'),
       value: '',
       inputType: 'password',
       rules: [
         {
           required: true,
-          message: t('pleaseInputPassword'),
+          message: t('please input password'),
         },
       ],
       grid: {
@@ -143,7 +143,7 @@ const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
         <Grid container>
           <Grid item xs={6}>
             <Typography component="span">
-              { t('signIn') }
+              { t('sign in') }
             </Typography>
           </Grid>
           <Grid
@@ -172,14 +172,14 @@ const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
           sx={{ mt: 2, mb: 1 }}
           onClick={startToSignIn}
         >
-          { t('signIn') }
+          { t('sign in') }
         </Button>
         <Link href={signUpPath}>
           <Typography
             component="span"
             sx={{ fontSize: 12, color: 'primary.main' }}
           >
-            { t('goToSignUp') }
+            { t('go to sign up') }
           </Typography>
         </Link>
       </Box>

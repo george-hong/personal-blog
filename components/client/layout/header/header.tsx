@@ -28,8 +28,8 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   const { visibility, onSignIn, onSignOut } = props;
   const { t } = useTranslation(DefaultTranslationEnum.Base);
   const menuLinkContrast = {
-    '/': t('home'),
-    '/article/list': t('article'),
+    '/': t('Home'),
+    '/article/list': t('Article'),
   };
   let className = `${ style.header } ground-glass`;
   if (!visibility) className += ` ${ style['hide-menu'] }`;
@@ -89,7 +89,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={ { color: 'primary.main' } }
               onClick={ () => setDialogVisible(true) }
             >
-              {t('signIn/signUp')}
+              {t('sign in / sign up')}
             </Typography>
           )
       }

@@ -30,7 +30,7 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          { t('signOut') }
+          { t('sign out') }
         </Fragment>
       ),
       onClick: signOut

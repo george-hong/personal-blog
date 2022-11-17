@@ -1,14 +1,14 @@
 {
-  "home": "Home",
-  "article": "Article",
+  "Home": "Home",
+  "Article": "Article",
   "writing": "writing",
-  "signIn/signUp": "sign in/sign up",
-  "pleaseTryAntherSearch": "Please try another search",
-  "account": "Account",
-  "pleaseInputAccount": "please input account",
-  "password": "Password",
-  "pleaseInputPassword": "please input password",
-  "signIn": "sign in",
-  "goToSignUp": "go to sign up",
-  "signOut": "sign out"
+  "sign in / sign up": "sign in/sign up",
+  "please try anther search": "Please try another search",
+  "Account": "Account",
+  "please input account": "please input account",
+  "Password": "Password",
+  "please input password": "please input password",
+  "sign in": "sign in",
+  "go to sign up": "go to sign up",
+  "sign out": "sign out"
 }

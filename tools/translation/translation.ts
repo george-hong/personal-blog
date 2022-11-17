@@ -4,7 +4,7 @@ function useTranslation(moduleName: string) {
   const translation = useTranslationFormI18n(moduleName);
   return {
     t(field: string): string {
-      return translation.t(`${moduleName}:${field}`);
+      return translation.t(`${field}`);
     }
   }
 }

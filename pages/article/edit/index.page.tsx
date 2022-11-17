@@ -71,7 +71,7 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
   const isEdit = pageData?.id !== undefined;
   const saveIfValid = (title: string, content: string, pageData?: IArticleInfo) => {
     if (!title || !content) {
-      noticeRef.current?.notice(t('pleaseInputTitleAndContent'), { type: NoticeType.error });
+      noticeRef.current?.notice(t('please input title and content'), { type: NoticeType.error });
       return;
     }
     saveArticle(title, inputContent, pageData);
@@ -92,7 +92,7 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
           <Box className={style['article-layout']}>
             <TextField
               sx={{ flex: 1, margin: 2, ml: 0 }}
-              label={t('title-label')}
+              label={t('article title')}
               variant="outlined"
               size="small"
               value={title}
@@ -103,7 +103,7 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
               variant="contained"
               disableElevation
             >
-              <Button variant="outlined">{ t('saveDraft') }</Button>
+              <Button variant="outlined">{ t('save draft') }</Button>
               <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? t('update') : t('publish') }</Button>
             </ButtonGroup>
           </Box>

@@ -54,17 +54,17 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'account',
-      label: t('account'),
+      label: t('Account'),
       value: '',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: t('pleaseInputAccount'),
+          message: t('please input account'),
         },
         {
           minLength: 5,
-          message: t('accountNeeds5ChartsAtLeast'),
+          message: t('account needs 5 charts at least'),
         },
         {
           custom(account, values, resolve, reject) {
@@ -73,11 +73,11 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
             requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
-                  reject(t('userNameRepeated'));
+                  reject(t('user name repeated'));
                 } else resolve();
               })
               .catch(error => {
-                reject(t('networkErrorInputAgain'));
+                reject(t('network error, input again.'));
               });
           },
         },
@@ -87,65 +87,65 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'password',
-      label: t('password'),
+      label: t('Password'),
       value: '',
       inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: t('pleaseInputPasswordAgain'),
+          message: t('please input password again'),
         },
         {
           minLength: 8,
-          message: t('passwordNeeds8ChartsAtLeast'),
+          message: t('password needs 8 charts at least'),
         },
         {
           maxLength: 30,
-          message: t('passwordShouldNotLongThan30Charts'),
+          message: t('password should not long than 30 charts'),
         }
       ]
     },
     {
       type: FormItemType.Input,
       key: 'passwordRepeat',
-      label: t('repetitivePassword'),
+      label: t('Repetitive Password'),
       value: '',
       inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: t('pleaseRepetitivePasswordAgain'),
+          message: t('please repetitive password again'),
         },
         {
           custom: (value, values, resolve, reject) => {
             if (value === values.password) resolve();
             else reject();
           },
-          message: t('twoPasswordsNotMatch'),
+          message: t('two passwords not match'),
         },
       ]
     },
     {
       type: FormItemType.Input,
       key: 'nickName',
-      label: t('nickName'),
+      label: t('Nick Name'),
       value: '',
       inputType: 'text',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: t('pleaseInputNickName'),
+          message: t('please input nick name'),
         },
         {
           minLength: 2,
-          message: t('nickNameNeeds2ChartsAtLeast'),
+          message: t('nick name needs 2 charts at least'),
         },
         {
           maxLength: 20,
-          message: t('nickNameShouldNotLongThan20Charts'),
+          message: t('nick name should not long than 20 charts'),
         },
         {
           custom(nickName, values, resolve, reject) {
@@ -154,11 +154,11 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
             requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
-                  reject(t('nickNameAlreadyExists'));
+                  reject(t('nick name already exists'));
                 } else resolve();
               })
               .catch(error => {
-                reject(t('networkErrorPleaseTryAgain'));
+                reject(t('Network Error, Please try again.'));
               });
           },
         }
@@ -205,7 +205,7 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
         return requestToSignUp(user.generateSignUpParams());
       })
       .then(() => {
-        showNotice(t('signUpSuccessRedirectLater'), NoticeType.success);
+        showNotice(t('Sign up success! Redirect later.'), NoticeType.success);
         backUrl && setTimeout(() => {
           router.push(backUrl);
         }, 2000);
@@ -214,9 +214,9 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
         let message: string | undefined;
         if (error && error.type === ErrorEnum.formValidation) {
           // Does not need to show notice, because the form had done this.
-          // message = t('pleaseTryAgainAfterModified');
+          // message = t('please try again after modified');
         } else {
-          message = t('networkError');
+          message = t('Network Error');
         }
         message && showNotice(message, NoticeType.error);
       });
@@ -242,7 +242,7 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
           sx={{ mt: 2, mb: 1 }}
           onClick={() => startToSignUp(backUrl)}
         >
-          { t('signUp') }
+          { t('sign up') }
         </Button>
       </Box>
       <Notice ref={noticeRef} />

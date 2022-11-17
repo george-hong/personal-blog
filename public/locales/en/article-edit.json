@@ -1,9 +1,9 @@
 {
   "title": "article edit - Blog of George Hong",
   "keywords": "article, article edit, article update, markdown, md",
-  "saveDraft": "save draft",
+  "save draft": "save draft",
   "update": "update",
   "publish": "publish",
-  "title-label": "title",
-  "pleaseInputTitleAndContent": "please input title and content"
+  "article title": "article title",
+  "please input title and content": "please input title and content"
 }

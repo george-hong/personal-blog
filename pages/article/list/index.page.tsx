@@ -14,13 +14,9 @@ import type { NextPage } from 'next';
 import { getArticleListPageData } from './assets';
 import { ArticleListPageData } from './list.interface';
 import { IPageBaseData } from '../../../interface/request-response/base.interface';
+import { IArticleDetail } from '../../../interface/request-response/article.interface';
 
-interface IArticleInfo {
-  id: number;
-  title: string;
-  content: string;
-}
-const generateCardItem = (articleInfo: IArticleInfo) => {
+const generateCardItem = (articleInfo: IArticleDetail) => {
   const detailPageURL = `/article/detail?id=${articleInfo.id}`;
   return (
     <Card

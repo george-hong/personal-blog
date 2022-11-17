@@ -12,16 +12,16 @@ import type { SSRConfig } from 'next-i18next';
 
 class PageData {
   static tryToGetPageData = <T extends IPageBase, Y>(
-    translationModules: TranslationModules,
+    userTranslationModules: TranslationModules,
     asyncGetPageData: (props: T, locale: ILocale) => Promise<IPageDataTryResult<Y>>
   ) => {
     return (async function(props: T): Promise<IPageDataTryResult<Y>> {
-      const translation_modules = [...Object.values(DefaultTranslationEnum), ...translationModules];
+      const translationModules = [...Object.values(DefaultTranslationEnum), ...userTranslationModules];
       let result: IPageDataTryResult<Y>;
       let locales: SSRConfig;
       try {
         const language = props?.locale ?? DEFAULT_LANGUAGE;
-        locales = await serverSideTranslations(language, translation_modules);
+        locales = await serverSideTranslations(language, translationModules);
         result = await asyncGetPageData(props, locales._nextI18Next.initialI18nStore[language]);
         Object.assign(result.props, locales);
       } catch (error) {

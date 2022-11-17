@@ -52,6 +52,7 @@ const getContent = (error: unknown, children: ReactNode, notContainer = false, c
       </Container>
     )
   }
+  if (!children) return null;
   if (notContainer) {
     return (
       <div className={className}>
@@ -98,7 +99,7 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     meta,
     error,
   } = props;
-  const content = children ? getContent(error, children, notContainer, contentClassName) : null;
+  const content = getContent(error, children, notContainer, contentClassName);
   const noticeRef = useRef<INoticeMethods>(null);
   const showNotice = (message: string) => {
     noticeRef.current?.notice(message, { type: NoticeType.success });

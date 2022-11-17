@@ -1,14 +1,14 @@
 {
-  "home": "首页",
-  "article": "文章",
+  "Home": "首页",
+  "Article": "文章",
   "writing": "创作",
-  "signIn/signUp": "登录/注册",
-  "pleaseTryAntherSearch": "请尝试其他搜索条件",
-  "account": "账号",
-  "pleaseInputAccount": "请填写账号",
-  "password": "密码",
-  "pleaseInputPassword": "请填写密码",
-  "signIn": "登录",
-  "goToSignUp": "前往注册",
-  "signOut": "登出"
+  "sign in / sign up": "登录/注册",
+  "please try anther search": "请尝试其他搜索条件",
+  "Account": "账号",
+  "please input account": "请填写账号",
+  "Password": "密码",
+  "please input password": "请填写密码",
+  "sign in": "登录",
+  "go to sign up": "前往注册",
+  "sign out": "登出"
 }
