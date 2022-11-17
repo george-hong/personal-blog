@@ -22,6 +22,7 @@ import {
   TriggerType,
   ValueType,
 } from './form.interface';
+import { ErrorEnum } from '../../../interface/base.interface';
 
 const messageDefaultValue = ' ';
 const getValues = (formChangedObject: FormConfigChangedObject, keys?: Array<string>): unknown => {
@@ -239,7 +240,10 @@ const Form: NextPage<IFormProps, Component> = forwardRef<IFormMethods, IFormProp
             resolve(getValues(formChangedObject, keys) as T);
           })
           .catch(() => {
-            reject(keysOfError);
+            reject({
+              type: ErrorEnum.formValidation,
+              fields: keysOfError,
+            });
           })
       });
     },

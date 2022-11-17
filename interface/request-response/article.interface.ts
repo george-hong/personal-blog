@@ -10,9 +10,7 @@ export interface IArticleListPageParams extends IRequestWithLocale {
 }
 
 export interface IArticleListResponse extends IResponseBase {
-  data: Array<{
-    id: number; title: string; content: string;
-  }>;
+  data: Array<IArticleDetail>;
 }
 
 export interface IArticleDetailPageParams extends IRequestWithLocale {

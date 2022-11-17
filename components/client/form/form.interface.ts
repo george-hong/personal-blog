@@ -1,4 +1,7 @@
-import { IUniformObject } from '../../../interface/base.interface';
+import {
+  ErrorEnum,
+  IUniformObject,
+} from '../../../interface/base.interface';
 import { ForwardedRef } from 'react';
 
 export enum FormItemType {
@@ -94,6 +97,11 @@ export interface IFormProps {
   config: Array<FormItem>;
   className?: string;
   ref?: ForwardedRef<any>;
+}
+
+export interface IValidationError {
+  type: ErrorEnum.formValidation;
+  fields: Array<string>;
 }
 
 export interface IFormMethods {

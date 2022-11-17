@@ -44,6 +44,10 @@ import {
   KeyEvent,
   KeyEnum,
 } from '../../tools/class/event';
+import {
+  ErrorEnum,
+  ISystemError,
+} from '../../interface/base.interface';
 
 const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
   return [
@@ -186,12 +190,10 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
   };
 
   const startToSignUp = (backUrl?: string) => {
-    let validationSuccess = false;
     let signUpParams: ISignUpParams;
     formRef.current?.validate<ISignUpParams>()
       .then((values) => {
         signUpParams = values;
-        validationSuccess = true;
         if (publicKey) return Promise.resolve({ data: { content: publicKey } });
         else return requestToGetRSAPublicKey();
       })
@@ -208,8 +210,15 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
           router.push(backUrl);
         }, 2000);
       })
-      .catch(keysOfError => {
-        showNotice(validationSuccess ? t('pleaseTryAgainAfterModified') : t('networkError'), NoticeType.error);
+      .catch((error: ISystemError) => {
+        let message: string | undefined;
+        if (error && error.type === ErrorEnum.formValidation) {
+          // Does not need to show notice, because the form had done this.
+          // message = t('pleaseTryAgainAfterModified');
+        } else {
+          message = t('networkError');
+        }
+        message && showNotice(message, NoticeType.error);
       });
   };
 
