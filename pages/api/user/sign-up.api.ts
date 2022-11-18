@@ -11,7 +11,7 @@ export default runMiddleware(middleware => {
       .then((result) => {
         const existence = !!(result as Array<object>).length;
         if (existence) throw('账号已存在');
-        return db.query(`SELECT id FROM user WHERE account = '${ body.nickName }';`);
+        return db.query(`SELECT id FROM user WHERE nickName = '${ body.nickName }';`);
       })
       .then((result) => {
         const existence = !!(result as Array<object>).length;
