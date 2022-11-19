@@ -5,6 +5,7 @@
   "Account": "Account",
   "please input account": "please input account.",
   "account needs 5 charts at least": "account needs 5 charts at least",
+  "account should not long than 15 charts": "account should not long than 15 charts",
   "user name repeated": "user name repeated",
   "network error, input again.": "Network error, input again.",
   "Password": "Password",

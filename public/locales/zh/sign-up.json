@@ -5,6 +5,7 @@
   "Account": "账号",
   "please input account": "请填写账号",
   "account needs 5 charts at least": "账号需要至少5个字符",
+  "account should not long than 15 charts": "账号最长为15个字符",
   "user name repeated": "用户名重复",
   "network error, input again.": "网络异常，请再次输入",
   "Password": "密码",

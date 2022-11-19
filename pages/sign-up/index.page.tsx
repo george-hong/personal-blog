@@ -67,6 +67,10 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
           message: t('account needs 5 charts at least'),
         },
         {
+          maxLength: 15,
+          message: t('account should not long than 15 charts'),
+        },
+        {
           custom(account, values, resolve, reject) {
             if (!account) return resolve();
             const requestParams = { field: ExistenceCheckType.account, value: account as string };

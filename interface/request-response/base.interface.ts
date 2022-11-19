@@ -18,7 +18,12 @@ export interface ExtendedNextApiRequest extends NextApiRequest {
   }
 }
 
+export interface IUserFromToken {
+  id: number;
+}
+
 export interface ExtendedNextApiResponse extends NextApiResponse {
+  userFromToken?: IUserFromToken;
   supply: (response: unknown) => void;
   throw: (messageOrProps?: string | IUniformObject<string>, code?: number) => void;
 }

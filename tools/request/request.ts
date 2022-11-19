@@ -65,7 +65,7 @@ class Request {
     return result;
   }
 
-  private send<T>(method: methodType, url: string, params?: IParams, config?: IConfig): Promise<T> {
+  private send<T>(method: methodType, url: string, params?: IParams, config: IConfig = {}): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const { url: urlParsed, params: paramsParsed } = this.getUrlAndParamsByMethod(method, url, params);
       const headers = {

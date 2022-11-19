@@ -10,3 +10,14 @@ export interface ISystemError {
   [key: string | number]: unknown;
   type: ErrorEnum,
 }
+
+export const enum ServiceError {
+  missingParameter = 'missing parameter',
+  parameterError = 'parameter error',
+  accountExist = 'account exist',
+  nickNameExist = 'nick name exist',
+  pleaseSignInFirst = 'please sign in first',
+  articleTitleExist = 'article title exist',
+  articleNotExist = 'article not exist',
+  noAuthenticPleaseCheckBelong = 'no authentic, please check belong'
+}

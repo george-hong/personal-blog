@@ -6,6 +6,11 @@ import {
 } from '../../interface/request-response/user.interface';
 import PROJECT_CONFIG from '../../config/project';
 import { AVATARS_DIR } from '../../config/constant';
+import type {
+  ExtendedNextApiRequest,
+  ExtendedNextApiResponse,
+} from '../../interface/request-response/base.interface';
+import { ServiceError } from '../../interface/base.interface';
 
 class UserForServer extends User {
   static generateUserInfoBySignInResult(accountInfo: ISignInQueryResult): IUserBaseInfo {
@@ -18,6 +23,13 @@ class UserForServer extends User {
       avatar: avatarResult,
       id: accountInfo.id,
     };
+  }
+
+  static warningIfNotLogin(req: ExtendedNextApiRequest, res: ExtendedNextApiResponse): boolean {
+    let hasError = true;
+    if (req && req.userFromToken && req.userFromToken.id !== undefined) hasError = false;
+    else res.throw(ServiceError.pleaseSignInFirst);
+    return hasError;
   }
 }
 

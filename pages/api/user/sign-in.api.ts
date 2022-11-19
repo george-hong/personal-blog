@@ -5,10 +5,17 @@ import { UserForServer } from '../../../business/user';
 import Secret, {
   SecretType,
 } from '../../../tools/secret';
+import Validator from '../../../tools/validator';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
     const { body = {} } = req;
+    const validator = new Validator(body);
+    const errorMessage = validator.validate({
+      account: { isRequired: true },
+      password: { isRequired: true },
+    });
+    if (errorMessage) return res.throw(errorMessage);
     const db = new DataBase();
     db
       .query<Array<ISignInQueryResult>>(`SELECT password, privateKey, nickName, avatar, id FROM user WHERE account = '${ body.account }';`)
@@ -21,11 +28,11 @@ export default runMiddleware(middleware => {
           next();
         } else if (matchedAccount) {
           throw({
-            message: '密码不正确',
+            message: 'password incorrect',
             field: 'password',
           });
         } else throw({
-          message: '账号不存在',
+          message: 'account not exist',
           field: 'account',
         });
       })
