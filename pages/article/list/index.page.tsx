@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Link from 'next/link';
 import Layout from '../../../components/client/layout';
 import Empty from '../../../components/client/empty';
-import ListMenu from './components/list-menu';
+// import ListMenu from './components/list-menu';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 import { getArticleListPageData } from './assets';
@@ -64,8 +64,8 @@ const ArticleList: NextPage<IPageBaseData<ArticleListPageData>, ReactNode> = (pr
     <Layout
       meta={meta}
       error={error}
-      autoHideHeader
-      onHeaderVisibilityChange={setHeaderVisibility}
+      // autoHideHeader
+      // onHeaderVisibilityChange={setHeaderVisibility}
     >
       {
         pageData && (
@@ -73,7 +73,7 @@ const ArticleList: NextPage<IPageBaseData<ArticleListPageData>, ReactNode> = (pr
             className={className}
             sx={{ pb: 2 }}
           >
-            <ListMenu top={!headerVisibility} />
+            {/*<ListMenu top={!headerVisibility} />*/}
             <Box className={style['article-list-container']}>
               <Box className={style['article-list-inner-container']}>
                 {
