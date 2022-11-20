@@ -19,3 +19,15 @@ A blog based on `next.js`
 `npm run build`
 
 `npm run start`
+
+## automatic deployment
+
+1. install dependence
+
+`npm install`
+
+`npm i pm2 -g`
+
+2. run
+
+`npm run prod`
