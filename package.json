@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "pm2 delete personal-blog & npm i & npm run build & pm2 start"
+    "deploy": "pm2 delete personal-blog-service & npm i & npm run build & pm2 start"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
