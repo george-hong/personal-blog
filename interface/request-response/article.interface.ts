@@ -5,7 +5,9 @@ import {
 
 export interface IArticleListPageParams extends IRequestWithLocale {
   query: {
-    pageNo?: number; pageSize?: number;
+    pageNo?: number;
+    pageSize?: number;
+    id?: number
   }
 }
 

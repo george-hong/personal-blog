@@ -1,0 +1,17 @@
+.article-list-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  > * {
+    max-width: $thin-content-max-width !important;
+  }
+}
+
+.list-page {
+  width: 100%;
+  justify-content: center;
+
+  a {
+    text-decoration: none;
+  }
+}

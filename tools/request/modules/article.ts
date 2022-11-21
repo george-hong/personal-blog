@@ -16,10 +16,11 @@ import { encodeQuotationMarks } from '../../methods';
 
 export async function getArticleList(props: IArticleListPageParams): Promise<Array<IArticleDetail>> {
   // TODO: Support paging.
-  const { pageNo, pageSize } = props.query;
+  const { id: authorId } = props.query;
+  const requestParams: { authorId?: number } = {};
+  if (authorId !== undefined) requestParams.authorId = authorId;
   let result;
-  // throw('123');
-  result = await serverRequest.get<IArticleListResponse>(`/api/article/list`);
+  result = await serverRequest.get<IArticleListResponse>(`/api/article/list`, requestParams);
   result = result.data;
   return result;
 }
@@ -27,9 +28,9 @@ export async function getArticleList(props: IArticleListPageParams): Promise<Arr
 export async function getArticleDetail(props: IArticleDetailPageParams): Promise<IArticleDetail> {
   const id = props.query.id;
   let result;
-  const params: { id?: string } = {};
-  if (id !== undefined) params.id = id;
-  result = await serverRequest.get<IArticleDetailResponse>(`/api/article/detail`, params);
+  const requestParams: { id?: string } = {};
+  if (id !== undefined) requestParams.id = id;
+  result = await serverRequest.get<IArticleDetailResponse>(`/api/article/detail`, requestParams);
   result = result.data[0];
   return result;
 }

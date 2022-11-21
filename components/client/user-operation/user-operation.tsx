@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
+import { useRouter } from 'next/router';
 import Avatar from '@mui/material/Avatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Logout from '@mui/icons-material/Logout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PopoverMenu from '../popover-menu';
 import style from './user-operation.module.scss';
 import type { NextPage } from 'next';
@@ -19,11 +21,26 @@ import useTranslation, { DefaultTranslationEnum } from '../../../tools/translati
 const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
   const { userBaseInfo, onSignOut } = props;
   const { t } = useTranslation(DefaultTranslationEnum.Base);
+  const route = useRouter();
+  const goToPersonalCenter = () => {
+    route.push(`/user/${userBaseInfo.id}`);
+  };
   const signOut = () => {
     UserForClient.removeUserBaseInfoFromLocal();
     onSignOut && onSignOut();
   };
   const menus = {
+    personalCenter: {
+      content: (
+        <Fragment>
+          <ListItemIcon>
+            <ManageAccountsIcon fontSize="small" />
+          </ListItemIcon>
+          { t('personal center') }
+        </Fragment>
+      ),
+      onClick: goToPersonalCenter,
+    },
     signOut: {
       content: (
         <Fragment>

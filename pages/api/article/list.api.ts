@@ -3,14 +3,21 @@ import { runMiddleware } from '../../../components/server/middleware';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
-    new DataBase()
-      .query(`SELECT id, title, content FROM article`)
+    const { query = {} } = req;
+    let sentence = 'SELECT id, title, content FROM article';
+    if (query.authorId) sentence += ` WHERE authorId = ${query.authorId}`;
+    const db = new DataBase();
+    db
+      .query(sentence)
       .then(result => {
         res.supply(result);
       })
       .catch(error => {
         res.throw(error);
       })
-      .finally(next);
+      .finally(() => {
+        db.dispose();
+        next();
+      });
   });
 });
