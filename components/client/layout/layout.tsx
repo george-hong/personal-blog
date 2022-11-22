@@ -26,17 +26,28 @@ declare module '@mui/material/styles/createPalette' {
     };
     font: {
       main: string;
+    },
+    description: {
+      light: string;
+      main: string;
     }
   }
 }
 
 const theme = createTheme({
+  typography: {
+    fontSize: 12,
+  },
   palette: {
     bg: {
       main: '#FFFFFF',
     },
     font: {
       main: '#333333',
+    },
+    description: {
+      light: 'rgba(0, 0, 0, 0.12)',
+      main: 'rgba(0, 0, 0, 0.54)',
     }
   }
 });

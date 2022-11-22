@@ -21,6 +21,11 @@ html, body, body > div {
   justify-content: right;
 }
 
+.content-horizontal-center {
+  display: flex;
+  justify-content: center;
+}
+
 // display
 .hidden {
   display: none;

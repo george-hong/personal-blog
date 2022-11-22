@@ -2,9 +2,10 @@ import React, { useState, ReactNode } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Link from 'next/link';
 import Layout from '../../../components/client/layout';
 import Empty from '../../../components/client/empty';
@@ -21,7 +22,7 @@ const generateCardItem = (articleInfo: IArticleDetail) => {
   return (
     <Card
       classes={{ root: style['list-item'] }}
-      sx={[{ '&:not(:last-child)': { mb: 2 }, borderColor: 'info.main' }]}
+      sx={[{ '&:not(:last-child)': { mb: 2 }, borderColor: 'description.light' }]}
       variant="outlined"
       key={articleInfo.id}
     >
@@ -31,22 +32,31 @@ const generateCardItem = (articleInfo: IArticleDetail) => {
       >
         <CardContent>
           <Typography
-            variant="h3"
-            component="div"
+            variant="h6"
+            component="h3"
             color="font.main"
           >
             { articleInfo.title }
           </Typography>
           <Typography
-            sx={{ mb: 1.5 }}
             color="text.secondary"
             className="single-line"
           >
             { articleInfo.content }
           </Typography>
         </CardContent>
+        <Divider variant="middle" />
         <CardActions>
-          <Button size="small">Like</Button>
+          <Box className="content-horizontal-center">
+            <VisibilityIcon
+              fontSize="small"
+              color="action"
+            />
+            <Typography
+              sx={{ ml: 1, fontSize: 0.8, color: 'description.main' }}
+              component="span"
+            >12</Typography>
+          </Box>
         </CardActions>
       </Link>
     </Card>

@@ -4,6 +4,7 @@
   justify-content: center;
   > * {
     max-width: $thin-content-max-width !important;
+    width: 100%;
   }
 }
 
