@@ -37,10 +37,11 @@ export interface IArticleDetail {
   updateTime: string;
   nickName: string;
   avatar: string;
+  views: number;
 }
 
 export interface IArticleDetailResponse extends IResponseBase {
-  data: Array<IArticleDetail>;
+  data: IArticleDetail;
 }
 
 export interface IArticleAddParams {

@@ -16,14 +16,14 @@ html, body, body > div {
   height: 100%;
 }
 
-.content-to-right {
+.content-horizontal-right {
   display: flex;
   justify-content: right;
 }
 
-.content-horizontal-center {
+.content-vertical-center {
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
 // display

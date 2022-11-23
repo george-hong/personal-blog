@@ -31,7 +31,7 @@ export async function getArticleDetail(props: IArticleDetailPageParams): Promise
   const requestParams: { id?: string } = {};
   if (id !== undefined) requestParams.id = id;
   result = await serverRequest.get<IArticleDetailResponse>(`/api/article/detail`, requestParams);
-  result = result.data[0];
+  result = result.data;
   return result;
 }
 

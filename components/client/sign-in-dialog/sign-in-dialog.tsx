@@ -147,7 +147,7 @@ const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
             </Typography>
           </Grid>
           <Grid
-            className="content-to-right"
+            className="content-horizontal-right"
             item
             xs={6}
           >

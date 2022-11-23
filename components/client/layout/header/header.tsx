@@ -122,7 +122,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               }
             </Grid>
             <Grid
-              className={`content-to-right ${style['header-right']}`}
+              className={`content-horizontal-right ${style['header-right']}`}
               item
               xs={ 6 }
             >
