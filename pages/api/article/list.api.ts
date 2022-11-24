@@ -6,7 +6,7 @@ import type { IArticleDetail } from '../../../interface/request-response/article
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
     const { query = {} } = req;
-    let sentence = 'SELECT id, title, content, views FROM article';
+    let sentence = 'SELECT id, title, summary, views FROM article';
     if (query.authorId) sentence += ` WHERE authorId = ${query.authorId}`;
     const db = new DataBase();
     db

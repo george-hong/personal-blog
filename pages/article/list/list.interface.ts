@@ -1,6 +1,6 @@
-import { IArticleDetail } from '../../../interface/request-response/article.interface';
+import { IArticleListItem } from '../../../interface/request-response/article.interface';
 
-export type ArticleListPageData = Array<IArticleDetail>
+export type ArticleListPageData = Array<IArticleListItem>
 
 export enum ArticleListLocaleEnum {
   ArticleList = 'article-list',

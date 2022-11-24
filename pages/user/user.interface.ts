@@ -1,6 +1,6 @@
-import { IArticleDetail } from '../../interface/request-response/article.interface';
+import { IArticleListItem } from '../../interface/request-response/article.interface';
 
-export type PersonalCenterPageData = Array<IArticleDetail>
+export type PersonalCenterPageData = Array<IArticleListItem>
 
 export enum PersonalCenterLocaleEnum {
   PersonalCenter = 'personal-center',

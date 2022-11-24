@@ -11,8 +11,15 @@ export interface IArticleListPageParams extends IRequestWithLocale {
   }
 }
 
+export interface IArticleListItem {
+  id: number;
+  title: string;
+  summary: string;
+  views: number;
+}
+
 export interface IArticleListResponse extends IResponseBase {
-  data: Array<IArticleDetail>;
+  data: Array<IArticleListItem>;
 }
 
 export interface IArticleDetailPageParams extends IRequestWithLocale {

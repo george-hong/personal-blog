@@ -11,9 +11,10 @@ import {
   IArticleEditParams,
   IArticleEditResponse,
   IArticleDetail,
+  IArticleListItem,
 } from '../../../interface/request-response/article.interface';
 
-export async function getArticleList(props: IArticleListPageParams): Promise<Array<IArticleDetail>> {
+export async function getArticleList(props: IArticleListPageParams): Promise<Array<IArticleListItem>> {
   // TODO: Support paging.
   const { id: authorId } = props.query;
   const requestParams: { authorId?: number } = {};
