@@ -12,7 +12,6 @@ import {
   IArticleEditResponse,
   IArticleDetail,
 } from '../../../interface/request-response/article.interface';
-import { encodeQuotationMarks } from '../../methods';
 
 export async function getArticleList(props: IArticleListPageParams): Promise<Array<IArticleDetail>> {
   // TODO: Support paging.
@@ -39,7 +38,7 @@ export function requestToAddArticle(params: IArticleAddParams) {
   const { title, content } = params;
   const requestParams = {
     title,
-    content: encodeQuotationMarks(content),
+    content,
   };
   return clientRequest.post<IArticleEditResponse>('/api/article/add', requestParams);
 }
@@ -48,7 +47,7 @@ export function requestToEditArticle(params: IArticleEditParams) {
   const { title, content, id } = params;
   const requestParams = {
     title,
-    content: encodeQuotationMarks(content),
+    content,
     id,
   };
   return clientRequest.post<IArticleEditResponse>('/api/article/update', requestParams);

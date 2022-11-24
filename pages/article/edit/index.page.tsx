@@ -16,7 +16,6 @@ import Notice, {
   INoticeMethods,
   NoticeType,
 } from '../../../components/client/notice';
-import { encodeQuotationMarks } from '../../../tools/methods';
 import {
   requestToAddArticle,
   requestToEditArticle,
@@ -37,7 +36,7 @@ import { IPageBaseData } from '../../../interface/request-response/base.interfac
 
 const saveArticle = (title: string, content: string, pageData?: IArticleInfo) => {
   const params: Partial<IArticleInfo> = {
-    content: encodeQuotationMarks(content),
+    content,
     title,
   };
   let isEdit = false;

@@ -62,3 +62,18 @@ export function replaceTemplate(template: unknown, replacements: IUniformObject<
   }
   return result
 }
+
+export const encodeQuotationMarks = (source: string, transformDouble = false): string => {
+  // Take user may save escape character into consideration, we use especial character.
+  const result = source.replace(/\'/g, '_&#39_');
+  if (transformDouble) return result.replace(/\"/g, '_&#34_');
+  return result;
+};
+
+export const decodeQuotationMarks = (source: string, transformDouble = false): string => {
+  // Take user may save escape character into consideration, we use especial character.
+  const result = source.replace(/_&#39_/g, '\'');
+  if (transformDouble) return result.replace(/_&#34_/g, '"');
+  return result;
+};
+
