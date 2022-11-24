@@ -14,9 +14,9 @@ import type { NextPage } from 'next';
 import { getPersonalCenterPageData } from './assets';
 import { PersonalCenterPageData } from './user.interface';
 import { IPageBaseData } from '../../interface/request-response/base.interface';
-import { IArticleDetail } from '../../interface/request-response/article.interface';
+import type { IArticleListItem } from '../../interface/request-response/article.interface';
 
-const generateCardItem = (articleInfo: IArticleDetail, router: NextRouter) => {
+const generateCardItem = (articleInfo: IArticleListItem, router: NextRouter) => {
   const detailPageURL = `/article/detail?id=${articleInfo.id}`;
   const goToEditPage = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -46,7 +46,7 @@ const generateCardItem = (articleInfo: IArticleDetail, router: NextRouter) => {
             color="text.secondary"
             className="single-line"
           >
-            { articleInfo.content }
+            { articleInfo.summary }
           </Typography>
         </CardContent>
         <CardActions>
