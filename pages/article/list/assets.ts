@@ -16,7 +16,6 @@ const getArticleListPageData = PageData.tryToGetPageData<IArticleListPageParams,
         meta: {
           title: translation.title,
           keywords: translation.keywords,
-          description: articleList.slice(0, 3).map(article => article.title).join(';'),
         },
         pageData: articleList,
       },

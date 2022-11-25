@@ -12,6 +12,7 @@ import Layout from '../../../components/client/layout';
 import Empty from '../../../components/client/empty';
 // import ListMenu from './components/list-menu';
 import useTranslation from '../../../tools/translation';
+import InfiniteScroll from '../../../components/client/infinite-scroll';
 import style from './index.module.scss';
 import type { ITranslation } from '../../../tools/translation';
 import type { NextPage } from 'next';
@@ -21,7 +22,11 @@ import {
   ArticleListPageData,
 } from './list.interface';
 import { IPageBaseData } from '../../../interface/request-response/base.interface';
-import type { IArticleListItem } from '../../../interface/request-response/article.interface';
+import type {
+  IArticleListItem,
+  IArticleListResponseDetail,
+} from '../../../interface/request-response/article.interface';
+import { requestToGetArticleList } from '../../../tools/request/modules/article';
 
 const generateCardItem = (articleInfo: IArticleListItem, t: ITranslation) => {
   const detailPageURL = `/article/detail?id=${articleInfo.id}`;
@@ -90,7 +95,23 @@ const ArticleList: NextPage<IPageBaseData<ArticleListPageData>, ReactNode> = (pr
   // const [headerVisibility, setHeaderVisibility] = useState<boolean>(true);
   const { t } = useTranslation(ArticleListLocaleEnum.ArticleList)
   let className = style['list-page'];
-  if (!pageData?.length) className += ' full-vertical';
+  if (!pageData?.data?.length) className += ' full-vertical';
+  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [articles, setArticles] = useState<Array<IArticleListItem>>((pageData as IArticleListResponseDetail).data);
+  const [count, setCount] = useState<number>((pageData as IArticleListResponseDetail).count);
+  const requestFillingArticleList = () => {
+    const currentPageNumber = pageNumber + 1;
+    requestToGetArticleList({ pageNumber: currentPageNumber, pageSize: 10 })
+      .then(result => {
+        const { count, data } = result.data;
+        setArticles(articles.concat(data));
+        setCount(count);
+        setPageNumber(currentPageNumber);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  }
 
   return (
     <Layout
@@ -101,17 +122,20 @@ const ArticleList: NextPage<IPageBaseData<ArticleListPageData>, ReactNode> = (pr
     >
       {
         pageData && (
-          <Box
-            className={className}
-            sx={{ pb: 2 }}
-          >
+          <Box className={className}>
             {/*<ListMenu top={!headerVisibility} />*/}
             <Box className={style['article-list-container']}>
-              <Box className={style['article-list-inner-container']}>
-                {
-                  pageData.length ? pageData.map((articleInfo) => generateCardItem(articleInfo, t)) : <Empty cover />
-                }
-              </Box>
+              <InfiniteScroll
+                hasMore={articles.length < count}
+                dataLength={articles.length}
+                next={requestFillingArticleList}
+              >
+                <Box className={style['article-list-inner-container']}>
+                  {
+                    articles.length ? articles.map((articleInfo) => generateCardItem(articleInfo, t)) : <Empty cover />
+                  }
+                </Box>
+              </InfiniteScroll>
             </Box>
           </Box>
         )

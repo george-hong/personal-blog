@@ -3,12 +3,14 @@ import {
   IResponseBase,
 } from './base.interface';
 
+export interface IArticleListParams {
+  pageNumber?: number;
+  pageSize?: number;
+  id?: number;        // authorId
+}
+
 export interface IArticleListPageParams extends IRequestWithLocale {
-  query: {
-    pageNo?: number;
-    pageSize?: number;
-    id?: number
-  }
+  query: IArticleListParams;
 }
 
 export interface IArticleListItem {
@@ -18,8 +20,13 @@ export interface IArticleListItem {
   views: number;
 }
 
-export interface IArticleListResponse extends IResponseBase {
+export interface IArticleListResponseDetail {
+  count: number;
   data: Array<IArticleListItem>;
+}
+
+export interface IArticleListResponse extends IResponseBase {
+  data: IArticleListResponseDetail;
 }
 
 export interface IArticleDetailPageParams extends IRequestWithLocale {

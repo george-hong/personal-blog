@@ -11,10 +11,11 @@ import {
   IArticleEditParams,
   IArticleEditResponse,
   IArticleDetail,
-  IArticleListItem,
+  IArticleListResponseDetail,
+  IArticleListParams,
 } from '../../../interface/request-response/article.interface';
 
-export async function getArticleList(props: IArticleListPageParams): Promise<Array<IArticleListItem>> {
+export async function getArticleList(props: IArticleListPageParams): Promise<IArticleListResponseDetail> {
   // TODO: Support paging.
   const { id: authorId } = props.query;
   const requestParams: { authorId?: number } = {};
@@ -52,4 +53,16 @@ export function requestToEditArticle(params: IArticleEditParams) {
     id,
   };
   return clientRequest.post<IArticleEditResponse>('/api/article/update', requestParams);
+}
+
+export function requestToGetArticleList(params: IArticleListParams) {
+  const { pageNumber, pageSize, id } = params;
+  const requestParams = {
+    pageNumber,
+    pageSize,
+    id,
+  };
+  // TODO: remove useless parameters
+  // TODO: fix type
+  return clientRequest.get<IArticleListResponse>('/api/article/list', requestParams as any);
 }

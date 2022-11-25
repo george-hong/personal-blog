@@ -67,7 +67,8 @@ const PersonalCenterPage: NextPage<IPageBaseData<PersonalCenterPageData>, ReactN
   const { pageData, meta, error } = props;
   let className = style['list-page'];
   const router = useRouter();
-  if (!pageData?.length) className += ' full-vertical';
+  if (!pageData?.data?.length) className += ' full-vertical';
+  const { data: articles } = pageData as PersonalCenterPageData;
 
   return (
     <Layout
@@ -83,7 +84,7 @@ const PersonalCenterPage: NextPage<IPageBaseData<PersonalCenterPageData>, ReactN
             <Box className={style['article-list-container']}>
               <Box className={style['article-list-inner-container']}>
                 {
-                  pageData.length ? pageData.map((articleInfo) => generateCardItem(articleInfo, router)) : <Empty cover />
+                  articles.length ? articles.map((articleInfo) => generateCardItem(articleInfo, router)) : <Empty cover />
                 }
               </Box>
             </Box>
