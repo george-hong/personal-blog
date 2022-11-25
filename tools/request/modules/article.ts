@@ -16,7 +16,6 @@ import {
 } from '../../../interface/request-response/article.interface';
 
 export async function getArticleList(props: IArticleListPageParams): Promise<IArticleListResponseDetail> {
-  // TODO: Support paging.
   const { id: authorId } = props.query;
   const requestParams: { authorId?: number } = {};
   if (authorId !== undefined) requestParams.authorId = authorId;
@@ -62,7 +61,5 @@ export function requestToGetArticleList(params: IArticleListParams) {
     pageSize,
     id,
   };
-  // TODO: remove useless parameters
-  // TODO: fix type
-  return clientRequest.get<IArticleListResponse>('/api/article/list', requestParams as any);
+  return clientRequest.get<IArticleListResponse>('/api/article/list', requestParams);
 }

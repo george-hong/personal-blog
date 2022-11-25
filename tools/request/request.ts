@@ -1,24 +1,11 @@
-type methodType =
-  'get'
-  | 'post';
-
-interface IRequestOptions {
-  baseURL?: string;
-  beforeSend?: (fetchOptions: RequestInit) => RequestInit;
-}
-
-interface IParams {
-  [key: string]: number | string | boolean;
-}
-
-interface IConfig {
-  headers?: { [key: string]: string };
-}
-
-interface IURLAndParams {
-  url: string;
-  params?: IParams | string;
-}
+import { filterObjectKeys } from '../../libs/object-util';
+import {
+  IConfig,
+  IParams,
+  IRequestOptions,
+  IURLAndParams,
+  methodType,
+} from './request.interface';
 
 const CONNECTOR_OF_GET = '?';
 const CONNECTOR_OF_KEY_VALUE = '=';
@@ -55,6 +42,7 @@ class Request {
   private getUrlAndParamsByMethod(method: methodType, url: string, params?: IParams): IURLAndParams {
     const { baseURL } = this.options;
     const result: IURLAndParams = { url: (baseURL && !Request.isAbsoluteURL(url)) ? baseURL + url : url };
+    if (params) params = filterObjectKeys(params, (key, value) => value !== undefined);
     if (method === 'get' && params) {
       const connector = url.endsWith(CONNECTOR_OF_GET) ? '' :
         url.includes(CONNECTOR_OF_GET) ? CONNECTOR_OF_PARAMS : CONNECTOR_OF_GET;

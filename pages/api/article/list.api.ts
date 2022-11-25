@@ -18,7 +18,6 @@ export default runMiddleware(middleware => {
     const { pageNumber, pageSize } = query;
     const realPageNumber = pageNumber === undefined ? 0 : Number(pageNumber);
     const realPageSize = pageSize === undefined ? 10 : Number(pageSize);
-    console.log(realPageNumber, realPageSize);
     let sentence = `SELECT id, title, summary, views FROM article LIMIT ${realPageNumber * realPageSize}, ${realPageSize}`;
     if (query.authorId) sentence += ` WHERE authorId = ${query.authorId}`;
     const db = new DataBase();
