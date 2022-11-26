@@ -42,7 +42,7 @@ const ArticleDetail: NextPage<IPageBaseData<IArticleDetail>, ReactNode> = (props
                 content={pageData.content}
               />
             </Box>
-            <Divider />
+            <Divider sx={{ pt: 2 }} />
             <Box sx={{ pt: 2, pb: 2, display: 'flex' }}>
               <Typography
                 component="span"
