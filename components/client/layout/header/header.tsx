@@ -113,9 +113,17 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
                       className={ style['header-link'] }
                       key={ menu }
                     >
-                      <Link href={ link }>
+                      <Typography
+                        href={ link }
+                        component="a"
+                        variant="h6"
+                        sx={{
+                          color: 'primary.main',
+                          fontWeight: 600,
+                        }}
+                      >
                         { menu }
-                      </Link>
+                      </Typography>
                     </h3>
                   );
                 })

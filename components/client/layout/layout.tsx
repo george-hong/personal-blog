@@ -30,6 +30,11 @@ declare module '@mui/material/styles/createPalette' {
     description: {
       light: string;
       main: string;
+    },
+    primaryContrast: {
+      light: string;
+      main: string;
+      dark: string;
     }
   }
 }
@@ -39,6 +44,11 @@ const theme = createTheme({
     fontSize: 12,
   },
   palette: {
+    primary: {
+      light: '#41AE3C',
+      main: '#009D62',
+      dark: '#253d24',
+    },
     bg: {
       main: '#FFFFFF',
     },
@@ -48,6 +58,11 @@ const theme = createTheme({
     description: {
       light: 'rgba(0, 0, 0, 0.12)',
       main: 'rgba(0, 0, 0, 0.54)',
+    },
+    primaryContrast: {
+      light: '#99999',
+      main: '#AAAAAA',
+      dark: '#A4A4A4',
     }
   }
 });
