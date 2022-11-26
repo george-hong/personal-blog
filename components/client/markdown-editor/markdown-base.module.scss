@@ -1,6 +1,10 @@
 .markdown-container :global {
   height: 100%;
   width: 100%;
+
+  .milkdown .editor p, .editor .code-fence {
+    margin: 0.3rem 0;
+  }
 }
 
 .markdown-container.cover :global {

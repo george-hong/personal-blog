@@ -3,6 +3,7 @@ import { runMiddleware } from '../../../components/server/middleware';
 import Validator from '../../../tools/validator';
 import { decodeQuotationMarks } from '../../../libs/base-type-utils';
 import type { IArticleDetail } from '../../../interface/request-response/article.interface';
+import { timeFromDbToJs } from '../../../libs/time-utils';
 
 export default runMiddleware(middleware => {
   middleware.use((req, res, next) => {
@@ -27,6 +28,8 @@ export default runMiddleware(middleware => {
         if (result) {
           result.title = decodeQuotationMarks(result.title, true);
           result.content = decodeQuotationMarks(result.content, true);
+          result.createTime = timeFromDbToJs(result.createTime);
+          result.updateTime = timeFromDbToJs(result.updateTime);
         }
         res.supply(result);
       })

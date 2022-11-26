@@ -1,6 +1,8 @@
 import React, { ReactNode, Fragment } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import Divider from '@mui/material/Divider';
 import Layout from '../../../components/client/layout';
 import { MarkdownReader } from '../../../components/client/markdown-editor';
 import style from './index.module.scss';
@@ -35,30 +37,39 @@ const ArticleDetail: NextPage<IPageBaseData<IArticleDetail>, ReactNode> = (props
               </Typography>
             </Box>
             <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>
+              <MarkdownReader
+                cover={isUseCover}
+                content={pageData.content}
+              />
+            </Box>
+            <Divider />
+            <Box sx={{ pt: 2, pb: 2, display: 'flex' }}>
               <Typography
-                variant="h3"
-                sx={{ pr: 1, fontSize: 20, fontWeight: 400 }}
+                component="span"
+                sx={{ pr: 1 }}
               >
                 { pageData.nickName }
               </Typography>
               {
                 !!pageData.updateTime && (
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      pr: 1,
-                      fontSize: 18,
-                      fontWeight: 400,
-                    }}
-                  >
-                    { pageData.updateTime }
+                  <Typography component="span">
+                    更新于 { pageData.updateTime }
                   </Typography>
                 )
               }
-              <MarkdownReader
-                cover={isUseCover}
-                content={pageData.content}
-              />
+              <Typography
+                component="span"
+                sx={{
+                  fontWeight: 400,
+                  color: 'description.main',
+                  flex: 1,
+                  pl: 2,
+                }}
+                fontSize="small"
+                classes={{ root: 'content-vertical-center' }}
+              >
+                <VisibilityIcon sx={{ mr: 1 }} /> { pageData.views }
+              </Typography>
             </Box>
           </Fragment>
         )

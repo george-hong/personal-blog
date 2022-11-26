@@ -1,6 +1,13 @@
 import dayJS from 'dayjs';
 
-export function timeStampFromJsToDb(timeStamp?: number): string {
+const TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
+export function timeStampFromJsToDb(timeStamp: number): string {
   return dayJS(timeStamp)
-    .format('YYYY-MM-DD HH:mm:ss');
+    .format(TIME_FORMAT);
+}
+
+export function timeFromDbToJs(timeString: string): string {
+  return dayJS(timeString)
+    .format(TIME_FORMAT);
 }
