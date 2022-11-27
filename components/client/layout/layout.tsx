@@ -71,10 +71,16 @@ const getContent = (error: unknown, children: ReactNode, notContainer = false, c
   let className = style.main;
   if (contentClassName) className += ` ${contentClassName}`;
   if (error) {
+    let errorInfo;
+    try {
+      errorInfo = JSON.stringify(error);
+    } catch (err) {
+      errorInfo = String(error);
+    }
     // TODO: Refine page error.
     return (
       <Container classes={{ root: className }}>
-        { String(error) }
+        { errorInfo }
       </Container>
     )
   }

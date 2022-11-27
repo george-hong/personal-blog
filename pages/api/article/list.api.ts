@@ -14,12 +14,13 @@ export default runMiddleware(middleware => {
       pageNumber: { min: 0 },
       pageSize: { min: 1 },
     });
+    let condition;
     if (errorMessage) return res.throw(errorMessage);
     const { pageNumber, pageSize } = query;
     const realPageNumber = pageNumber === undefined ? 0 : Number(pageNumber);
     const realPageSize = pageSize === undefined ? 10 : Number(pageSize);
-    let sentence = `SELECT id, title, summary, views FROM article LIMIT ${realPageNumber * realPageSize}, ${realPageSize}`;
-    if (query.authorId) sentence += ` WHERE authorId = ${query.authorId}`;
+    if (query.authorId) condition = ` WHERE authorId = ${query.authorId}`;
+    let sentence = `SELECT id, title, summary, views FROM article ${condition || ''} LIMIT ${realPageNumber * realPageSize}, ${realPageSize}`;
     const db = new DataBase();
     db
       .query<Array<IArticleDetail>>(sentence)

@@ -102,7 +102,8 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
               variant="contained"
               disableElevation
             >
-              <Button variant="outlined">{ t('save draft') }</Button>
+              {/* TODO: save draft */}
+              {/*<Button variant="outlined">{ t('save draft') }</Button>*/}
               <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? t('update') : t('publish') }</Button>
             </ButtonGroup>
           </Box>
