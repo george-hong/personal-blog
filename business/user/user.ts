@@ -6,6 +6,9 @@ import { ISignUpParams } from '../../interface/request-response/user.interface';
 
 // This class is creating for deal user relative logical.
 class User {
+  static TOKEN_EXPIRE_TIME = 1;
+  static TOKEN_EXPIRE_UNIT = 'h';
+
   readonly userOptions: IUserClassOptions;
 
   constructor(userOptions: IUserClassOptions) {

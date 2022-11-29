@@ -15,7 +15,7 @@ import { ServiceError } from '../../interface/base.interface';
 class UserForServer extends User {
   static generateUserInfoBySignInResult(accountInfo: ISignInQueryResult): IUserBaseInfo {
     const { id, privateKey, nickName, avatar } = accountInfo;
-    const token = jwt.sign({ id }, privateKey, { expiresIn: '1h' });
+    const token = jwt.sign({ id }, privateKey, { expiresIn: User.TOKEN_EXPIRE_TIME + User.TOKEN_EXPIRE_UNIT });
     const avatarResult = avatar ? `${ PROJECT_CONFIG.CLIENT_BASE_URL }${ AVATARS_DIR }/${ avatar }` : '';
     return {
       token,

@@ -26,7 +26,7 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
     route.push(`/user/${userBaseInfo.id}`);
   };
   const signOut = () => {
-    UserForClient.removeUserBaseInfoFromLocal();
+    UserForClient.removeUserInfoFromLocal();
     onSignOut && onSignOut();
   };
   const menus = {

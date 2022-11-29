@@ -110,8 +110,7 @@ const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
         return requestToSignIn(signInParams);
       })
       .then(result => {
-        const user = new UserForClient({ account: signInParams.account });
-        user.saveSignInInfoToLocal(result);
+        UserForClient.saveSignInInfoToLocal(result);
         // Close sign in dialog.
         onClose();
         onSignIn && onSignIn(result.data);

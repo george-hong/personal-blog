@@ -4,9 +4,11 @@ import {
   IUserBaseInfo,
 } from '../../interface/request-response/user.interface';
 import {
+  TOKEN_EXPIRES_TIME_FIELD,
   TOKEN_FIELD,
   USER_BASE_INFO_FIELD,
 } from '../../config/constant';
+import dayJS, { ManipulateType } from 'dayjs';
 import { IUserAvatarConfig } from './user.interface';
 
 class UserForClient extends User {
@@ -36,15 +38,37 @@ class UserForClient extends User {
     };
   }
 
-  static removeUserBaseInfoFromLocal(): void {
+  static removeUserInfoFromLocal(): void {
     localStorage.removeItem(TOKEN_FIELD);
+    localStorage.removeItem(TOKEN_EXPIRES_TIME_FIELD);
     localStorage.removeItem(USER_BASE_INFO_FIELD);
   }
 
-  public saveSignInInfoToLocal(signInResponse: ISignInResponse): void {
+  static saveSignInInfoToLocal(signInResponse: ISignInResponse): void {
     const { token, ...userBaseInfo } = signInResponse.data;
+    const expireTimeStr = String(dayJS().add(User.TOKEN_EXPIRE_TIME, User.TOKEN_EXPIRE_UNIT as ManipulateType).valueOf());
     localStorage.setItem(TOKEN_FIELD, token);
+    localStorage.setItem(TOKEN_EXPIRES_TIME_FIELD, expireTimeStr);
     localStorage.setItem(USER_BASE_INFO_FIELD, JSON.stringify(userBaseInfo));
+  }
+
+  /**
+   * Remove user info if it is illegal.
+   * @returns user is validation.
+   */
+  static removeUserInfoIfIllegal(): boolean {
+    let validation = true;
+    const token = localStorage.getItem(TOKEN_FIELD);
+    const expireTime = localStorage.getItem(TOKEN_EXPIRES_TIME_FIELD);
+    const userBaseInfo = localStorage.getItem(USER_BASE_INFO_FIELD);
+    if (
+      !token
+      || !expireTime
+      || !userBaseInfo
+      || dayJS().isBefore(dayJS(expireTime))
+    ) validation = false;
+    if (!validation) UserForClient.removeUserInfoFromLocal();
+    return validation;
   }
 }
 
