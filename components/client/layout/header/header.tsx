@@ -4,7 +4,6 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -20,12 +19,19 @@ import { IUserBaseInfo } from '../../../../interface/request-response/user.inter
 import UserForClient from '../../../../business/user/user-for-client';
 import UserOperation from '../../user-operation';
 import {
+  connectStore,
+  StoreModuleEnum,
+  UserActionEnum,
+} from '../../../../store';
+import {
   IHeaderProps,
   IHeaderRefProps,
+  IHeaderStore,
 } from './header.interface';
+import { StoreUserField } from '../../../../interface/store.interface';
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
-  const { visibility, onSignIn, onSignOut } = props;
+  const { visibility, onSignIn, onSignOut, user, dispatch } = props;
   const { t } = useTranslation(DefaultTranslationEnum.Base);
   const menuLinkContrast = {
     '/': t('Home'),
@@ -34,12 +40,17 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   let className = `${ style.header } ground-glass`;
   if (!visibility) className += ` ${ style['hide-menu'] }`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
-  const [userBaseInfo, setUserBaseInfo] = useState<IUserBaseInfo | null>(null);
   const [isSet, setIsSet] = useState<boolean>(false);
   const router = useRouter();
   const { asPath } = router;
   const isSignUpPage = asPath.startsWith('/sign-up');
   const isEditPage = asPath.startsWith('/article/edit');
+
+  const setUserBaseInfo = (userBaseInfo: StoreUserField) => dispatch({
+    module: StoreModuleEnum.USER,
+    type: UserActionEnum.SET,
+    data: userBaseInfo,
+  });
 
   useEffect(() => {
     setUserBaseInfo(UserForClient.getUserBaseInfoFromLocal());
@@ -55,7 +66,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
     onSignOut && onSignOut();
   };
   const clickWritingButton = () => {
-    userBaseInfo ? router.push('/article/edit') : setDialogVisible(true);
+    user ? router.push('/article/edit') : setDialogVisible(true);
   };
 
   const headerRightPart = isSet && (
@@ -76,10 +87,10 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
         )
       }
       {
-        userBaseInfo ?
+        user ?
           (
             <UserOperation
-              userBaseInfo={ userBaseInfo }
+              userBaseInfo={ user }
               onSignOut={ signOutFromHeader }
             />
           ) : (
@@ -161,8 +172,8 @@ HeaderRef.displayName = 'HeaderRef';
  * @param {Function} [props.onSignIn] The callback of user sign in.
  * @param {Function} [props.onSignOut] The callback of user sign out.
  */
-const Header: NextPage<IHeaderProps> = (props) => {
-  const { autoHide = false, onVisibilityChange, onSignIn, onSignOut } = props;
+const Header: NextPage<IHeaderProps & IHeaderStore> = (props) => {
+  const { autoHide = false, onVisibilityChange, onSignIn, onSignOut, user, dispatch } = props;
   const [visibility, setVisibility] = useState<boolean>(true);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
@@ -200,8 +211,10 @@ const Header: NextPage<IHeaderProps> = (props) => {
       visibility={ visibility }
       onSignIn={ onSignIn }
       onSignOut={ onSignOut }
+      user={ user }
+      dispatch={ dispatch }
     />
   );
 };
 
-export default Header;
+export default connectStore([StoreModuleEnum.USER])(Header);

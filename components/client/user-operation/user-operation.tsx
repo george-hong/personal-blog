@@ -10,6 +10,7 @@ import type { NextPage } from 'next';
 import { IUserOperationProps } from './user-operation.ineterface';
 import UserForClient from '../../../business/user/user-for-client';
 import useTranslation, { DefaultTranslationEnum } from '../../../tools/translation';
+import { connectStore, StoreModuleEnum } from '../../../store';
 
 /**
  * user operation component
@@ -65,4 +66,4 @@ const UserOperation: NextPage<IUserOperationProps, Component> = (props) => {
   );
 };
 
-export default UserOperation;
+export default connectStore([StoreModuleEnum.USER])(UserOperation);
