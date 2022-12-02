@@ -28,3 +28,11 @@ export interface IStoreState {
 export interface IStoreApp {
   dispatch: Dispatch;
 }
+
+export interface IMapDispatch {
+  dispatch: Dispatch;
+}
+
+export interface IWithStore extends IMapDispatch {
+  store: Partial<IStoreState>;
+}

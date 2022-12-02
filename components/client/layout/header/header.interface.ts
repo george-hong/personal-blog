@@ -7,7 +7,7 @@ export interface IHeaderRefProps extends IStoreApp {
   visibility?: boolean;
   onSignIn?: (userBaseInfo: IUserBaseInfo) => void;
   onSignOut?: () => void;
-  user: StoreUserField;
+  user?: StoreUserField;
   ref: ForwardedRef<HTMLHeadElement>;
 }
 
@@ -16,8 +16,4 @@ export interface IHeaderProps {
   onSignIn?: (userBaseInfo: IUserBaseInfo) => void;
   onSignOut?: () => void;
   onVisibilityChange?: (visibility: boolean) => void;
-}
-
-export interface IHeaderStore extends IStoreApp {
-  user: StoreUserField;
 }

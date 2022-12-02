@@ -4,31 +4,22 @@ import {
   IStoreState,
   StoreModuleEnum,
 } from './store.interface';
-import { IUniformObject } from '../interface/base.interface';
 
-function mapStateToProps(modules: IUniformObject<StoreModuleEnum>) {
+function mapStateToProps(modules: Array<StoreModuleEnum>) {
   return function(state: IStoreState) {
-    return Object.entries(modules).reduce((result, keyAndStateField) => {
-      const [key, stateField] = keyAndStateField
-      result[key] = state[stateField];
-      return result;
-    }, {} as IUniformObject<unknown>)
+    const partialStore: Partial<IStoreState> = {};
+    modules.forEach(key => partialStore[key] = state[key]);
+    return {
+      store: partialStore,
+    }
   }
 }
 
-function connectStore(modules: IUniformObject<StoreModuleEnum> | Array<StoreModuleEnum>) {
-  const moduleMapping = Array.isArray(modules) ? modules.reduce((total, key) => {
-    total[key] = key;
-    return total;
-  }, {} as IUniformObject<StoreModuleEnum>) : modules;
-  // TODO: fix types.
-  return function(component: any) {
-    return connect(
-      mapStateToProps(moduleMapping),
-      (dispatch: Dispatch) => ({ dispatch }),
-      // TODO: fix types.
-    )(component) as any;
-  }
+function connectStore(modules: Array<StoreModuleEnum>) {
+  return connect(
+    mapStateToProps(modules),
+    (dispatch: Dispatch) => ({ dispatch }),
+  );
 }
 
 export {

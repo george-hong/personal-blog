@@ -20,13 +20,13 @@ import UserForClient from '../../../../business/user/user-for-client';
 import UserOperation from '../../user-operation';
 import {
   connectStore,
+  IWithStore,
   StoreModuleEnum,
   UserActionEnum,
 } from '../../../../store';
 import {
   IHeaderProps,
   IHeaderRefProps,
-  IHeaderStore,
 } from './header.interface';
 import { StoreUserField } from '../../../../interface/store.interface';
 
@@ -172,8 +172,8 @@ HeaderRef.displayName = 'HeaderRef';
  * @param {Function} [props.onSignIn] The callback of user sign in.
  * @param {Function} [props.onSignOut] The callback of user sign out.
  */
-const Header: NextPage<IHeaderProps & IHeaderStore> = (props) => {
-  const { autoHide = false, onVisibilityChange, onSignIn, onSignOut, user, dispatch } = props;
+const Header: NextPage<IHeaderProps & IWithStore> = (props) => {
+  const { autoHide = false, onVisibilityChange, onSignIn, onSignOut, dispatch, store } = props;
   const [visibility, setVisibility] = useState<boolean>(true);
   const [lastScrollTop, setLastScrollTop] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
@@ -211,7 +211,7 @@ const Header: NextPage<IHeaderProps & IHeaderStore> = (props) => {
       visibility={ visibility }
       onSignIn={ onSignIn }
       onSignOut={ onSignOut }
-      user={ user }
+      user={ store.user }
       dispatch={ dispatch }
     />
   );
