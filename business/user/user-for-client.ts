@@ -8,6 +8,7 @@ import {
   TOKEN_FIELD,
   USER_BASE_INFO_FIELD,
 } from '../../config/constant';
+import { dispatcher } from '../../store';
 import dayJS, { ManipulateType } from 'dayjs';
 import { IUserAvatarConfig } from './user.interface';
 
@@ -65,9 +66,12 @@ class UserForClient extends User {
       !token
       || !expireTime
       || !userBaseInfo
-      || dayJS().isBefore(dayJS(expireTime))
+      || dayJS().isAfter(dayJS(expireTime))
     ) validation = false;
-    if (!validation) UserForClient.removeUserInfoFromLocal();
+    if (!validation) {
+      UserForClient.removeUserInfoFromLocal();
+      dispatcher.setUser(null);
+    }
     return validation;
   }
 }

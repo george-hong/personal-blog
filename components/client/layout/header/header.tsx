@@ -20,15 +20,14 @@ import UserForClient from '../../../../business/user/user-for-client';
 import UserOperation from '../../user-operation';
 import {
   connectStore,
+  dispatcher,
   IWithStore,
   StoreModuleEnum,
-  UserActionEnum,
 } from '../../../../store';
 import {
   IHeaderProps,
   IHeaderRefProps,
 } from './header.interface';
-import { StoreUserField } from '../../../../interface/store.interface';
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
   const { visibility, onSignIn, onSignOut, user, dispatch } = props;
@@ -46,11 +45,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   const isSignUpPage = asPath.startsWith('/sign-up');
   const isEditPage = asPath.startsWith('/article/edit');
 
-  const setUserBaseInfo = (userBaseInfo: StoreUserField) => dispatch({
-    module: StoreModuleEnum.USER,
-    type: UserActionEnum.SET,
-    data: userBaseInfo,
-  });
+  const setUserBaseInfo = dispatcher.setUser;
 
   useEffect(() => {
     setUserBaseInfo(UserForClient.getUserBaseInfoFromLocal());
