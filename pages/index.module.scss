@@ -3,21 +3,20 @@
   height: 100%;
   padding-top: $header-height;
 }
-.opacity-area {
-  padding: 100px;
-  background: rgba(0, 0, 0, 0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .main-article {
-    width: 600px;
-    min-height: 300px;
-    background: #FFF;
-  }
-}
 .home-page-container {
   background-image: url(/images/bg.jpg);
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+}
+
+.home-page :global {
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.swiper-content {
+  width: 100%;
+  height: 100%;
 }

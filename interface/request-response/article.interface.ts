@@ -20,6 +20,14 @@ export interface IArticleListItem {
   views: number;
 }
 
+export interface IRecommendArticlesResponseDetail {
+  mostViews: Array<IArticleListItem>
+}
+
+export interface IRecommendArticlesResponse extends IResponseBase {
+  data: IRecommendArticlesResponseDetail;
+}
+
 export interface IArticleListResponseDetail {
   count: number;
   data: Array<IArticleListItem>;

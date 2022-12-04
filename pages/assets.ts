@@ -3,11 +3,13 @@ import type { IHomePageData } from './home.interface';
 import PageData, {
   IPageBase,
 } from '../components/server/page-data';
+import { getRecommendArticles } from '../tools/request/modules/article';
 
 const getHomePageData = PageData.tryToGetPageData<IPageBase, IHomePageData>(
   Object.values(HomePageLocaleEnum),
   async (props, locale) => {
     const translation = locale[HomePageLocaleEnum.HomePage];
+    const recommendArticles = await getRecommendArticles();
     return {
       props: {
         meta: {
@@ -15,7 +17,7 @@ const getHomePageData = PageData.tryToGetPageData<IPageBase, IHomePageData>(
           keywords: translation.keywords,
           description: translation.description,
         },
-        pageData: {},
+        pageData: recommendArticles,
       },
     };
   });

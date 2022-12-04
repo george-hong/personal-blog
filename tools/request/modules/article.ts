@@ -13,7 +13,16 @@ import {
   IArticleDetail,
   IArticleListResponseDetail,
   IArticleListParams,
+  IRecommendArticlesResponse,
+  IRecommendArticlesResponseDetail,
 } from '../../../interface/request-response/article.interface';
+
+export async function getRecommendArticles(): Promise<IRecommendArticlesResponseDetail> {
+  let result;
+  result = await serverRequest.get<IRecommendArticlesResponse>(`/api/article/recommend`);
+  result = result.data;
+  return result;
+}
 
 export async function getArticleList(props: IArticleListPageParams): Promise<IArticleListResponseDetail> {
   const { id: authorId } = props.query;

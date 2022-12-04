@@ -35,6 +35,9 @@ declare module '@mui/material/styles/createPalette' {
       light: string;
       main: string;
       dark: string;
+    },
+    opacityBg: {
+      main: string;
     }
   }
 }
@@ -63,6 +66,9 @@ const theme = createTheme({
       light: '#99999',
       main: '#AAAAAA',
       dark: '#A4A4A4',
+    },
+    opacityBg: {
+      main: 'rgba(255, 255, 255, .5)',
     }
   }
 });
