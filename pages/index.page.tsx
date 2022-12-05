@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../components/client/layout';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { getHomePageData } from './assets';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
@@ -58,8 +59,18 @@ const Home: NextPage<IPageBaseData<IHomePageData>> = (props) => {
                             borderRadius: 1,
                           }}
                         >
-                          {article.title}
-                          <p>{ article.summary }</p>
+                          <Typography
+                            variant="h5"
+                            component="h3"
+                            sx={{ pb: 1 }}
+                          >
+                            {article.title}
+                          </Typography>
+                          <Typography
+                            component="p"
+                          >
+                            { article.summary }
+                          </Typography>
                         </Box>
                       </Box>
                     </SwiperSlide>

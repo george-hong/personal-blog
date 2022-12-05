@@ -58,7 +58,7 @@ class UserForClient extends User {
    * @returns user is validation.
    */
   static removeUserInfoIfIllegal(): boolean {
-    let validation = true;
+    let illegal = false;
     const token = localStorage.getItem(TOKEN_FIELD);
     const expireTime = localStorage.getItem(TOKEN_EXPIRES_TIME_FIELD);
     const userBaseInfo = localStorage.getItem(USER_BASE_INFO_FIELD);
@@ -66,13 +66,13 @@ class UserForClient extends User {
       !token
       || !expireTime
       || !userBaseInfo
-      || dayJS().isAfter(dayJS(expireTime))
-    ) validation = false;
-    if (!validation) {
+      || dayJS().isAfter(Number(expireTime))
+    ) illegal = true;
+    if (illegal) {
       UserForClient.removeUserInfoFromLocal();
       dispatcher.setUser(null);
     }
-    return validation;
+    return illegal;
   }
 }
 
