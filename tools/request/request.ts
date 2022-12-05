@@ -1,11 +1,13 @@
 import { filterObjectKeys } from '../../libs/object-util';
 import {
   IConfig,
+  IInterceptors,
   IParams,
   IRequestOptions,
   IURLAndParams,
   methodType,
 } from './request.interface';
+import Interceptor from './interceptor';
 
 const CONNECTOR_OF_GET = '?';
 const CONNECTOR_OF_KEY_VALUE = '=';
@@ -28,9 +30,14 @@ class Request {
   }
 
   readonly options: IRequestOptions;
+  public interceptors: IInterceptors;
 
   constructor(options: IRequestOptions = {}) {
     this.options = options;
+    this.interceptors = {
+      request: new Interceptor(),
+      response: new Interceptor(),
+    }
   }
 
   private serializeParams(params: IParams): string {
@@ -63,13 +70,19 @@ class Request {
         method: method,
         headers,
       };
-      const realOptions = this.options.beforeSend ? this.options.beforeSend(fetchOptions) : fetchOptions;
       if (paramsParsed) fetchOptions.body = paramsParsed as string;
+      const realOptions = this.interceptors.request.reduce(fetchOptions) as RequestInit;
       fetch(urlParsed, realOptions)
         .then((response) => response.json())
         .then((response) => {
           const { status } = response;
-          if (status === 200) resolve(response as T); else reject(response);
+          if (status === 200) {
+            const result = this.interceptors.response.  reduce(response);
+            resolve(result as T);
+          } else {
+            const result = this.interceptors.response.reduce(response, false);
+            reject(result);
+          }
         });
     });
   }

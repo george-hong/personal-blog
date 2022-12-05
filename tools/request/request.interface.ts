@@ -1,10 +1,11 @@
+import Interceptor from './interceptor';
+
 export type methodType =
   'get'
   | 'post';
 
 export interface IRequestOptions {
   baseURL?: string;
-  beforeSend?: (fetchOptions: RequestInit) => RequestInit;
 }
 
 export interface IParams {
@@ -18,4 +19,13 @@ export interface IConfig {
 export interface IURLAndParams {
   url: string;
   params?: IParams | string;
+}
+
+export interface IInterceptorHandler<T> {
+  (config: T): T;
+}
+
+export interface IInterceptors {
+  request: Interceptor<RequestInit>;
+  response: Interceptor<unknown>;
 }

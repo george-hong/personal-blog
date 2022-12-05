@@ -3,22 +3,21 @@ import PROJECT_CONFIG from '../../config/project';
 import { TOKEN_FIELD } from '../../config/constant';
 import { UserForClient } from '../../business/user';
 
-export const serverRequest = new Request({ baseURL: PROJECT_CONFIG.CLIENT_BASE_URL });
-export const clientRequest = new Request({
+const localClientRequest = new Request({
   baseURL: PROJECT_CONFIG.CLIENT_BASE_URL,
-  beforeSend(options) {
-    const token = localStorage.getItem(TOKEN_FIELD);
-    if (!token) return options;
-    const isTokenIllegal = UserForClient.removeUserInfoIfIllegal();
-    if (isTokenIllegal) return options;
-    if (!options) options = {};
-    if (!options.headers) options.headers = {};
-    if (token) options.headers = {
-      ...options.headers,
-      token,
-    };
-    return options;
-  },
 });
+localClientRequest.interceptors.request.use((config: RequestInit) => {
+  const token = localStorage.getItem(TOKEN_FIELD);
+  if (!token) return config;
+  const isTokenIllegal = UserForClient.removeUserInfoIfIllegal();
+  if (isTokenIllegal) return config;
+  if (token) config.headers = {
+    ...config.headers,
+    token,
+  };
+  return config;
+});
+export const serverRequest = new Request({ baseURL: PROJECT_CONFIG.CLIENT_BASE_URL });
+export const clientRequest = localClientRequest;
 
 export default Request;

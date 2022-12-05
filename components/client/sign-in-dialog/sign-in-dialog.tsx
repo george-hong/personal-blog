@@ -140,7 +140,10 @@ const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
         onKeyUp={KeyEvent.getKeyListener<HTMLDivElement>(KeyEnum.Enter, startToSignIn)}
       >
         <Grid container>
-          <Grid item xs={6}>
+          <Grid
+            item
+            xs={6}
+          >
             <Typography component="span">
               { t('sign in') }
             </Typography>
