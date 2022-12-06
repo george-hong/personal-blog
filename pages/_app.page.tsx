@@ -1,6 +1,7 @@
 import React from 'react';
 import { appWithTranslation } from 'next-i18next';
 import Store from '../store';
+import { Toaster } from 'react-hot-toast';
 import '../styles/reset.scss';
 import '../styles/globals.scss';
 import '../styles/fonts.scss';
@@ -14,6 +15,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <Store>
       <Component {...pageProps} />
+      <Toaster position="top-center" />
     </Store>
   )
 }
