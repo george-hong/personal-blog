@@ -1,21 +1,18 @@
 import React, {
   ReactNode,
-  useRef,
 } from 'react';
 import Container from '@mui/material/Container';
 import Header from './header';
 import Footer from './footer';
 import Meta from './meta';
+import toast, { ToastType } from '../../../tools/toast';
+import useTranslation, { DefaultTranslationEnum } from '../../../tools/translation';
 import {
   createTheme,
   ThemeProvider,
 } from '@mui/material/styles';
 import style from './layout.module.scss';
 import type { NextPage } from 'next';
-import Notice, {
-  INoticeMethods,
-  NoticeType,
-} from '../notice';
 import { ILayoutProps } from './layout.interface';
 
 // Extend the type of material's theme colors.
@@ -137,10 +134,10 @@ const Layout: NextPage<ILayoutProps> = (props) => {
     meta,
     error,
   } = props;
+  const { t } = useTranslation(DefaultTranslationEnum.Base);
   const content = getContent(error, children, notContainer, contentClassName);
-  const noticeRef = useRef<INoticeMethods>(null);
-  const showNotice = (message: string) => {
-    noticeRef.current?.notice(message, { type: NoticeType.success });
+  const showToast = (message: string) => {
+    toast(message, { type: ToastType.success });
   };
   let className = style.layout;
   if (sinkIntoHeader) className += ` ${style.sunk}`;
@@ -156,16 +153,11 @@ const Layout: NextPage<ILayoutProps> = (props) => {
         <Header
           autoHide={autoHideHeader}
           onVisibilityChange={onHeaderVisibilityChange}
-          onSignIn={() => showNotice('登录成功')}
-          onSignOut={() => showNotice('已退出登录')}
+          onSignIn={() => showToast(t('sign in success'))}
+          onSignOut={() => showToast(t('sign out finish'))}
         />
-        <Notice ref={noticeRef} />
-        {
-          content
-        }
-        {
-          footer !== true ?  footer : <Footer />
-        }
+        { content }
+        { footer !== true ?  footer : <Footer /> }
       </div>
     </ThemeProvider>
   );

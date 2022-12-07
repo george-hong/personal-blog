@@ -13,5 +13,7 @@
   "sign out": "sign out",
   "personal center": "personal center",
   "loading...": "loading...",
-  "There is no more.": "There is no more."
+  "There is no more.": "There is no more.",
+  "sign in success": "sign in success",
+  "sign out finish": "sign out finish"
 }

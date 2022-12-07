@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Layout from '../../components/client/layout';
-import Notice from '../../components/client/notice';
 import Form from '../../components/client/form';
 import {
   requestToCheckExistence,
@@ -28,10 +27,6 @@ import {
   IFormMethods,
   TriggerType,
 } from '../../components/client/form/form.interface';
-import {
-  INoticeMethods,
-  NoticeType,
-} from '../../components/client/notice/notice.interface';
 import { IPageBaseData } from '../../interface/request-response/base.interface';
 import {
   ISignUpPageData,
@@ -48,6 +43,7 @@ import {
   ErrorEnum,
   ISystemError,
 } from '../../interface/base.interface';
+import toast, { ToastType } from '../../tools/toast';
 
 const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
   return [
@@ -175,7 +171,6 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
 const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) => {
   const { meta, error } = props;
   const { t } = useTranslation(SignUpLocaleEnum.SignUp);
-  const noticeRef = useRef<INoticeMethods>(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const formRef = useRef<IFormMethods>();
   const router = useRouter();
@@ -189,8 +184,8 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
   }
   if (urlParams.back) backUrl = urlParams.back;
 
-  const showNotice = (message: string, type?: NoticeType) => {
-    noticeRef.current?.notice(message, { type });
+  const showToast = (message: string, type?: ToastType) => {
+    toast(message, { type });
   };
 
   const startToSignUp = (backUrl?: string) => {
@@ -209,7 +204,7 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
         return requestToSignUp(user.generateSignUpParams());
       })
       .then(() => {
-        showNotice(t('Sign up success! Redirect later.'), NoticeType.success);
+        showToast(t('Sign up success! Redirect later.'), ToastType.success);
         backUrl && setTimeout(() => {
           router.push(backUrl);
         }, 2000);
@@ -222,7 +217,7 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
         } else {
           message = t('Network Error');
         }
-        message && showNotice(message, NoticeType.error);
+        message && showToast(message, ToastType.error);
       });
   };
 
@@ -249,7 +244,6 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
           { t('sign up') }
         </Button>
       </Box>
-      <Notice ref={noticeRef} />
     </Layout>
   )
 };

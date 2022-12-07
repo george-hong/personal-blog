@@ -1,6 +1,5 @@
 import React, {
   Component,
-  useRef,
   useState,
 } from 'react';
 import type { NextPage } from 'next';
@@ -12,15 +11,12 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { MarkdownEditor } from '../../../components/client/markdown-editor';
-import Notice, {
-  INoticeMethods,
-  NoticeType,
-} from '../../../components/client/notice';
 import {
   requestToAddArticle,
   requestToEditArticle,
 } from '../../../tools/request/modules/article';
 import useTranslation from '../../../tools/translation';
+import toast, { ToastType } from '../../../tools/toast';
 import {
   IArticleAddParams,
   IArticleEditParams,
@@ -65,12 +61,11 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
   const [inputContent, setInputContent] = useState<string>(pageData?.content ?? '');
   const [title, setTitle] = useState<string>(pageData?.title ?? '');
   const { t } = useTranslation(ArticleEditLocaleEnum.ArticleEdit);
-  const noticeRef = useRef<INoticeMethods>(null);
   const isUseCover = true;
   const isEdit = pageData?.id !== undefined;
   const saveIfValid = (title: string, content: string, pageData?: IArticleInfo) => {
     if (!title || !content) {
-      noticeRef.current?.notice(t('please input title and content'), { type: NoticeType.error });
+      toast(t('please input title and content'), { type: ToastType.error });
       return;
     }
     saveArticle(title, inputContent, pageData);
@@ -116,8 +111,6 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
           </Box>
         </Box>
       </Box>
-
-      <Notice ref={noticeRef} />
     </Layout>
   )
 };

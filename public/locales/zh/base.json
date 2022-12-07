@@ -13,5 +13,7 @@
   "sign out": "登出",
   "personal center": "个人中心",
   "loading...": "加载中...",
-  "There is no more.": "没有更多了。"
+  "There is no more.": "没有更多了。",
+  "sign in success": "登录成功",
+  "sign out finish": "已退出登录"
 }
