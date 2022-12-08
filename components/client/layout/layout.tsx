@@ -4,6 +4,7 @@ import React, {
 import Container from '@mui/material/Container';
 import Header from './header';
 import Footer from './footer';
+import ErrorInfo from './error-info';
 import Meta from './meta';
 import toast, { ToastType } from '../../../tools/toast';
 import useTranslation, { DefaultTranslationEnum } from '../../../tools/translation';
@@ -74,17 +75,11 @@ const getContent = (error: unknown, children: ReactNode, notContainer = false, c
   let className = style.main;
   if (contentClassName) className += ` ${contentClassName}`;
   if (error) {
-    let errorInfo;
-    try {
-      errorInfo = JSON.stringify(error);
-    } catch (err) {
-      errorInfo = String(error);
-    }
-    // TODO: Refine page error.
     return (
-      <Container classes={{ root: className }}>
-        { errorInfo }
-      </Container>
+      <ErrorInfo
+        error={error}
+        className={className}
+      />
     )
   }
   if (!children) return null;

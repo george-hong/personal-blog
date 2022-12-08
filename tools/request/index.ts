@@ -19,7 +19,6 @@ localClientRequest.interceptors.request.use((config: RequestInit) => {
   return config;
 });
 // TODO: fix types
-// TODO: remove notice component
 localClientRequest.interceptors.response.use(undefined, (response: any) => {
   const message = response?.message || 'unknown error';
   toast(message, { type: ToastType.error });
