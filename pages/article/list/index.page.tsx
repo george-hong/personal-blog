@@ -76,7 +76,10 @@ const generateCardItem = (articleInfo: IArticleListItem, t: ITranslation) => {
                 color="action"
               />
               <Typography
-                sx={{ ml: 1, fontSize: 0.8, color: 'description.main' }}
+                sx={{
+                  ml: 1,
+                  color: 'description.main',
+                }}
                 component="span"
               >
                 { articleInfo.views }

@@ -12,7 +12,6 @@ const getEndContent = (content: string) => {
       sx={{
         pt: 2,
         pb: 2,
-        fontSize: 0.8,
         color: 'description.main'
       }}
     >{ content }</Box>

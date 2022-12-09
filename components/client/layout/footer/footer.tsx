@@ -15,7 +15,6 @@ const Footer = () => {
     color: 'primaryContrast.dark',
   };
   const fontConfig = {
-    fontSize: 0.8,
     pl: 2,
     pr: 2,
     ...fontColorConfig,
