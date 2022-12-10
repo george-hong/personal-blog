@@ -5,11 +5,13 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import Divider from '@mui/material/Divider';
 import Layout from '../../../components/client/layout';
 import { MarkdownReader } from '../../../components/client/markdown-editor';
+import useTranslation from '../../../tools/translation';
 import style from './index.module.scss';
 import type { NextPage } from 'next';
 import { getArticleDetailPageData } from './assets';
 import { IPageBaseData } from '../../../interface/request-response/base.interface';
 import { IArticleDetail } from '../../../interface/request-response/article.interface';
+import { ArticleDetailLocaleEnum } from './detail.interface';
 
 const transformToCoverClass = (className: string, cover?: boolean) => {
   return `${className}${cover ? ` ${style['cover-with-content']}` : ''}`;
@@ -18,6 +20,7 @@ const transformToCoverClass = (className: string, cover?: boolean) => {
 const ArticleDetail: NextPage<IPageBaseData<IArticleDetail>, ReactNode> = (props) => {
   const isUseCover = false;
   const { pageData, meta, error } = props;
+  const { t } = useTranslation(ArticleDetailLocaleEnum.ArticleDetail);
 
   return (
     <Layout
@@ -53,7 +56,7 @@ const ArticleDetail: NextPage<IPageBaseData<IArticleDetail>, ReactNode> = (props
               {
                 !!pageData.updateTime && (
                   <Typography component="span">
-                    更新于 { pageData.updateTime }
+                    { t('更新于') } { pageData.updateTime }
                   </Typography>
                 )
               }

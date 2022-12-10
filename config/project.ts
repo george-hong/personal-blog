@@ -36,4 +36,6 @@ export const AVAILABLE_LANGUAGES_CONFIG = {
   },
 }
 
+export const REQUEST_DEFAULT_ERROR_MESSAGE = '未知异常'
+
 export default PROJECT_CONFIG;

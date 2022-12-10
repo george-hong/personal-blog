@@ -14,9 +14,9 @@ const getSignUpPageData = PageData.tryToGetPageData<IRequestWithLocale, ISignUpP
     return {
       props: {
         meta: {
-          title: translation.title,
-          keywords: translation.keywords,
-          description: translation.description,
+          title: translation['页面标题'],
+          keywords: translation['页面关键字'],
+          description: translation['页面描述'],
         },
         pageData: {},
       },

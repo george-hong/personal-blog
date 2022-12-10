@@ -33,8 +33,8 @@ const InfiniteScroll: NextPage<IInfiniteScrollProps, Component> = (props) => {
       next={next}
       hasMore={hasMore}
       dataLength={dataLength}
-      loader={loader || getEndContent(t('loading...'))}
-      endMessage={endMessage || getEndContent(t('There is no more.'))}
+      loader={loader || getEndContent(t('加载中...'))}
+      endMessage={endMessage || getEndContent(t('没有更多了。'))}
     >
       { children }
     </InfiniteScrollComponent>

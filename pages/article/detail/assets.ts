@@ -16,7 +16,7 @@ const getArticleDetailPageData = PageData.tryToGetPageData<IArticleDetailPagePar
     return {
       props: {
         meta: {
-          title: replaceTemplate(translation.title, { title: articleDetail.title }),
+          title: replaceTemplate(translation['页面标题'], { title: articleDetail.title }),
           // keywords: articleDetail.title,
           description: articleDetail.content.slice(0, 60),
         },

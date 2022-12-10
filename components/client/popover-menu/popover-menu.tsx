@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import type { NextPage } from 'next';
-import { IUserPopoverMenuProps } from './user-operation.ineterface';
+import { IUserPopoverMenuProps } from './popover-menu';
 
 /**
  * popover menu component

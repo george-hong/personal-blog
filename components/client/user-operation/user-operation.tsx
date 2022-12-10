@@ -40,7 +40,7 @@ const UserOperation: FC<IUserOperationProps & IWithStore> = (props) => {
           <ListItemIcon>
             <ManageAccountsIcon fontSize="small" />
           </ListItemIcon>
-          { t('personal center') }
+          { t('个人中心') }
         </Fragment>
       ),
       onClick: goToPersonalCenter,
@@ -51,7 +51,7 @@ const UserOperation: FC<IUserOperationProps & IWithStore> = (props) => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          { t('sign out') }
+          { t('登出') }
         </Fragment>
       ),
       onClick: signOut

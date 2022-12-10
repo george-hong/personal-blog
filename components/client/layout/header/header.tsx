@@ -5,6 +5,7 @@ import React, {
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -30,11 +31,11 @@ import {
 } from './header.interface';
 
 const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHeadElement, IHeaderRefProps>((props, ref) => {
-  const { visibility, onSignIn, onSignOut, user, dispatch } = props;
+  const { visibility, onSignIn, onSignOut, user } = props;
   const { t } = useTranslation(DefaultTranslationEnum.Base);
   const menuLinkContrast = {
-    '/': t('Home'),
-    '/article/list': t('Article'),
+    '/': t('首页'),
+    '/article/list': t('文章'),
   };
   let className = `${ style.header } ground-glass`;
   if (!visibility) className += ` ${ style['hide-menu'] }`;
@@ -77,7 +78,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={{ mr: 1 }}
               fontSize="small"
             />
-            {t('writing')}
+            {t('创作')}
           </Button>
         )
       }
@@ -95,7 +96,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
               sx={ { color: 'primary.main' } }
               onClick={ () => setDialogVisible(true) }
             >
-              {t('sign in / sign up')}
+              {t('登录/注册')}
             </Typography>
           )
       }
@@ -119,17 +120,18 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
                       className={ style['header-link'] }
                       key={ menu }
                     >
-                      <Typography
-                        href={ link }
-                        component="a"
-                        variant="h6"
-                        sx={{
-                          color: 'primary.main',
-                          fontWeight: 600,
-                        }}
-                      >
-                        { menu }
-                      </Typography>
+                      <Link href={ link }>
+                        <Typography
+                          component="span"
+                          variant="h6"
+                          sx={{
+                            color: 'primary.main',
+                            fontWeight: 600,
+                          }}
+                        >
+                          { menu }
+                        </Typography>
+                      </Link>
                     </h3>
                   );
                 })

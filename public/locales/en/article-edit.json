@@ -1,9 +1,9 @@
 {
-  "title": "article edit - Blog of George Hong",
-  "keywords": "article, article edit, article update, markdown, md",
-  "save draft": "save draft",
-  "update": "update",
-  "publish": "publish",
-  "article title": "article title",
-  "please input title and content": "please input title and content"
+  "页面标题": "article edit - Blog of George Hong",
+  "页面关键字": "article, article edit, article update, markdown, md",
+  "保存草稿": "save draft",
+  "更新": "update",
+  "发表": "publish",
+  "文章标题": "article title",
+  "请输入标题和内容": "please input title and content"
 }

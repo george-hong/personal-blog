@@ -14,8 +14,8 @@ const getArticleListPageData = PageData.tryToGetPageData<IArticleListPageParams,
     return {
       props: {
         meta: {
-          title: translation.title,
-          keywords: translation.keywords,
+          title: translation['页面标题'],
+          keywords: translation['页面关键字'],
         },
         pageData: articleList,
       },

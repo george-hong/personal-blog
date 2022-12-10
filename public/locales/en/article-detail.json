@@ -1,3 +1,4 @@
 {
-  "title": "{{ title }} - Blog of George Hong"
+  "页面标题": "{{ title }} - Blog of George Hong",
+  "更新于": "updated at"
 }

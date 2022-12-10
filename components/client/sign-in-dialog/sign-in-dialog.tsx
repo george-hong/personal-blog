@@ -36,12 +36,12 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'account',
-      label: t('Account'),
+      label: t('账号'),
       value: '',
       rules: [
         {
           required: true,
-          message: t('please input account'),
+          message: t('请填写账号'),
         },
       ],
       grid: {
@@ -52,13 +52,13 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'password',
-      label: t('Password'),
+      label: t('密码'),
       value: '',
       inputType: 'password',
       rules: [
         {
           required: true,
-          message: t('please input password'),
+          message: t('请填写密码'),
         },
       ],
       grid: {
@@ -145,7 +145,7 @@ const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
             xs={6}
           >
             <Typography component="span">
-              { t('sign in') }
+              { t('登录') }
             </Typography>
           </Grid>
           <Grid
@@ -174,14 +174,14 @@ const SignInDialog: NextPage<ISignInDialogProps, Component> = (props) => {
           sx={{ mt: 2, mb: 1 }}
           onClick={startToSignIn}
         >
-          { t('sign in') }
+          { t('登录') }
         </Button>
         <Link href={signUpPath}>
           <Typography
             component="span"
             sx={{ fontSize: 12, color: 'primary.main' }}
           >
-            { t('go to sign up') }
+            { t('前往注册') }
           </Typography>
         </Link>
       </Box>

@@ -50,21 +50,21 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'account',
-      label: t('Account'),
+      label: t('账号'),
       value: '',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: t('please input account'),
+          message: t('请填写账号'),
         },
         {
           minLength: 5,
-          message: t('account needs 5 charts at least'),
+          message: t('账号需要至少5个字符'),
         },
         {
           maxLength: 15,
-          message: t('account should not long than 15 charts'),
+          message: t('账号最长为15个字符'),
         },
         {
           custom(account, values, resolve, reject) {
@@ -73,11 +73,11 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
             requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
-                  reject(t('user name repeated'));
+                  reject(t('用户名重复'));
                 } else resolve();
               })
               .catch(error => {
-                reject(t('network error, input again.'));
+                reject(t('网络异常，请再次输入'));
               });
           },
         },
@@ -87,65 +87,65 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
     {
       type: FormItemType.Input,
       key: 'password',
-      label: t('Password'),
+      label: t('密码'),
       value: '',
       inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: t('please input password again'),
+          message: t('请填写密码'),
         },
         {
           minLength: 8,
-          message: t('password needs 8 charts at least'),
+          message: t('密码需要至少8个字符'),
         },
         {
           maxLength: 30,
-          message: t('password should not long than 30 charts'),
+          message: t('密码最长为30个字符'),
         }
       ]
     },
     {
       type: FormItemType.Input,
       key: 'passwordRepeat',
-      label: t('Repetitive Password'),
+      label: t('重复密码'),
       value: '',
       inputType: 'password',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: t('please repetitive password again'),
+          message: t('请再次填写密码'),
         },
         {
           custom: (value, values, resolve, reject) => {
             if (value === values.password) resolve();
             else reject();
           },
-          message: t('two passwords not match'),
+          message: t('两次密码输入不一致'),
         },
       ]
     },
     {
       type: FormItemType.Input,
       key: 'nickName',
-      label: t('Nick Name'),
+      label: t('昵称'),
       value: '',
       inputType: 'text',
       grid: { xs: 12 },
       rules: [
         {
           required: true,
-          message: t('please input nick name'),
+          message: t('请填写昵称'),
         },
         {
           minLength: 2,
-          message: t('nick name needs 2 charts at least'),
+          message: t('昵称需要至少2个字符'),
         },
         {
           maxLength: 20,
-          message: t('nick name should not long than 20 charts'),
+          message: t('昵称最长为20个字符'),
         },
         {
           custom(nickName, values, resolve, reject) {
@@ -154,11 +154,11 @@ const getSignUpFormConfig = (t: ITranslation): Array<FormItem> => {
             requestToCheckExistence(requestParams)
               .then(result => {
                 if (result.data.existence) {
-                  reject(t('nick name already exists'));
+                  reject(t('昵称已存在'));
                 } else resolve();
               })
               .catch(error => {
-                reject(t('Network Error, Please try again.'));
+                reject(t('网络异常，请再次尝试'));
               });
           },
         }
@@ -204,7 +204,7 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
         return requestToSignUp(user.generateSignUpParams());
       })
       .then(() => {
-        showToast(t('Sign up success! Redirect later.'), ToastType.success);
+        showToast(t('注册成功，即将跳转'), ToastType.success);
         backUrl && setTimeout(() => {
           router.push(backUrl);
         }, 2000);
@@ -213,9 +213,9 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
         let message: string | undefined;
         if (error && error.type === ErrorEnum.formValidation) {
           // Does not need to show notice, because the form had done this.
-          // message = t('please try again after modified');
+          // message = t('请按照提示修改后重试');
         } else {
-          message = t('Network Error');
+          message = t('网络异常');
         }
         message && showToast(message, ToastType.error);
       });
@@ -241,7 +241,7 @@ const SignUpPage: NextPage<IPageBaseData<ISignUpPageData>, ReactNode> = (props) 
           sx={{ mt: 2, mb: 1 }}
           onClick={() => startToSignUp(backUrl)}
         >
-          { t('sign up') }
+          { t('注册') }
         </Button>
       </Box>
     </Layout>

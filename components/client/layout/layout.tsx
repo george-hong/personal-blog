@@ -148,8 +148,8 @@ const Layout: NextPage<ILayoutProps> = (props) => {
         <Header
           autoHide={autoHideHeader}
           onVisibilityChange={onHeaderVisibilityChange}
-          onSignIn={() => showToast(t('sign in success'))}
-          onSignOut={() => showToast(t('sign out finish'))}
+          onSignIn={() => showToast(t('登录成功'))}
+          onSignOut={() => showToast(t('已退出登录'))}
         />
         { content }
         { footer !== true ?  footer : <Footer /> }

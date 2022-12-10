@@ -63,7 +63,7 @@ const generateCardItem = (articleInfo: IArticleListItem, t: ITranslation) => {
                 variant="text"
                 size="small"
               >
-                { t('view') }
+                { t('查看') }
               </Button>
             </Grid>
             <Grid

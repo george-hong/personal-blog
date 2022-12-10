@@ -65,7 +65,7 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
   const isEdit = pageData?.id !== undefined;
   const saveIfValid = (title: string, content: string, pageData?: IArticleInfo) => {
     if (!title || !content) {
-      toast(t('please input title and content'), { type: ToastType.error });
+      toast(t('请输入标题和内容'), { type: ToastType.error });
       return;
     }
     saveArticle(title, inputContent, pageData);
@@ -86,7 +86,7 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
           <Box className={style['article-layout']}>
             <TextField
               sx={{ flex: 1, margin: 2, ml: 0 }}
-              label={t('article title')}
+              label={t('文章标题')}
               variant="outlined"
               size="small"
               value={title}
@@ -98,8 +98,8 @@ const ArticleEdit: NextPage<IPageBaseData<IArticleEditPageData>, Component> = (p
               disableElevation
             >
               {/* TODO: save draft */}
-              {/*<Button variant="outlined">{ t('save draft') }</Button>*/}
-              <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? t('update') : t('publish') }</Button>
+              {/*<Button variant="outlined">{ t('保存草稿') }</Button>*/}
+              <Button onClick={() => saveIfValid(title, inputContent, pageData)}>{ isEdit ? t('更新') : t('发表') }</Button>
             </ButtonGroup>
           </Box>
           <Box className={transformToCoverClass(style['markdown-cover-container'], isUseCover)}>

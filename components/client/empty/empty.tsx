@@ -34,7 +34,7 @@ const Empty: NextPage<IEmptyProps, Component> = (props) => {
         color="text.secondary"
         className="single-line"
       >
-        { tips ?? t('please try anther search') }
+        { tips ?? t('请尝试其他搜索条件') }
       </Typography>
     </Box>
   );

@@ -15,8 +15,8 @@ const getArticleEditPageData = PageData.tryToGetPageData<IArticleEditPageParams,
   const result: IPageBaseDataBeforeSend<IArticleEditPageData> = {
     props: {
       meta: {
-        title: translation.title,
-        keywords: translation.keywords,
+        title: translation['页面标题'],
+        keywords: translation['页面关键字'],
       },
     },
   }
