@@ -2,6 +2,14 @@
 
 A blog based on `next.js`
 
+## Server
+
+1.1 install MySQL
+
+1.2 create db named personal-blog
+
+1.3 implement .sql personal-blog.sql
+
 ## Usage
 
 1. install dependence
