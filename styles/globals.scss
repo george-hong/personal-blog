@@ -17,17 +17,17 @@ html, body, body > div {
 }
 
 .content-horizontal-right {
-  display: flex;
+  display: flex !important;
   justify-content: flex-end;
 }
 
 .content-horizontal-center {
-  display: flex;
+  display: flex !important;
   justify-content: center;
 }
 
 .content-vertical-center {
-  display: flex;
+  display: flex !important;
   align-items: center;
 }
 
