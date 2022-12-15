@@ -40,7 +40,6 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   let className = `${ style.header } ground-glass`;
   if (!visibility) className += ` ${ style['hide-menu'] }`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
-  const [isSet, setIsSet] = useState<boolean>(false);
   const router = useRouter();
   const { asPath } = router;
   const isSignUpPage = asPath.startsWith('/sign-up');
@@ -50,8 +49,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
 
   useEffect(() => {
     setUserBaseInfo(UserForClient.getUserBaseInfoFromLocal());
-    setIsSet(true);
-  }, [isSet]);
+  }, []);
 
   const signInFromHeader = (userBaseInfo: IUserBaseInfo) => {
     setUserBaseInfo(userBaseInfo);
@@ -65,7 +63,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
     user ? router.push('/article/edit') : setDialogVisible(true);
   };
 
-  const headerRightPart = isSet && (
+  const headerRightPart = (
     <Fragment>
       {
         !isEditPage && (
