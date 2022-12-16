@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -103,7 +104,8 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
 
   return (
     <Fragment>
-      <header
+      <Box
+        component="header"
         className={ className }
         ref={ ref }
       >
@@ -147,7 +149,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
             </Grid>
           </Grid>
         </Container>
-      </header>
+      </Box>
       <SignInDialog
         visible={ dialogVisible }
         onClose={ () => setDialogVisible(false) }

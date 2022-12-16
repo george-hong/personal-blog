@@ -2,7 +2,6 @@ import React from 'react';
 import { appWithTranslation } from 'next-i18next';
 import Store from '../store';
 import { Toaster } from 'react-hot-toast';
-import { StyledEngineProvider } from '@mui/material/styles';
 import '../styles/reset.scss';
 import '../styles/globals.scss';
 import '../styles/fonts.scss';
@@ -15,10 +14,8 @@ import type { AppProps } from 'next/app';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <Store>
-      <StyledEngineProvider injectFirst>
-        <Component {...pageProps} />
-        <Toaster position="top-center" />
-      </StyledEngineProvider>
+      <Component {...pageProps} />
+      <Toaster position="top-center" />
     </Store>
   )
 }

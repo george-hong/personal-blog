@@ -22,7 +22,13 @@ const Footer = () => {
   return (
     <Box
       className={style.footer}
-      sx={{ backgroundColor: 'primary.dark' }}
+      sx={{
+        backgroundColor: 'primary.dark',
+        display: {
+          xs: 'none',
+          sm: 'block',
+        }
+      }}
     >
       <Container
         sx={{ pt: 3, pb: 3 }}

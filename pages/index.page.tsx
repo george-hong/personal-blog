@@ -28,9 +28,11 @@ const Home: NextPage<IPageBaseData<IHomePageData>> = (props) => {
         <Box
           className={style['opacity-area']}
           sx={{
-            pt: 2,
-            pl: 4,
-            pr: 4,
+            pt: [null, 1, 2],
+            pl: [null, 2, 4],
+            pr: [null, 2, 4],
+            ml: [-2, null],
+            mr: [-2, null],
           }}
         >
           {
@@ -50,13 +52,13 @@ const Home: NextPage<IPageBaseData<IHomePageData>> = (props) => {
                     <SwiperSlide key={article.id}>
                       <Box
                         className={style['swiper-content']}
-                        sx={{ padding: 4 }}
+                        sx={{ padding: [0, 2, 4] }}
                       >
                         <Box
                           sx={{
                             backgroundColor: 'opacityBg.main',
                             padding: 4,
-                            borderRadius: 1,
+                            borderRadius: [null, 1, 2],
                           }}
                         >
                           <Typography
