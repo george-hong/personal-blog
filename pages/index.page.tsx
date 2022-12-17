@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import Layout from '../components/client/layout';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -16,7 +17,11 @@ import { IHomePageData } from './home.interface';
 const Home: NextPage<IPageBaseData<IHomePageData>> = (props) => {
   // const headerT = translation.getModule(HomePageLocaleEnum.Header);
   const { pageData, meta, error } = props;
+  const route = useRouter();
   const mostViews = pageData?.mostViews;
+  const goToArticle = (id: number) => {
+    route.push(`/article/detail?id=${id}`);
+  };
   return (
     <Layout
       meta={meta}
@@ -60,6 +65,7 @@ const Home: NextPage<IPageBaseData<IHomePageData>> = (props) => {
                             padding: 4,
                             borderRadius: [null, 1, 2],
                           }}
+                          onClick={() => goToArticle(article.id)}
                         >
                           <Typography
                             variant="h5"

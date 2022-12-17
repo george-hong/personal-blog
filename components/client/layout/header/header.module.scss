@@ -22,8 +22,14 @@
     transition: margin-top $transform-time;
     margin-top: 0;
 
-    h3 {
-      line-height: $header-height;
+    > div {
+      height: 100%;
+
+      > div {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
     }
   }
 

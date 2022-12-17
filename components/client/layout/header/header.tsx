@@ -7,11 +7,17 @@ import React, {
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
+import MenuIcon from '@mui/icons-material/Menu';
 import useTranslation, { DefaultTranslationEnum } from '../../../../tools/translation';
 import SignInDialog from '../../sign-in-dialog';
 import LanguageSwitcher from '../../language-switcher';
@@ -41,12 +47,20 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   let className = `${ style.header } ground-glass`;
   if (!visibility) className += ` ${ style['hide-menu'] }`;
   const [dialogVisible, setDialogVisible] = useState<boolean>(false);
+  const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const router = useRouter();
   const { asPath } = router;
   const isSignUpPage = asPath.startsWith('/sign-up');
   const isEditPage = asPath.startsWith('/article/edit');
-
   const setUserBaseInfo = dispatcher.setUser;
+  const mobileDisplayRuler = {
+    xs: 'flex !important',
+    sm: 'none !important',
+  }
+  const deskDisplayRuler = {
+    xs: 'none !important',
+    sm: 'flex !important',
+  }
 
   useEffect(() => {
     setUserBaseInfo(UserForClient.getUserBaseInfoFromLocal());
@@ -61,7 +75,15 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
     onSignOut && onSignOut();
   };
   const clickWritingButton = () => {
+    setDrawerVisible(false);
     user ? router.push('/article/edit') : setDialogVisible(true);
+  };
+  const openDrawer = () => {
+    if (!drawerVisible) setDrawerVisible(true);
+  };
+  const goToPage = (url: string) => {
+    setDrawerVisible(false);
+    router.push(url);
   };
 
   const headerRightPart = (
@@ -69,7 +91,10 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
       {
         !isEditPage && (
           <Button
-            sx={{ mr: 2 }}
+            sx={{
+              mr: 2,
+              display: deskDisplayRuler,
+            }}
             variant="contained"
             onClick={clickWritingButton}
           >
@@ -111,7 +136,23 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
       >
         <Container classes={ { root: style['content-container'] } }>
           <Grid container>
-            <Grid item xs={ 6 }>
+            <Grid
+              item
+              xs={ 6 }
+              sx={{ display: mobileDisplayRuler }}
+            >
+              <MenuIcon
+                onClick={openDrawer}
+                sx={{
+                  color: 'primary.main',
+                }}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={ 6 }
+              sx={{ display: deskDisplayRuler }}
+            >
               {
                 Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
                   const [link, menu] = menuAndLink;
@@ -150,6 +191,32 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
           </Grid>
         </Container>
       </Box>
+      <Drawer
+        anchor="top"
+        open={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
+        sx={{ display: mobileDisplayRuler }}
+      >
+        <List>
+          {
+            Object.entries(menuLinkContrast).map((menuAndLink: [string, string]) => {
+              const [link, menu] = menuAndLink;
+              return (
+                <ListItem key={link} disablePadding>
+                  <ListItemButton onClick={() => goToPage(link)}>
+                    <ListItemText primary={menu} />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })
+          }
+          <ListItem key="writing" disablePadding>
+            <ListItemButton onClick={clickWritingButton}>
+              <ListItemText primary={t('创作')} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Drawer>
       <SignInDialog
         visible={ dialogVisible }
         onClose={ () => setDialogVisible(false) }
