@@ -63,7 +63,7 @@ const HeaderRef: NextPage<IHeaderRefProps, ReactNode> = React.forwardRef<HTMLHea
   }
 
   useEffect(() => {
-    setUserBaseInfo(UserForClient.getUserBaseInfoFromLocal());
+    dispatcher.setUser(UserForClient.getUserBaseInfoFromLocal());
   }, []);
 
   const signInFromHeader = (userBaseInfo: IUserBaseInfo) => {
